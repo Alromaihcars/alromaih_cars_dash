@@ -1,0 +1,410 @@
+# Arabic translation for alromaih_cars_dash module
+# This file contains translations for all car-related models
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo Server 18.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-01-12 14:52:48+0000\n"
+"PO-Revision-Date: 2025-01-12 14:52:48+0000\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5;\n"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_car_brand
+msgid "Car Brand"
+msgstr "ماركة السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_car_model
+msgid "Car Model"
+msgstr "موديل السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_car_trim
+msgid "Car Trim"
+msgstr "فئة السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_car_color
+msgid "Car Color"
+msgstr "لون السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_car_year
+msgid "Car Year"
+msgstr "سنة السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_alromaih_car
+msgid "Car"
+msgstr "سيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_alromaih_car_variant
+msgid "Car Variant"
+msgstr "نوع السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_alromaih_car_offer
+msgid "Car Offers"
+msgstr "عروض السيارات"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_alromaih_car_media
+msgid "Car Media Management"
+msgstr "إدارة وسائط السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model,name:alromaih_cars_dash.model_alromaih_car_specification_template
+msgid "Car Specification Template"
+msgstr "قالب مواصفات السيارة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_brand__name
+msgid "Brand Name"
+msgstr "اسم الماركة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_brand__description
+msgid "Brand Description"
+msgstr "وصف الماركة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_model__name
+msgid "Model Name"
+msgstr "اسم الموديل"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_model__description
+msgid "Model Description"
+msgstr "وصف الموديل"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_trim__name
+msgid "Trim Name"
+msgstr "اسم الفئة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_trim__description
+msgid "Trim Description"
+msgstr "وصف الفئة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_color__name
+msgid "Color Name"
+msgstr "اسم اللون"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_color__description
+msgid "Color Description"
+msgstr "وصف اللون"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_year__name
+msgid "Year"
+msgstr "السنة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_year__description
+msgid "Year Description"
+msgstr "وصف السنة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_variant__description
+msgid "Variant Description"
+msgstr "وصف النوع"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_offer__name
+msgid "Offer Title"
+msgstr "عنوان العرض"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_offer__description
+msgid "Offer Description"
+msgstr "وصف العرض"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__name
+msgid "Media Title"
+msgstr "عنوان الوسائط"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__alt_text
+msgid "Alt Text"
+msgstr "النص البديل"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__seo_title
+msgid "SEO Title"
+msgstr "عنوان تحسين محركات البحث"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__seo_description
+msgid "SEO Description"
+msgstr "وصف تحسين محركات البحث"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template__name
+msgid "Template Name"
+msgstr "اسم القالب"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template__website_description
+msgid "Website Description"
+msgstr "وصف الموقع الإلكتروني"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template_line__help_text
+msgid "Help Text"
+msgstr "نص المساعدة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template_line__placeholder
+msgid "Placeholder"
+msgstr "النص التوضيحي"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car,name:alromaih_cars_dash.car_name_new
+msgid "New Car"
+msgstr "سيارة جديدة"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car,status:alromaih_cars_dash.car_status_featured
+msgid "Featured"
+msgstr "مميزة"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car,status:alromaih_cars_dash.car_status_draft
+msgid "Draft"
+msgstr "مسودة"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car,status:alromaih_cars_dash.car_status_out_of_stock
+msgid "Out of Stock"
+msgstr "غير متوفرة"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car,status:alromaih_cars_dash.car_status_discontinued
+msgid "Discontinued"
+msgstr "متوقفة"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car,status:alromaih_cars_dash.car_status_coming_soon
+msgid "Coming Soon"
+msgstr "قريباً"
+
+#. module: alromaih_cars_dash
+#: model:car.brand,name:alromaih_cars_dash.brand_name_new
+msgid "New Brand"
+msgstr "ماركة جديدة"
+
+#. module: alromaih_cars_dash
+#: model:alromaih.car.variant,name:alromaih_cars_dash.variant_name_new
+msgid "New Variant"
+msgstr "نوع جديد"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_brand__name
+msgid "Brand Name"
+msgstr "اسم الماركة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_model__name
+msgid "Model Name"
+msgstr "اسم الموديل"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_trim__name
+msgid "Trim Name"
+msgstr "اسم الفئة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_color__name
+msgid "Color Name"
+msgstr "اسم اللون"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_car_year__name
+msgid "Year"
+msgstr "السنة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_offer__name
+msgid "Offer Title"
+msgstr "عنوان العرض"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__name
+msgid "Media Title"
+msgstr "عنوان الوسائط"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template__name
+msgid "Template Name"
+msgstr "اسم القالب"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_variant__name
+msgid "Name"
+msgstr "الاسم"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_variant__description
+msgid "Variant Description"
+msgstr "وصف النوع"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_offer__description
+msgid "Offer Description"
+msgstr "وصف العرض"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template__description
+msgid "Description"
+msgstr "الوصف"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__alt_text
+msgid "Alt Text"
+msgstr "النص البديل"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__seo_title
+msgid "SEO Title"
+msgstr "عنوان تحسين محركات البحث"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_media__seo_description
+msgid "SEO Description"
+msgstr "وصف تحسين محركات البحث"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template__website_description
+msgid "Website Description"
+msgstr "وصف الموقع الإلكتروني"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template_line__help_text
+msgid "Help Text"
+msgstr "نص المساعدة"
+
+#. module: alromaih_cars_dash
+#: model:ir.model.fields,field_description:alromaih_cars_dash.field_alromaih_car_specification_template_line__placeholder
+msgid "Placeholder"
+msgstr "النص التوضيحي"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.offer,offer_tag:0
+msgid "Hot Deal"
+msgstr "عرض ساخن"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.offer,offer_tag:0
+msgid "Clearance"
+msgstr "تصفية"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.offer,offer_tag:0
+msgid "Limited Time"
+msgstr "وقت محدود"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.offer,offer_tag:0
+msgid "Special Offer"
+msgstr "عرض خاص"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Interior Images"
+msgstr "صور داخلية"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Exterior Images"
+msgstr "صور خارجية"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Engine Images"
+msgstr "صور المحرك"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Trunk Images"
+msgstr "صور الصندوق"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Dashboard Images"
+msgstr "صور لوحة القيادة"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "360° View"
+msgstr "عرض 360 درجة"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Video Content"
+msgstr "محتوى فيديو"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Brochure/Documents"
+msgstr "كتيب/مستندات"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.media,media_type:0
+msgid "Other Media"
+msgstr "وسائط أخرى"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.variant,stock_status:0
+msgid "In Stock"
+msgstr "متوفر"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.variant,stock_status:0
+msgid "Low Stock"
+msgstr "مخزون منخفض"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.variant,stock_status:0
+msgid "Out of Stock"
+msgstr "غير متوفر"
+
+#. module: alromaih_cars_dash
+#: selection:alromaih.car.variant,stock_status:0
+msgid "No Product Linked"
+msgstr "لا يوجد منتج مرتبط"

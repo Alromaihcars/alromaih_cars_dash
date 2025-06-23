@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default System Settings Record -->
+        <record id="default_system_settings" model="alromaih.system.settings">
+            <field name="display_name">AlRomaih Cars Default Settings</field>
+            <field name="active" eval="True"/>
+            
+            <!-- Website Settings -->
+            <field name="website_name">AlRomaih Cars</field>
+            <field name="meta_title">AlRomaih Cars - Premium Vehicle Dealer</field>
+            <field name="meta_description">Discover premium vehicles at AlRomaih Cars. Browse our extensive collection of luxury and economy cars with the best deals in the market.</field>
+            <field name="meta_keywords">cars, vehicles, automotive, luxury cars, car dealer, AlRomaih, premium cars</field>
+            
+            <!-- Company Information -->
+            <field name="company_email">info@alromaihcars.com</field>
+            <field name="company_phone">+966 XX XXX XXXX</field>
+            <field name="company_address">Riyadh, Saudi Arabia</field>
+            
+            <!-- Theme Colors -->
+            <field name="primary_color">#0056b3</field>
+            <field name="secondary_color">#6c757d</field>
+            
+            <!-- Footer -->
+            <field name="footer_text">© 2024 AlRomaih Cars. All rights reserved. Premium vehicle dealer committed to excellence and customer satisfaction.</field>
+            
+            <!-- Mobile App Settings -->
+            <field name="app_name">AlRomaih Cars</field>
+            <field name="app_primary_color">#0056b3</field>
+            <field name="app_secondary_color">#6c757d</field>
+            
+            <!-- App Features -->
+            <field name="enable_app_notifications" eval="True"/>
+            <field name="enable_in_app_chat" eval="True"/>
+            <field name="enable_car_comparison" eval="True"/>
+            <field name="enable_app_booking" eval="True"/>
+            <field name="enable_app_reviews" eval="True"/>
+            
+            <!-- App Configuration -->
+            <field name="app_analytics_enabled" eval="True"/>
+            <field name="cars_per_page" eval="12"/>
+            <field name="force_update" eval="False"/>
+            
+            <!-- Version defaults -->
+            <field name="android_app_version">1.0.0</field>
+            <field name="android_min_version">1.0.0</field>
+            <field name="ios_app_version">1.0.0</field>
+            <field name="ios_min_version">1.0.0</field>
+        </record>
+        
+        <!-- Alternative backup settings (inactive by default) -->
+        <record id="backup_system_settings" model="alromaih.system.settings">
+            <field name="display_name">AlRomaih Cars Backup Settings</field>
+            <field name="active" eval="False"/>
+            
+            <!-- Basic Settings -->
+            <field name="website_name">AlRomaih Cars (Backup)</field>
+            <field name="app_name">AlRomaih Cars (Backup)</field>
+            <field name="primary_color">#28a745</field>
+            <field name="secondary_color">#6c757d</field>
+            <field name="app_primary_color">#28a745</field>
+            <field name="app_secondary_color">#6c757d</field>
+            
+            <!-- Features -->
+            <field name="enable_app_notifications" eval="True"/>
+            <field name="enable_in_app_chat" eval="True"/>
+            <field name="enable_car_comparison" eval="True"/>
+            <field name="enable_app_booking" eval="False"/>
+            <field name="enable_app_reviews" eval="False"/>
+            
+            <!-- Configuration -->
+            <field name="app_analytics_enabled" eval="False"/>
+            <field name="cars_per_page" eval="10"/>
+            <field name="force_update" eval="False"/>
+        </record>
+    </data>
+</odoo> 

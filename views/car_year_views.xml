@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_car_year_list" model="ir.ui.view">
+        <field name="name">car.year.list</field>
+        <field name="model">car.year</field>
+        <field name="arch" type="xml">
+            <list string="Car Years">
+                <field name="name"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_car_year_form" model="ir.ui.view">
+        <field name="name">car.year.form</field>
+        <field name="model">car.year</field>
+        <field name="arch" type="xml">
+            <form string="Car Year">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="السنة"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="active"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_car_year_search" model="ir.ui.view">
+        <field name="name">car.year.search</field>
+        <field name="model">car.year</field>
+        <field name="arch" type="xml">
+            <search string="Car Years">
+                <field name="name"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_car_year_view" model="ir.actions.act_window">
+        <field name="name">Car Years</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">car.year</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_car_year_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first car year!
+            </p>
+        </field>
+    </record>
+</odoo> 

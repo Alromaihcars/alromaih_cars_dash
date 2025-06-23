@@ -1,0 +1,534 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- =================================================================== -->
+        <!-- SAFETY ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Airbags -->
+        <record id="attr_driver_airbag" model="product.attribute">
+            <field name="name">وسادة هوائية للسائق</field>
+            <field name="name" lang="en_US">Driver Airbag</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_passenger_airbag" model="product.attribute">
+            <field name="name">وسادة هوائية للراكب الأمامي</field>
+            <field name="name" lang="en_US">Passenger Airbag</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_side_airbags" model="product.attribute">
+            <field name="name">وسائد هوائية جانبية</field>
+            <field name="name" lang="en_US">Side Airbags</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="attr_curtain_airbags" model="product.attribute">
+            <field name="name">وسائد هوائية ستائرية</field>
+            <field name="name" lang="en_US">Curtain Airbags</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <!-- Braking Systems -->
+        <record id="attr_abs_system" model="product.attribute">
+            <field name="name">نظام ABS</field>
+            <field name="name" lang="en_US">ABS System</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <record id="attr_esp_system" model="product.attribute">
+            <field name="name">نظام ESP</field>
+            <field name="name" lang="en_US">ESP System</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <record id="attr_traction_control" model="product.attribute">
+            <field name="name">نظام التحكم في الجر</field>
+            <field name="name" lang="en_US">Traction Control</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <!-- Safety Features -->
+        <record id="attr_seatbelt_pretensioners" model="product.attribute">
+            <field name="name">شادات أحزمة الأمان</field>
+            <field name="name" lang="en_US">Seatbelt Pretensioners</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">80</field>
+        </record>
+        
+        <record id="attr_isofix_anchors" model="product.attribute">
+            <field name="name">نقاط تثبيت ISOFIX</field>
+            <field name="name" lang="en_US">ISOFIX Anchors</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_safety"/>
+            <field name="sequence">90</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- AUDIO AND COMMUNICATION ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Audio System -->
+        <record id="attr_radio_system" model="product.attribute">
+            <field name="name">نظام راديو</field>
+            <field name="name" lang="en_US">Radio System</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_cd_player" model="product.attribute">
+            <field name="name">مشغل CD</field>
+            <field name="name" lang="en_US">CD Player</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_bluetooth" model="product.attribute">
+            <field name="name">بلوتوث</field>
+            <field name="name" lang="en_US">Bluetooth</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="attr_usb_ports" model="product.attribute">
+            <field name="name">منافذ USB</field>
+            <field name="name" lang="en_US">USB Ports</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="attr_aux_input" model="product.attribute">
+            <field name="name">مدخل AUX</field>
+            <field name="name" lang="en_US">AUX Input</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <record id="attr_speakers_count" model="product.attribute">
+            <field name="name">عدد السماعات</field>
+            <field name="name" lang="en_US">Number of Speakers</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <!-- Navigation and Communication -->
+        <record id="attr_gps_navigation" model="product.attribute">
+            <field name="name">نظام الملاحة GPS</field>
+            <field name="name" lang="en_US">GPS Navigation</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <record id="attr_touchscreen" model="product.attribute">
+            <field name="name">شاشة لمس</field>
+            <field name="name" lang="en_US">Touchscreen</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_audio"/>
+            <field name="sequence">80</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- SEATS ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Seat Configuration -->
+        <record id="attr_seating_capacity" model="product.attribute">
+            <field name="name">سعة المقاعد</field>
+            <field name="name" lang="en_US">Seating Capacity</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_seat_material" model="product.attribute">
+            <field name="name">مادة المقاعد</field>
+            <field name="name" lang="en_US">Seat Material</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_driver_seat_adjustment" model="product.attribute">
+            <field name="name">تعديل مقعد السائق</field>
+            <field name="name" lang="en_US">Driver Seat Adjustment</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="attr_passenger_seat_adjustment" model="product.attribute">
+            <field name="name">تعديل مقعد الراكب</field>
+            <field name="name" lang="en_US">Passenger Seat Adjustment</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="attr_heated_seats" model="product.attribute">
+            <field name="name">مقاعد مدفئة</field>
+            <field name="name" lang="en_US">Heated Seats</field>
+            <field name="display_type">multi</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <record id="attr_ventilated_seats" model="product.attribute">
+            <field name="name">مقاعد مهواة</field>
+            <field name="name" lang="en_US">Ventilated Seats</field>
+            <field name="display_type">multi</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <record id="attr_memory_seats" model="product.attribute">
+            <field name="name">مقاعد بذاكرة</field>
+            <field name="name" lang="en_US">Memory Seats</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_seats"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- COMFORT AND CONVENIENCE ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Climate Control -->
+        <record id="attr_air_conditioning" model="product.attribute">
+            <field name="name">تكييف الهواء</field>
+            <field name="name" lang="en_US">Air Conditioning</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_climate_zones" model="product.attribute">
+            <field name="name">مناطق التحكم في المناخ</field>
+            <field name="name" lang="en_US">Climate Control Zones</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <!-- Convenience Features -->
+        <record id="attr_power_steering" model="product.attribute">
+            <field name="name">مقود معزز</field>
+            <field name="name" lang="en_US">Power Steering</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="attr_power_windows" model="product.attribute">
+            <field name="name">نوافذ كهربائية</field>
+            <field name="name" lang="en_US">Power Windows</field>
+            <field name="display_type">multi</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="attr_central_locking" model="product.attribute">
+            <field name="name">قفل مركزي</field>
+            <field name="name" lang="en_US">Central Locking</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <record id="attr_remote_keyless" model="product.attribute">
+            <field name="name">مفتاح عن بعد</field>
+            <field name="name" lang="en_US">Remote Keyless Entry</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <record id="attr_push_start" model="product.attribute">
+            <field name="name">تشغيل بالضغط</field>
+            <field name="name" lang="en_US">Push Button Start</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <record id="attr_cruise_control" model="product.attribute">
+            <field name="name">تحكم في السرعة</field>
+            <field name="name" lang="en_US">Cruise Control</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_comfort"/>
+            <field name="sequence">80</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- EXTERNAL EQUIPMENT ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Lighting -->
+        <record id="attr_headlight_type" model="product.attribute">
+            <field name="name">نوع المصابيح الأمامية</field>
+            <field name="name" lang="en_US">Headlight Type</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_daytime_running_lights" model="product.attribute">
+            <field name="name">أضواء النهار</field>
+            <field name="name" lang="en_US">Daytime Running Lights</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_fog_lights" model="product.attribute">
+            <field name="name">أضواء الضباب</field>
+            <field name="name" lang="en_US">Fog Lights</field>
+            <field name="display_type">multi</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <!-- Mirrors and Windows -->
+        <record id="attr_power_mirrors" model="product.attribute">
+            <field name="name">مرايا كهربائية</field>
+            <field name="name" lang="en_US">Power Mirrors</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="attr_heated_mirrors" model="product.attribute">
+            <field name="name">مرايا مدفئة</field>
+            <field name="name" lang="en_US">Heated Mirrors</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <record id="attr_tinted_windows" model="product.attribute">
+            <field name="name">نوافذ ملونة</field>
+            <field name="name" lang="en_US">Tinted Windows</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <!-- Wheels and Tires -->
+        <record id="attr_wheel_size" model="product.attribute">
+            <field name="name">حجم الإطار</field>
+            <field name="name" lang="en_US">Wheel Size</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <record id="attr_alloy_wheels" model="product.attribute">
+            <field name="name">جنوط معدنية</field>
+            <field name="name" lang="en_US">Alloy Wheels</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_exterior"/>
+            <field name="sequence">80</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- DIMENSIONS AND STRUCTURE ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Dimensions -->
+        <record id="attr_overall_length" model="product.attribute">
+            <field name="name">الطول الإجمالي</field>
+            <field name="name" lang="en_US">Overall Length</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_overall_width" model="product.attribute">
+            <field name="name">العرض الإجمالي</field>
+            <field name="name" lang="en_US">Overall Width</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_overall_height" model="product.attribute">
+            <field name="name">الارتفاع الإجمالي</field>
+            <field name="name" lang="en_US">Overall Height</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="attr_wheelbase" model="product.attribute">
+            <field name="name">قاعدة العجلات</field>
+            <field name="name" lang="en_US">Wheelbase</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="attr_ground_clearance" model="product.attribute">
+            <field name="name">الارتفاع عن الأرض</field>
+            <field name="name" lang="en_US">Ground Clearance</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <!-- Weight and Capacity -->
+        <record id="attr_curb_weight" model="product.attribute">
+            <field name="name">الوزن الفارغ</field>
+            <field name="name" lang="en_US">Curb Weight</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <record id="attr_gross_weight" model="product.attribute">
+            <field name="name">الوزن الإجمالي</field>
+            <field name="name" lang="en_US">Gross Weight</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <record id="attr_trunk_capacity" model="product.attribute">
+            <field name="name">سعة الصندوق</field>
+            <field name="name" lang="en_US">Trunk Capacity</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_dimensions"/>
+            <field name="sequence">80</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- TRANSMISSION ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Transmission Type -->
+        <record id="attr_transmission_type" model="product.attribute">
+            <field name="name">نوع ناقل الحركة</field>
+            <field name="name" lang="en_US">Transmission Type</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_transmission"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_number_of_gears" model="product.attribute">
+            <field name="name">عدد التروس</field>
+            <field name="name" lang="en_US">Number of Gears</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_transmission"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_drive_type" model="product.attribute">
+            <field name="name">نوع الدفع</field>
+            <field name="name" lang="en_US">Drive Type</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_transmission"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <record id="attr_differential_lock" model="product.attribute">
+            <field name="name">قفل التفاضلي</field>
+            <field name="name" lang="en_US">Differential Lock</field>
+            <field name="display_type">radio</field>
+            <field name="spec_category_id" ref="spec_category_transmission"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ENGINE SPECIFICATIONS ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Engine Basic Info -->
+        <record id="attr_engine_displacement" model="product.attribute">
+            <field name="name">سعة المحرك</field>
+            <field name="name" lang="en_US">Engine Displacement</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">10</field>
+        </record>
+        
+        <record id="attr_engine_cylinders" model="product.attribute">
+            <field name="name">عدد الأسطوانات</field>
+            <field name="name" lang="en_US">Number of Cylinders</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">20</field>
+        </record>
+        
+        <record id="attr_engine_configuration" model="product.attribute">
+            <field name="name">تكوين المحرك</field>
+            <field name="name" lang="en_US">Engine Configuration</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">30</field>
+        </record>
+        
+        <!-- Performance -->
+        <record id="attr_max_power" model="product.attribute">
+            <field name="name">القوة القصوى</field>
+            <field name="name" lang="en_US">Maximum Power</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">40</field>
+        </record>
+        
+        <record id="attr_max_torque" model="product.attribute">
+            <field name="name">عزم الدوران الأقصى</field>
+            <field name="name" lang="en_US">Maximum Torque</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">50</field>
+        </record>
+        
+        <record id="attr_fuel_type" model="product.attribute">
+            <field name="name">نوع الوقود</field>
+            <field name="name" lang="en_US">Fuel Type</field>
+            <field name="display_type">select</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">60</field>
+        </record>
+        
+        <record id="attr_fuel_consumption" model="product.attribute">
+            <field name="name">استهلاك الوقود</field>
+            <field name="name" lang="en_US">Fuel Consumption</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">70</field>
+        </record>
+        
+        <record id="attr_fuel_tank_capacity" model="product.attribute">
+            <field name="name">سعة خزان الوقود</field>
+            <field name="name" lang="en_US">Fuel Tank Capacity</field>
+            <field name="display_type">other</field>
+            <field name="spec_category_id" ref="spec_category_engine"/>
+            <field name="sequence">80</field>
+        </record>
+        
+    </data>
+</odoo> 

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Default Next.js Dashboard Record -->
+    <record id="default_iframe_dashboard" model="alromaih.iframe.dashboard">
+        <field name="name">Next.js Dashboard</field>
+        <field name="url">http://92.112.192.192:3002</field>
+        <field name="description">Embedded Next.js Dashboard for Alromaih Cars Management System. This dashboard provides a modern interface for managing cars, variants, media, offers, and analytics.</field>
+        <field name="active">True</field>
+    </record>
+</odoo> 

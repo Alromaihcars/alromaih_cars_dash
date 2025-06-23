@@ -1,0 +1,279 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Car Media Form View -->
+    <record id="view_alromaih_car_media_form" model="ir.ui.view">
+        <field name="name">alromaih.car.media.form</field>
+        <field name="model">alromaih.car.media</field>
+        <field name="arch" type="xml">
+            <form string="Car Media">
+                <header>
+                    <button name="action_set_as_primary" string="Set as Primary" type="object" 
+                            class="btn-primary" invisible="is_primary"/>
+                    <button name="copy_to_all_variants" string="Copy to All Variants" type="object" 
+                            class="btn-secondary" invisible="not car_variant_id"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="action_set_as_variant_primary" type="object" string="Primary for Variant" 
+                                class="oe_stat_button" icon="fa-star" invisible="not car_variant_id"/>
+                    </div>
+                    
+                    <field name="image" widget="image" class="oe_avatar" invisible="content_type != 'image'"/>
+                    
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Media Title"/>
+                        </h1>
+                        <div class="o_row">
+                            <field name="media_type" widget="badge"/>
+                            <field name="content_type" widget="badge"/>
+                            <field name="is_primary" widget="boolean_toggle" string="Primary"/>
+                        </div>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="car_id"/>
+                            <field name="car_variant_id" domain="[('car_id', '=', car_id)]"/>
+                            <field name="sequence"/>
+                            <field name="description"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="is_featured"/>
+                            <field name="is_public"/>
+                            <field name="website_visible"/>
+                        </group>
+                    </group>
+                    
+                    <notebook>
+                        <page string="Content" name="content">
+                            <group>
+                                <group string="Media Type &amp; Content">
+                                    <field name="media_type"/>
+                                    <field name="content_type"/>
+                                </group>
+                                <group string="Technical Info">
+                                    <field name="file_size" readonly="1"/>
+                                    <field name="mime_type" readonly="1"/>
+                                    <field name="dimensions"/>
+                                </group>
+                            </group>
+                            
+                            <separator string="Content Files"/>
+                            <group>
+                                <group>
+                                    <field name="image" widget="binary" invisible="content_type != 'image'"/>
+                                    <field name="video_file" widget="binary" invisible="content_type != 'video_file'"/>
+                                    <field name="document_file" widget="binary" invisible="content_type != 'document'"/>
+                                </group>
+                                <group>
+                                    <field name="video_url" widget="url" invisible="content_type != 'video_url'"/>
+                                    <field name="external_link" widget="url" invisible="content_type != 'external_link'"/>
+                                </group>
+                            </group>
+                            
+                            <group invisible="content_type not in ('iframe_360', 'iframe_code')">
+                                <field name="iframe_code" widget="html"/>
+                            </group>
+                        </page>
+                        
+                        <page string="SEO &amp; Accessibility" name="seo">
+                            <group>
+                                <group string="Accessibility">
+                                    <field name="alt_text"/>
+                                </group>
+                                <group string="SEO">
+                                    <field name="seo_title"/>
+                                    <field name="seo_description"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Car Media List View -->
+    <record id="view_alromaih_car_media_list" model="ir.ui.view">
+        <field name="name">alromaih.car.media.list</field>
+        <field name="model">alromaih.car.media</field>
+        <field name="arch" type="xml">
+            <list string="Car Media" decoration-muted="not active" decoration-info="is_primary" 
+                  decoration-bf="is_featured">
+                <field name="sequence" widget="handle"/>
+                <field name="image" widget="image" class="oe_avatar"/>
+                <field name="name"/>
+                <field name="car_id"/>
+                <field name="car_variant_id"/>
+                <field name="media_type" widget="badge"/>
+                <field name="content_type" widget="badge"/>
+                <field name="file_size"/>
+                <field name="is_primary" widget="boolean"/>
+                <field name="is_featured" widget="boolean"/>
+                <field name="is_public" widget="boolean"/>
+                <field name="active" widget="boolean"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Car Media Kanban View -->
+    <record id="view_alromaih_car_media_kanban" model="ir.ui.view">
+        <field name="name">alromaih.car.media.kanban</field>
+        <field name="model">alromaih.car.media</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="media_type">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="car_id"/>
+                <field name="car_variant_id"/>
+                <field name="media_type"/>
+                <field name="content_type"/>
+                <field name="image"/>
+                <field name="is_primary"/>
+                <field name="is_featured"/>
+                <field name="is_public"/>
+                <field name="active"/>
+                <field name="file_size"/>
+                
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <field name="image" widget="image" class="oe_kanban_avatar"/>
+                                    </div>
+                                    <div class="col-8">
+                                        <strong><field name="name"/></strong><br/>
+                                        <span class="text-muted">
+                                            <field name="car_id"/>
+                                            <t t-if="record.car_variant_id.raw_value">
+                                                - <field name="car_variant_id"/>
+                                            </t>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <field name="content_type" widget="badge"/>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <span class="text-muted">
+                                            <field name="file_size"/> MB
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <t t-if="record.is_primary.raw_value">
+                                            <span class="badge badge-primary">Primary</span>
+                                        </t>
+                                        <t t-if="record.is_featured.raw_value">
+                                            <span class="badge badge-warning">Featured</span>
+                                        </t>
+                                        <t t-if="!record.is_public.raw_value">
+                                            <span class="badge badge-secondary">Private</span>
+                                        </t>
+                                        <t t-if="!record.active.raw_value">
+                                            <span class="badge badge-danger">Inactive</span>
+                                        </t>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Car Media Search View -->
+    <record id="view_alromaih_car_media_search" model="ir.ui.view">
+        <field name="name">alromaih.car.media.search</field>
+        <field name="model">alromaih.car.media</field>
+        <field name="arch" type="xml">
+            <search string="Car Media">
+                <field name="name"/>
+                <field name="car_id"/>
+                <field name="car_variant_id"/>
+                <field name="media_type"/>
+                <field name="content_type"/>
+                
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Primary" name="primary" domain="[('is_primary', '=', True)]"/>
+                <filter string="Featured" name="featured" domain="[('is_featured', '=', True)]"/>
+                <filter string="Public" name="public" domain="[('is_public', '=', True)]"/>
+                <filter string="Website Visible" name="website_visible" domain="[('website_visible', '=', True)]"/>
+                
+                <separator/>
+                
+                <filter string="Images" name="images" domain="[('content_type', '=', 'image')]"/>
+                <filter string="Videos" name="videos" domain="[('content_type', 'in', ['video_file', 'video_url'])]"/>
+                <filter string="Documents" name="documents" domain="[('content_type', '=', 'document')]"/>
+                <filter string="360° Views" name="360_views" domain="[('media_type', '=', '360_view')]"/>
+                
+                <separator/>
+                
+                <filter string="Exterior" name="exterior" domain="[('media_type', '=', 'exterior')]"/>
+                <filter string="Interior" name="interior" domain="[('media_type', '=', 'interior')]"/>
+                <filter string="Engine" name="engine" domain="[('media_type', '=', 'engine')]"/>
+                <filter string="Brochures" name="brochures" domain="[('media_type', '=', 'brochure')]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Car" name="group_car" context="{'group_by': 'car_id'}"/>
+                    <filter string="Car Variant" name="group_variant" context="{'group_by': 'car_variant_id'}"/>
+                    <filter string="Media Type" name="group_media_type" context="{'group_by': 'media_type'}"/>
+                    <filter string="Content Type" name="group_content_type" context="{'group_by': 'content_type'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Main Car Media Action -->
+    <record id="action_alromaih_car_media" model="ir.actions.act_window">
+        <field name="name">Car Media</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Add your first car media!
+            </p>
+            <p>
+                Upload images, videos, and documents for your cars. 
+                Organize media by type and manage visibility settings.
+            </p>
+        </field>
+    </record>
+
+    <!-- Car Images Action -->
+    <record id="action_car_images" model="ir.actions.act_window">
+        <field name="name">Car Images</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_images': 1, 'search_default_active': 1}</field>
+        <field name="domain">[('content_type', '=', 'image')]</field>
+    </record>
+
+    <!-- Car Videos Action -->
+    <record id="action_car_videos" model="ir.actions.act_window">
+        <field name="name">Car Videos</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_videos': 1, 'search_default_active': 1}</field>
+        <field name="domain">[('content_type', 'in', ['video_file', 'video_url'])]</field>
+    </record>
+
+    <!-- Primary Media Action -->
+    <record id="action_primary_media" model="ir.actions.act_window">
+        <field name="name">Primary Media</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_primary': 1, 'search_default_active': 1}</field>
+        <field name="domain">[('is_primary', '=', True)]</field>
+    </record>
+</odoo> 

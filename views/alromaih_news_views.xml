@@ -1,0 +1,504 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- ========== ACTIONS (Must be defined before views that reference them) ========== -->
+    
+    <record id="action_alromaih_news_category" model="ir.actions.act_window">
+        <field name="name">News Categories</field>
+        <field name="res_model">alromaih.news.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first news category!
+            </p>
+            <p>
+                Categories help organize your news articles and make them easier to find.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_alromaih_news_tag" model="ir.actions.act_window">
+        <field name="name">News Tags</field>
+        <field name="res_model">alromaih.news.tag</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record id="action_alromaih_news" model="ir.actions.act_window">
+        <field name="name">News</field>
+        <field name="res_model">alromaih.news</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_published': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first news article!
+            </p>
+            <p>
+                Share automotive news, company announcements, and industry updates with your audience.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_breaking_news" model="ir.actions.act_window">
+        <field name="name">Breaking News</field>
+        <field name="res_model">alromaih.news</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_breaking', '=', True)]</field>
+        <field name="context">{'search_default_breaking': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No breaking news yet!
+            </p>
+            <p>
+                Mark important news as breaking to highlight urgent updates.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_featured_news" model="ir.actions.act_window">
+        <field name="name">Featured News</field>
+        <field name="res_model">alromaih.news</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="domain">[('is_featured', '=', True)]</field>
+        <field name="context">{'search_default_featured': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No featured news yet!
+            </p>
+            <p>
+                Mark news as featured to highlight your most important stories.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_alromaih_press_release" model="ir.actions.act_window">
+        <field name="name">Press Releases</field>
+        <field name="res_model">alromaih.press.release</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first press release!
+            </p>
+            <p>
+                Manage official press releases and media communications professionally.
+            </p>
+        </field>
+    </record>
+
+    <record id="action_alromaih_press_kit" model="ir.actions.act_window">
+        <field name="name">Press Kit Assets</field>
+        <field name="res_model">alromaih.press.kit</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!-- ========== VIEWS ========== -->
+
+    <!-- News Category Views -->
+    <record id="view_alromaih_news_category_tree" model="ir.ui.view">
+        <field name="name">alromaih.news.category.tree</field>
+        <field name="model">alromaih.news.category</field>
+        <field name="arch" type="xml">
+            <list string="News Categories" default_order="sequence,name">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="news_count"/>
+                <field name="is_featured"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_news_category_form" model="ir.ui.view">
+        <field name="name">alromaih.news.category.form</field>
+        <field name="model">alromaih.news.category</field>
+        <field name="arch" type="xml">
+            <form string="News Category">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_alromaih_news)d" type="action"
+                                class="oe_stat_button" icon="fa-newspaper-o"
+                                context="{'search_default_category_id': id}">
+                            <field name="news_count" widget="statinfo" string="News Articles"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger"/>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Category Name"/>
+                            <field name="slug" placeholder="URL-friendly slug"/>
+                            <field name="sequence"/>
+                            <field name="is_featured"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="icon" placeholder="fa-newspaper"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Category description..."/>
+                        </page>
+                        <page string="SEO" name="seo">
+                            <group>
+                                <field name="seo_title" placeholder="SEO Title (max 60 chars)"/>
+                                <field name="seo_description" placeholder="SEO Description (max 160 chars)"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- News Tag Views -->
+    <record id="view_alromaih_news_tag_tree" model="ir.ui.view">
+        <field name="name">alromaih.news.tag.tree</field>
+        <field name="model">alromaih.news.tag</field>
+        <field name="arch" type="xml">
+            <list string="News Tags" editable="bottom">
+                <field name="name"/>
+                <field name="slug"/>
+                <field name="color" widget="color"/>
+                <field name="news_count"/>
+                <field name="is_featured"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_news_tag_form" model="ir.ui.view">
+        <field name="name">alromaih.news.tag.form</field>
+        <field name="model">alromaih.news.tag</field>
+        <field name="arch" type="xml">
+            <form string="News Tag">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="slug"/>
+                            <field name="color" widget="color"/>
+                        </group>
+                        <group>
+                            <field name="is_featured"/>
+                            <field name="active"/>
+                            <field name="news_count"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Tag description..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- News Main Views -->
+    <record id="view_alromaih_news_tree" model="ir.ui.view">
+        <field name="name">alromaih.news.tree</field>
+        <field name="model">alromaih.news</field>
+        <field name="arch" type="xml">
+            <list string="News" default_order="publish_date desc">
+                <field name="title"/>
+                <field name="news_type"/>
+                <field name="category_id"/>
+                <field name="author_id"/>
+                <field name="status" widget="badge" 
+                       decoration-success="status=='published'"
+                       decoration-warning="status=='scheduled'"
+                       decoration-info="status=='review'"
+                       decoration-muted="status=='draft'"/>
+                <field name="publish_date"/>
+                <field name="is_featured"/>
+                <field name="is_breaking"/>
+                <field name="priority"/>
+                <field name="view_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_news_form" model="ir.ui.view">
+        <field name="name">alromaih.news.form</field>
+        <field name="model">alromaih.news</field>
+        <field name="arch" type="xml">
+            <form string="News Article">
+                <header>
+                    <button name="action_publish" string="Publish" type="object" class="btn-primary"/>
+                    <button name="action_archive" string="Archive" type="object"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,review,scheduled,published"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="increment_view_count" type="object" class="oe_stat_button" icon="fa-eye">
+                            <field name="view_count" widget="statinfo" string="Views"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Featured" bg_color="bg-success"/>
+                    <widget name="web_ribbon" title="Breaking News" bg_color="bg-danger"/>
+                    
+                    <group>
+                        <group>
+                            <field name="title" placeholder="News headline..."/>
+                            <field name="subtitle" placeholder="Optional subtitle..."/>
+                            <field name="slug" placeholder="url-friendly-slug"/>
+                            <field name="news_type"/>
+                            <field name="category_id" options="{'no_create': True}"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                        <group>
+                            <field name="author_id"/>
+                            <field name="author_name" placeholder="Display name override"/>
+                            <field name="priority"/>
+                            <field name="publish_date"/>
+                            <field name="expiry_date"/>
+                            <field name="source" placeholder="News source..."/>
+                            <field name="source_url" widget="url" placeholder="https://..."/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="is_featured"/>
+                            <field name="is_breaking"/>
+                            <field name="is_sticky"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Content" name="content">
+                            <group>
+                                <field name="summary" placeholder="Brief summary for listings (max 300 chars)"/>
+                            </group>
+                            <field name="content" widget="html" placeholder="Full article content..."/>
+                        </page>
+                        
+                        <page string="Media" name="media">
+                            <group>
+                                <field name="featured_image" widget="image"/>
+                                <field name="featured_image_alt" placeholder="Alt text for accessibility"/>
+                                <field name="image_caption" placeholder="Image caption"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Relations" name="relations">
+                            <group>
+                                <field name="related_news_ids" widget="many2many_tags"/>
+                                <field name="related_car_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        
+                        <page string="SEO" name="seo">
+                            <group>
+                                <group>
+                                    <field name="seo_title" placeholder="SEO Title (max 60 chars)"/>
+                                    <field name="seo_description" placeholder="SEO Description (max 160 chars)"/>
+                                    <field name="seo_keywords" placeholder="keyword1, keyword2, keyword3"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_alromaih_news_kanban" model="ir.ui.view">
+        <field name="name">alromaih.news.kanban</field>
+        <field name="model">alromaih.news</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" class="o_kanban_small_column">
+                <field name="id"/>
+                <field name="title"/>
+                <field name="status"/>
+                <field name="news_type"/>
+                <field name="category_id"/>
+                <field name="author_id"/>
+                <field name="is_featured"/>
+                <field name="is_breaking"/>
+                <field name="priority"/>
+                <field name="publish_date"/>
+                <field name="view_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('alromaih.news', 'featured_image', record.id.raw_value)" alt="News Image"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="title"/>
+                                        </strong>
+                                        <div class="o_kanban_record_subtitle text-muted">
+                                            <field name="category_id"/> • <field name="news_type"/>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#" role="button">
+                                            <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span t-if="record.is_featured.raw_value" class="badge badge-success">Featured</span>
+                                        <span t-if="record.is_breaking.raw_value" class="badge badge-danger">Breaking</span>
+                                        <span t-if="record.priority.raw_value == 'urgent'" class="badge badge-warning">Urgent</span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="author_id" widget="many2one_avatar_user"/>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_alromaih_news_search" model="ir.ui.view">
+        <field name="name">alromaih.news.search</field>
+        <field name="model">alromaih.news</field>
+        <field name="arch" type="xml">
+            <search string="Search News">
+                <field name="title" string="Title"/>
+                <field name="content" string="Content"/>
+                <field name="category_id" string="Category"/>
+                <field name="author_id" string="Author"/>
+                <field name="tag_ids" string="Tags"/>
+                <separator/>
+                <filter string="Breaking News" name="breaking" domain="[('is_breaking', '=', True)]"/>
+                <filter string="Featured" name="featured" domain="[('is_featured', '=', True)]"/>
+                <filter string="Published" name="published" domain="[('status', '=', 'published')]"/>
+                <filter string="Draft" name="draft" domain="[('status', '=', 'draft')]"/>
+                <separator/>
+                <filter string="This Month" name="this_month" 
+                        domain="[('publish_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="This Week" name="this_week" 
+                        domain="[('publish_date', '&gt;=', (context_today() - relativedelta(weeks=1)))]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="News Type" name="group_type" context="{'group_by': 'news_type'}"/>
+                    <filter string="Author" name="group_author" context="{'group_by': 'author_id'}"/>
+                    <filter string="Publish Date" name="group_publish_date" context="{'group_by': 'publish_date:month'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Press Release Views -->
+    <record id="view_alromaih_press_release_tree" model="ir.ui.view">
+        <field name="name">alromaih.press.release.tree</field>
+        <field name="model">alromaih.press.release</field>
+        <field name="arch" type="xml">
+            <list string="Press Releases" default_order="release_date desc">
+                <field name="title"/>
+                <field name="release_date"/>
+                <field name="status" widget="badge" 
+                       decoration-success="status=='released'"
+                       decoration-warning="status=='approved'"
+                       decoration-muted="status=='draft'"/>
+                <field name="sent_to_media"/>
+                <field name="media_contact_name"/>
+                <field name="view_count"/>
+                <field name="download_count"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_press_release_form" model="ir.ui.view">
+        <field name="name">alromaih.press.release.form</field>
+        <field name="model">alromaih.press.release</field>
+        <field name="arch" type="xml">
+            <form string="Press Release">
+                <header>
+                    <button name="action_release" string="Release" type="object" class="btn-primary"/>
+                    <button name="action_send_to_media" string="Send to Media" type="object"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,approved,released"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_alromaih_press_kit)d" type="action" 
+                                class="oe_stat_button" icon="fa-folder-open"
+                                context="{'default_press_release_id': id}">
+                            <field name="press_kit_ids" widget="statinfo" string="Press Kit Assets"/>
+                        </button>
+                    </div>
+                    
+                    <group>
+                        <group>
+                            <field name="title"/>
+                            <field name="subtitle"/>
+                            <field name="slug"/>
+                            <field name="release_date"/>
+                            <field name="embargo_date"/>
+                        </group>
+                        <group>
+                            <field name="media_contact_name"/>
+                            <field name="media_contact_email" widget="email"/>
+                            <field name="media_contact_phone" widget="phone"/>
+                            <field name="sent_to_media"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Content" name="content">
+                            <group>
+                                <field name="dateline" placeholder="RIYADH, Saudi Arabia - January 1, 2024"/>
+                                <field name="summary" placeholder="Executive summary..."/>
+                            </group>
+                            <field name="content" widget="html" placeholder="Full press release content..."/>
+                            <group>
+                                <field name="boilerplate" placeholder="Standard company description..."/>
+                            </group>
+                        </page>
+                        
+                        <page string="Media Assets" name="media">
+                            <group>
+                                <field name="featured_image" widget="image"/>
+                            </group>
+                            <field name="press_kit_ids">
+                                <list editable="bottom">
+                                    <field name="name"/>
+                                    <field name="asset_type"/>
+                                    <field name="file_data" filename="file_name"/>
+                                    <field name="file_name" invisible="1"/>
+                                    <field name="download_count"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="Distribution" name="distribution">
+                            <field name="distribution_list" placeholder="List of media outlets and contacts..."/>
+                            <group>
+                                <field name="related_news_ids" widget="many2many_tags"/>
+                                <field name="related_car_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        
+                        <page string="SEO" name="seo">
+                            <group>
+                                <field name="seo_title"/>
+                                <field name="seo_description"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+</odoo> 

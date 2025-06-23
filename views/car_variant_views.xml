@@ -1,0 +1,476 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Car Variant Form View - Enhanced for Complete Management -->
+    <record id="view_car_variant_form" model="ir.ui.view">
+        <field name="name">alromaih.car.variant.form</field>
+        <field name="model">alromaih.car.variant</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button name="action_set_as_primary" string="Set as Primary" type="object"
+                            class="btn-primary" invisible="is_primary"/>
+                    <button name="action_auto_map_product" string="Auto-Map Product" type="object"
+                            class="btn-secondary" invisible="product_variant_id"/>
+                    <button name="action_create_product_variant" string="Create Product" type="object"
+                            class="btn-info" invisible="product_variant_id"/>
+                    <button name="action_update_stock" string="Update Stock" type="object"
+                            class="btn-success" invisible="not product_variant_id"/>
+                </header>
+                <sheet>
+                    <field name="image" widget="image" class="oe_avatar"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="Variant Name" readonly="1"/>
+                        </h1>
+                        <div name="primary_variant" class="d-flex align-items-center mt-2">
+                            <field name="is_primary"/>
+                            <label for="is_primary" class="ml-2"/>
+                            <span class="badge badge-success ml-2" invisible="not is_primary">Primary Variant</span>
+                        </div>
+                    </div>
+                    
+                    <group>
+                        <group name="variant_details">
+                            <field name="car_id"/>
+                            <field name="color_id"/>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                        <group name="pricing">
+                            <field name="price" widget="monetary"/>
+                            <field name="has_offer" readonly="1"/>
+                            <field name="offer_price" widget="monetary" readonly="1" invisible="not has_offer"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Product & Inventory Info -->
+                    <group string="Product &amp; Inventory">
+                        <group name="product_info">
+                            <field name="product_variant_id" options="{'no_create': True}"/>
+                            <field name="product_template_id" readonly="1"/>
+                            <field name="stock_status" widget="badge" readonly="1"/>
+                        </group>
+                        <group name="inventory_quantities">
+                            <field name="qty_available" readonly="1"/>
+                            <field name="virtual_available" readonly="1"/>
+                            <field name="incoming_qty" readonly="1"/>
+                            <field name="outgoing_qty" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Description -->
+                    <group string="Description &amp; Marketing">
+                        <field name="description" nolabel="1" placeholder="Rich text variant description for SEO and marketing..."/>
+                    </group>
+                    
+                    <notebook>
+                        <!-- SEO Tab -->
+                        <page string="SEO &amp; Marketing" name="seo">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Multi-Language Support:</strong> All SEO fields support translation. 
+                                Use the language menu to edit content for different languages.
+                            </div>
+                            
+                            <group string="SEO Management Tools">
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <button name="action_generate_auto_seo_fields" string="🔄 Regenerate Auto-SEO Fields" type="object" 
+                                                class="btn btn-primary btn-block" title="Regenerate all auto-SEO fields from current variant data"/>
+                                    </div>
+                                </div>
+                            </group>
+                            
+                            <group string="Manual SEO Fields (Override Auto-Generated)">
+                                <group string="Primary SEO">
+                                    <field name="meta_title" placeholder="Variant SEO meta title (50-60 characters recommended)"/>
+                                    <field name="meta_description" placeholder="Variant SEO meta description (150-160 characters recommended)"/>
+                                    <field name="meta_keywords" placeholder="Variant SEO keywords separated by commas"/>
+                                    <field name="seo_url_slug" placeholder="URL-friendly slug for this variant"/>
+                                </group>
+                            </group>
+                            
+                            <separator string="Auto-Generated SEO Fields (Editable &amp; Multilingual)"/>
+                            <group string="Auto-Generated SEO Content">
+                                <group string="Auto-SEO Fields">
+                                    <field name="auto_meta_title" placeholder="Auto-generated meta title (editable and multilingual)"/>
+                                    <field name="auto_meta_description" placeholder="Auto-generated meta description (editable and multilingual)"/>
+                                    <field name="auto_seo_keywords" placeholder="Auto-generated SEO keywords (editable and multilingual)"/>
+                                </group>
+                                <group string="Generation Info">
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>✨ Smart Auto-Generation:</strong>
+                                        <ul class="mb-0">
+                                            <li><strong>Auto-populates</strong> when you change variant attributes</li>
+                                            <li><strong>Fully editable</strong> - customize as needed</li>
+                                            <li><strong>Multilingual</strong> - translate for different languages</li>
+                                            <li><strong>Non-intrusive</strong> - won't overwrite your edits</li>
+                                        </ul>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Media Tab -->
+                        <page string="Media" name="media">
+                            <div class="row">
+                                <div class="col-md-6">
+                                <group string="Media Summary">
+                                    <field name="media_count" readonly="1"/>
+                                    <field name="has_exterior_images" readonly="1"/>
+                                    <field name="has_interior_images" readonly="1"/>
+                                    <field name="has_videos" readonly="1"/>
+                                    <field name="has_360_view" readonly="1"/>
+                                </group>
+                                </div>
+                                <div class="col-md-6">
+                                <group string="Primary Media">
+                                        <field name="primary_exterior_image_id" options="{'no_create': True}"/>
+                                        <field name="primary_interior_image_id" options="{'no_create': True}"/>
+                                        <field name="primary_video_id" options="{'no_create': True}"/>
+                                </group>
+                                </div>
+                            </div>
+                            
+                            <!-- Media Quick Actions -->
+                            <div class="row mt-3">
+                                <div class="col-12">
+                                    <button name="action_add_media" string="Add Media" type="object" class="btn btn-primary"/>
+                                    <button name="action_manage_exterior_images" string="Manage Exterior" type="object" class="btn btn-secondary"/>
+                                    <button name="action_manage_interior_images" string="Manage Interior" type="object" class="btn btn-secondary"/>
+                                    <button name="action_manage_videos" string="Manage Videos" type="object" class="btn btn-secondary"/>
+                                    <button name="copy_media_from_car" string="Copy from Car" type="object" class="btn btn-outline-info"/>
+                                </div>
+                            </div>
+                            
+                            <!-- Media List -->
+                            <field name="media_ids" mode="list" readonly="1">
+                                <list>
+                                    <field name="image" widget="image" class="oe_avatar"/>
+                                    <field name="name"/>
+                                    <field name="media_type"/>
+                                    <field name="content_type"/>
+                                    <field name="is_primary"/>
+                                    <field name="is_featured"/>
+                                    <field name="sequence"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+
+                        <!-- Inventory Tab -->
+                        <page string="Inventory" name="inventory">
+                            <group string="Stock Information" invisible="not product_variant_id">
+                            <group>
+                                    <field name="qty_available" readonly="1"/>
+                                    <field name="virtual_available" readonly="1"/>
+                                    <field name="qty_forecasted" readonly="1"/>
+                                </group>
+                                <group>
+                                    <field name="incoming_qty" readonly="1"/>
+                                    <field name="outgoing_qty" readonly="1"/>
+                                    <field name="stock_status" widget="badge" readonly="1"/>
+                                </group>
+                            </group>
+                            
+                            <!-- Product Mapping -->
+                            <group string="Product Mapping">
+                                <group>
+                                    <field name="product_variant_id" options="{'no_create': True}"/>
+                                    <field name="product_template_id" readonly="1"/>
+                                </group>
+                                <group>
+                                <button name="action_view_stock_moves" string="View Stock Moves" type="object" 
+                                            class="btn btn-info" invisible="not product_variant_id"/>
+                                <button name="action_view_quants" string="View Stock Quants" type="object" 
+                                            class="btn btn-info" invisible="not product_variant_id"/>
+                                </group>
+                            </group>
+                            
+                            <!-- Auto-Mapping Help -->
+                            <div class="alert alert-info" role="alert" invisible="product_variant_id">
+                                <strong>Product Mapping:</strong> Link this variant to an existing product for inventory management,
+                                or create a new product automatically. Auto-mapping tries to find products with matching car attributes.
+                            </div>
+                        </page>
+                        
+                        <!-- Offers Tab -->
+                        <page string="Offers" name="offers">
+                            <field name="offer_ids" readonly="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="discount_type"/>
+                                    <field name="discount_value"/>
+                                    <field name="original_price"/>
+                                    <field name="final_price"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="is_active"/>
+                                </list>
+                            </field>
+                            <div class="alert alert-warning" role="alert" invisible="offer_ids">
+                                <strong>No Offers:</strong> Create offers at the car level to apply to all variants, 
+                                or create variant-specific offers through the Offers menu.
+                            </div>
+                        </page>
+
+                        <!-- Analytics Tab -->
+                        <page string="Analytics" name="analytics">
+                            <group string="Media Statistics">
+                                <field name="media_count" readonly="1"/>
+                                <field name="has_exterior_images" readonly="1"/>
+                                <field name="has_interior_images" readonly="1"/>
+                                <field name="has_videos" readonly="1"/>
+                                <field name="has_360_view" readonly="1"/>
+                                <field name="has_brochures" readonly="1"/>
+                            </group>
+                            <group string="Inventory Statistics" invisible="not product_variant_id">
+                                <field name="qty_available" readonly="1"/>
+                                <field name="virtual_available" readonly="1"/>
+                                <field name="stock_status" readonly="1"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Car Variant List View - Enhanced -->
+    <record id="view_car_variant_list" model="ir.ui.view">
+        <field name="name">alromaih.car.variant.list</field>
+        <field name="model">alromaih.car.variant</field>
+        <field name="arch" type="xml">
+            <list decoration-success="is_primary == True" decoration-muted="not active" 
+                  decoration-warning="stock_status == 'low_stock'" decoration-danger="stock_status == 'out_of_stock'">
+                <field name="image" widget="image" width="50"/>
+                <field name="name"/>
+                <field name="car_id"/>
+                <field name="color_id"/>
+                <field name="price" widget="monetary"/>
+                <field name="has_offer"/>
+                <field name="offer_price" widget="monetary" invisible="not has_offer"/>
+                <field name="is_primary" widget="boolean_toggle"/>
+                <field name="stock_status" widget="badge"/>
+                <field name="qty_available"/>
+                <field name="media_count" string="Media"/>
+                <field name="product_variant_id" optional="hide"/>
+                <field name="meta_title" optional="hide" string="SEO Title"/>
+                <field name="auto_meta_title" optional="hide" string="Auto SEO Title"/>
+                <field name="auto_meta_description" optional="hide" string="Auto SEO Description"/>
+                <field name="auto_seo_keywords" optional="hide" string="Auto SEO Keywords"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Car Variant Search View - Enhanced -->
+    <record id="view_car_variant_search" model="ir.ui.view">
+        <field name="name">alromaih.car.variant.search</field>
+        <field name="model">alromaih.car.variant</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name"/>
+                <field name="car_id"/>
+                <field name="color_id"/>
+                <field name="meta_title"/>
+                <field name="meta_keywords"/>
+                <field name="auto_meta_title"/>
+                <field name="auto_meta_description"/>
+                <field name="auto_seo_keywords"/>
+                
+                <filter string="Primary Variants" name="primary" domain="[('is_primary', '=', True)]"/>
+                <filter string="With Offers" name="with_offers" domain="[('has_offer', '=', True)]"/>
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                
+                <separator/>
+                
+                <filter string="In Stock" name="in_stock" domain="[('stock_status', '=', 'in_stock')]"/>
+                <filter string="Low Stock" name="low_stock" domain="[('stock_status', '=', 'low_stock')]"/>
+                <filter string="Out of Stock" name="out_of_stock" domain="[('stock_status', '=', 'out_of_stock')]"/>
+                <filter string="No Product Linked" name="no_product" domain="[('stock_status', '=', 'no_product')]"/>
+                
+                <separator/>
+                
+                <filter string="With Media" name="with_media" domain="[('media_count', '&gt;', 0)]"/>
+                <filter string="With Exterior Images" name="has_exterior" domain="[('has_exterior_images', '=', True)]"/>
+                <filter string="With Interior Images" name="has_interior" domain="[('has_interior_images', '=', True)]"/>
+                <filter string="With Videos" name="has_videos" domain="[('has_videos', '=', True)]"/>
+                <filter string="With 360° View" name="has_360" domain="[('has_360_view', '=', True)]"/>
+                
+                <separator/>
+                
+                <filter string="With SEO Title" name="has_seo_title" domain="[('meta_title', '!=', False)]"/>
+                <filter string="SEO Ready" name="seo_ready" domain="[('meta_title', '!=', False), ('meta_description', '!=', False)]"/>
+                <filter string="With Auto-SEO Title" name="has_auto_seo_title" domain="[('auto_meta_title', '!=', False)]"/>
+                <filter string="With Auto-SEO Description" name="has_auto_seo_desc" domain="[('auto_meta_description', '!=', False)]"/>
+                <filter string="Auto-SEO Complete" name="auto_seo_complete" domain="[('auto_meta_title', '!=', False), ('auto_meta_description', '!=', False), ('auto_seo_keywords', '!=', False)]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Car" name="group_by_car" context="{'group_by': 'car_id'}"/>
+                    <filter string="Color" name="group_by_color" context="{'group_by': 'color_id'}"/>
+                    <filter string="Stock Status" name="group_by_stock_status" context="{'group_by': 'stock_status'}"/>
+                    <filter string="Primary Status" name="group_by_primary" context="{'group_by': 'is_primary'}"/>
+                    <filter string="Offer Status" name="group_by_offers" context="{'group_by': 'has_offer'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Car Variant Kanban View - Enhanced -->
+    <record id="view_car_variant_kanban" model="ir.ui.view">
+        <field name="name">alromaih.car.variant.kanban</field>
+        <field name="model">alromaih.car.variant</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="stock_status">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="price"/>
+                <field name="has_offer"/>
+                <field name="offer_price"/>
+                <field name="is_primary"/>
+                <field name="stock_status"/>
+                <field name="qty_available"/>
+                <field name="media_count"/>
+                <field name="color_id"/>
+                <field name="car_id"/>
+                <field name="has_exterior_images"/>
+                <field name="has_interior_images"/>
+                <field name="has_videos"/>
+                <field name="product_variant_id"/>
+
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('alromaih.car.variant', 'image', record.id.raw_value)" alt="Car Variant"/>
+                                <div t-if="record.is_primary.raw_value" class="ribbon ribbon-top-right">
+                                    <span class="bg-success">Primary</span>
+                                </div>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <strong class="o_kanban_record_title">
+                                    <field name="name"/>
+                                </strong>
+                                <div class="text-muted">
+                                    <field name="car_id"/> • <field name="color_id"/>
+                                </div>
+                                <div class="mt-2">
+                                <div t-if="!record.has_offer.raw_value">
+                                    <strong>Price: </strong>
+                                    <field name="price" widget="monetary"/>
+                                </div>
+                                <div t-if="record.has_offer.raw_value">
+                                    <strong>Offer Price: </strong>
+                                    <field name="offer_price" widget="monetary"/>
+                                    <s class="text-muted ml-2">
+                                        <field name="price" widget="monetary"/>
+                                    </s>
+                                </div>
+                                </div>
+                                
+                                <!-- Stock Information -->
+                                <div class="mt-2">
+                                    <span class="text-muted">Stock: </span>
+                                    <span t-esc="record.qty_available.raw_value"/> units
+                                </div>
+                                
+                                <!-- Media Count Info -->
+                                <div class="o_kanban_tags_section mt-2">
+                                    <span t-if="record.media_count.raw_value > 0" class="badge badge-info">
+                                        <i class="fa fa-images"/> <t t-esc="record.media_count.raw_value"/> Media
+                                    </span>
+                                    <span t-if="record.has_exterior_images.raw_value" class="badge badge-primary">
+                                        <i class="fa fa-car"/> Exterior
+                                    </span>
+                                    <span t-if="record.has_interior_images.raw_value" class="badge badge-secondary">
+                                        <i class="fa fa-chair"/> Interior
+                                    </span>
+                                    <span t-if="record.has_videos.raw_value" class="badge badge-danger">
+                                        <i class="fa fa-video"/> Video
+                                    </span>
+                                </div>
+
+                                <!-- Product Mapping Status -->
+                                <div class="mt-2">
+                                    <span t-if="record.product_variant_id.raw_value" class="badge badge-success">
+                                        <i class="fa fa-link"/> Product Linked
+                                    </span>
+                                    <span t-if="!record.product_variant_id.raw_value" class="badge badge-warning">
+                                        <i class="fa fa-unlink"/> No Product
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Simplified Car Variant Action Window -->
+    <record id="action_car_variant" model="ir.actions.act_window">
+        <field name="name">Car Variants</field>
+        <field name="res_model">alromaih.car.variant</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No car variants found!
+            </p>
+            <p>
+                Car variants represent different color options for cars with complete inventory management, 
+                SEO optimization, and media management capabilities.
+            </p>
+        </field>
+    </record>
+
+    <!-- Stock Management Action -->
+    <record id="action_car_variants_stock" model="ir.actions.act_window">
+        <field name="name">Car Variants - Stock Management</field>
+        <field name="res_model">alromaih.car.variant</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage car variant inventory!
+            </p>
+            <p>
+                Track stock levels, link to products, and manage inventory for all car variants.
+            </p>
+        </field>
+    </record>
+
+    <!-- Media Management Action -->
+    <record id="action_car_variants_media" model="ir.actions.act_window">
+        <field name="name">Car Variants - Media Management</field>
+        <field name="res_model">alromaih.car.variant</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1, 'search_default_with_media': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage car variant media!
+            </p>
+            <p>
+                Upload and organize images, videos, and other media content for your car variants.
+            </p>
+        </field>
+    </record>
+
+    <!-- SEO Management Action -->
+    <record id="action_car_variants_seo" model="ir.actions.act_window">
+        <field name="name">Car Variants - SEO Management</field>
+        <field name="res_model">alromaih.car.variant</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Optimize variant SEO!
+            </p>
+            <p>
+                Manage SEO settings for individual car variants to improve search engine visibility.
+            </p>
+        </field>
+    </record>
+</odoo> 

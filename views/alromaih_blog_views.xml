@@ -1,0 +1,607 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========== BLOG ACTIONS ========== -->
+    
+    <!-- Main Blogs Action -->
+    <record id="action_alromaih_blog" model="ir.actions.act_window">
+        <field name="name">Blogs</field>
+        <field name="res_model">alromaih.blog</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first blog post!
+            </p>
+            <p>
+                Share automotive insights, company updates, and engaging content with your audience.
+                Create SEO-optimized blogs with rich media and multilingual support.
+            </p>
+        </field>
+    </record>
+
+    <!-- Featured Blogs Action -->
+    <record id="action_featured_blogs" model="ir.actions.act_window">
+        <field name="name">Featured Blogs</field>
+        <field name="res_model">alromaih.blog</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_featured': 1}</field>
+        <field name="domain">[('featured', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No featured blogs yet!
+            </p>
+            <p>
+                Mark blogs as featured to highlight your most important content.
+            </p>
+        </field>
+    </record>
+
+    <!-- Draft Blogs Action -->
+    <record id="action_draft_blogs" model="ir.actions.act_window">
+        <field name="name">Draft Blogs</field>
+        <field name="res_model">alromaih.blog</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="domain">[('status', '=', 'draft')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No draft blogs!
+            </p>
+            <p>
+                Draft blogs are works in progress. Finish writing and publish them when ready.
+            </p>
+        </field>
+    </record>
+
+    <!-- Blog Categories Action -->
+    <record id="action_alromaih_blog_category" model="ir.actions.act_window">
+        <field name="name">Blog Categories</field>
+        <field name="res_model">alromaih.blog.category</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first blog category!
+            </p>
+            <p>
+                Organize your blog posts with categories. Create hierarchical categories
+                with SEO-friendly URLs and custom styling.
+            </p>
+        </field>
+    </record>
+
+    <!-- Blog Tags Action -->
+    <record id="action_alromaih_blog_tag" model="ir.actions.act_window">
+        <field name="name">Blog Tags</field>
+        <field name="res_model">alromaih.blog.tag</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first blog tag!
+            </p>
+            <p>
+                Use tags to add flexible labeling to your blogs. Tags help with content
+                discovery and improve SEO.
+            </p>
+        </field>
+    </record>
+
+    <!-- Blog Comments Action -->
+    <record id="action_alromaih_blog_comment" model="ir.actions.act_window">
+        <field name="name">Blog Comments</field>
+        <field name="res_model">alromaih.blog.comment</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_pending': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No comments yet!
+            </p>
+            <p>
+                Manage reader comments and engage with your audience. 
+                Moderate comments and build community around your content.
+            </p>
+        </field>
+    </record>
+
+    <!-- ========== PRESS RELEASE ACTIONS ========== -->
+    
+    <!-- Press Releases Action -->
+    <record id="action_alromaih_press_release" model="ir.actions.act_window">
+        <field name="name">Press Releases</field>
+        <field name="res_model">alromaih.news</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_press_release': 1}</field>
+        <field name="domain">[('content_type', '=', 'press_release')]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first press release!
+            </p>
+            <p>
+                Share official company announcements, product launches, and important updates 
+                with media outlets and stakeholders.
+            </p>
+        </field>
+    </record>
+
+    <!-- Press Kit Action -->
+    <record id="action_alromaih_press_kit" model="ir.actions.act_window">
+        <field name="name">Press Kit Assets</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_press_kit': 1}</field>
+        <field name="domain">[('media_type', 'in', ['brochure', 'other']), ('is_press_material', '=', True)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Build your press kit!
+            </p>
+            <p>
+                Organize high-quality images, brochures, and media assets for press and marketing use.
+                Make it easy for journalists and partners to access your brand materials.
+            </p>
+        </field>
+    </record>
+
+    <!-- ========== VIEWS ========== -->
+
+    <!-- Blog Category Views -->
+    <record id="view_alromaih_blog_category_tree" model="ir.ui.view">
+        <field name="name">alromaih.blog.category.tree</field>
+        <field name="model">alromaih.blog.category</field>
+        <field name="arch" type="xml">
+            <list string="Blog Categories" default_order="sequence,name">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="blog_count"/>
+                <field name="featured"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_category_form" model="ir.ui.view">
+        <field name="name">alromaih.blog.category.form</field>
+        <field name="model">alromaih.blog.category</field>
+        <field name="arch" type="xml">
+            <form string="Blog Category">
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="%(action_alromaih_blog)d" type="action"
+                                class="oe_stat_button" icon="fa-blog"
+                                context="{'search_default_category_id': id}">
+                            <field name="blog_count" widget="statinfo" string="Blog Posts"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="active"/>
+                    <group>
+                        <group>
+                            <field name="name" placeholder="Category Name"/>
+                            <field name="slug" placeholder="URL-friendly slug"/>
+                            <field name="sequence"/>
+                            <field name="featured"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color"/>
+                            <field name="icon" placeholder="fa-blog"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Description" name="description">
+                            <field name="description" placeholder="Category description..."/>
+                        </page>
+                        <page string="SEO" name="seo">
+                            <group>
+                                <field name="seo_title" placeholder="SEO Title (max 60 chars)"/>
+                                <field name="seo_description" placeholder="SEO Description (max 160 chars)"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Blog Tag Views -->
+    <record id="view_alromaih_blog_tag_tree" model="ir.ui.view">
+        <field name="name">alromaih.blog.tag.tree</field>
+        <field name="model">alromaih.blog.tag</field>
+        <field name="arch" type="xml">
+            <list string="Blog Tags" editable="bottom">
+                <field name="name"/>
+                <field name="slug"/>
+                <field name="color" widget="color"/>
+                <field name="blog_count"/>
+                <field name="featured"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_tag_form" model="ir.ui.view">
+        <field name="name">alromaih.blog.tag.form</field>
+        <field name="model">alromaih.blog.tag</field>
+        <field name="arch" type="xml">
+            <form string="Blog Tag">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="slug"/>
+                            <field name="color" widget="color"/>
+                        </group>
+                        <group>
+                            <field name="featured"/>
+                            <field name="active"/>
+                            <field name="blog_count"/>
+                        </group>
+                    </group>
+                    <field name="description" placeholder="Tag description..."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Blog Comment Views -->
+    <record id="view_alromaih_blog_comment_tree" model="ir.ui.view">
+        <field name="name">alromaih.blog.comment.tree</field>
+        <field name="model">alromaih.blog.comment</field>
+        <field name="arch" type="xml">
+            <list string="Blog Comments" default_order="create_date desc">
+                <field name="blog_id"/>
+                <field name="author_name"/>
+                <field name="author_email"/>
+                <field name="content"/>
+                <field name="status" widget="badge" 
+                       decoration-success="status=='approved'"
+                       decoration-warning="status=='pending'"
+                       decoration-danger="status=='rejected'"/>
+                <field name="create_date"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_comment_form" model="ir.ui.view">
+        <field name="name">alromaih.blog.comment.form</field>
+        <field name="model">alromaih.blog.comment</field>
+        <field name="arch" type="xml">
+            <form string="Blog Comment">
+                <header>
+                    <button name="action_approve" string="Approve" type="object" class="btn-primary" invisible="status == 'approved'"/>
+                    <button name="action_reject" string="Reject" type="object" invisible="status == 'rejected'"/>
+                    <field name="status" widget="statusbar" statusbar_visible="pending,approved,rejected"/>
+                </header>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="blog_id"/>
+                            <field name="author_name"/>
+                            <field name="author_email" widget="email"/>
+                            <field name="author_website" widget="url"/>
+                        </group>
+                        <group>
+                            <field name="create_date" readonly="1"/>
+                            <field name="author_ip"/>
+                            <field name="user_id"/>
+                            <field name="active"/>
+                        </group>
+                    </group>
+                    <field name="content" placeholder="Comment content..."/>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Blog Main Views -->
+    <record id="view_alromaih_blog_tree" model="ir.ui.view">
+        <field name="name">alromaih.blog.tree</field>
+        <field name="model">alromaih.blog</field>
+        <field name="arch" type="xml">
+            <list string="Blogs" default_order="publish_date desc">
+                <field name="title"/>
+                <field name="blog_type"/>
+                <field name="category_id"/>
+                <field name="author_id"/>
+                <field name="status" widget="badge" 
+                       decoration-success="status=='published'"
+                       decoration-warning="status=='scheduled'"
+                       decoration-info="status=='review'"
+                       decoration-muted="status=='draft'"
+                       decoration-danger="status=='archived'"/>
+                <field name="publish_date"/>
+                <field name="featured"/>
+                <field name="priority"/>
+                <field name="reading_time" string="Read Time"/>
+                <field name="view_count"/>
+                <field name="comment_count"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_form" model="ir.ui.view">
+        <field name="name">alromaih.blog.form</field>
+        <field name="model">alromaih.blog</field>
+        <field name="arch" type="xml">
+            <form string="Blog Post">
+                <header>
+                    <button name="action_publish" string="Publish" type="object" class="btn-primary" invisible="status == 'published'"/>
+                    <button name="action_archive" string="Archive" type="object"/>
+                    <button name="action_duplicate_blog" string="Duplicate" type="object"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,review,scheduled,published"/>
+                </header>
+                <sheet>
+                    <div class="oe_button_box" name="button_box">
+                        <button name="increment_view_count" type="object" class="oe_stat_button" icon="fa-eye">
+                            <field name="view_count" widget="statinfo" string="Views"/>
+                        </button>
+                        <button name="%(action_alromaih_blog_comment)d" type="action" 
+                                class="oe_stat_button" icon="fa-comments"
+                                context="{'search_default_blog_id': id}">
+                            <field name="comment_count" widget="statinfo" string="Comments"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-share-alt">
+                            <field name="share_count" widget="statinfo" string="Shares"/>
+                        </button>
+                        <button class="oe_stat_button" icon="fa-clock-o">
+                            <field name="reading_time" widget="statinfo" string="Min Read"/>
+                        </button>
+                    </div>
+                    <widget name="web_ribbon" title="Featured" bg_color="bg-success" invisible="not featured"/>
+                    <widget name="web_ribbon" title="Sticky" bg_color="bg-info" invisible="not sticky"/>
+                    <widget name="web_ribbon" title="Archived" bg_color="bg-danger" invisible="status != 'archived'"/>
+                    
+                    <group>
+                        <group>
+                            <field name="title" placeholder="Blog post title..."/>
+                            <field name="subtitle" placeholder="Optional subtitle..."/>
+                            <field name="slug" placeholder="url-friendly-slug"/>
+                            <field name="blog_type"/>
+                            <field name="category_id" options="{'no_create': True}"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                        </group>
+                        <group>
+                            <field name="author_id"/>
+                            <field name="author_name" placeholder="Display name override"/>
+                            <field name="priority"/>
+                            <field name="publish_date"/>
+                            <field name="expiry_date"/>
+                            <field name="language"/>
+                        </group>
+                    </group>
+
+                    <group>
+                        <group>
+                            <field name="featured"/>
+                            <field name="sticky"/>
+                            <field name="allow_comments"/>
+                        </group>
+                        <group>
+                            <field name="active"/>
+                            <field name="sequence"/>
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Content" name="content">
+                            <group>
+                                <field name="excerpt" placeholder="Brief summary for blog listing (max 300 chars)"/>
+                            </group>
+                            <field name="content" widget="html" placeholder="Full blog post content..."/>
+                        </page>
+                        
+                        <page string="Media" name="media">
+                            <group>
+                                <field name="featured_image" widget="image"/>
+                                <field name="featured_image_alt" placeholder="Alt text for accessibility"/>
+                                <field name="image_caption" placeholder="Image caption"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Author Info" name="author">
+                            <field name="author_bio" placeholder="Author biography for this post..."/>
+                        </page>
+                        
+                        <page string="Relations" name="relations">
+                            <group>
+                                <field name="related_blog_ids" widget="many2many_tags"/>
+                                <field name="related_car_ids" widget="many2many_tags"/>
+                            </group>
+                        </page>
+                        
+                        <page string="Comments" name="comments" invisible="not allow_comments">
+                            <field name="comment_ids">
+                                <list editable="bottom">
+                                    <field name="author_name"/>
+                                    <field name="author_email"/>
+                                    <field name="content"/>
+                                    <field name="status"/>
+                                    <field name="create_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="Translations" name="translations">
+                            <group>
+                                <field name="original_blog_id" invisible="not original_blog_id"/>
+                            </group>
+                            <field name="translation_blog_ids">
+                                <list>
+                                    <field name="title"/>
+                                    <field name="language"/>
+                                    <field name="status"/>
+                                    <field name="publish_date"/>
+                                </list>
+                            </field>
+                        </page>
+                        
+                        <page string="SEO" name="seo">
+                            <group>
+                                <group>
+                                    <field name="seo_title" placeholder="SEO Title (max 60 chars)"/>
+                                    <field name="seo_description" placeholder="SEO Description (max 160 chars)"/>
+                                    <field name="seo_keywords" placeholder="keyword1, keyword2, keyword3"/>
+                                </group>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_kanban" model="ir.ui.view">
+        <field name="name">alromaih.blog.kanban</field>
+        <field name="model">alromaih.blog</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" class="o_kanban_small_column">
+                <field name="id"/>
+                <field name="title"/>
+                <field name="status"/>
+                <field name="blog_type"/>
+                <field name="category_id"/>
+                <field name="author_id"/>
+                <field name="featured"/>
+                <field name="sticky"/>
+                <field name="priority"/>
+                <field name="publish_date"/>
+                <field name="reading_time"/>
+                <field name="view_count"/>
+                <field name="comment_count"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image">
+                                <img t-att-src="kanban_image('alromaih.blog', 'featured_image', record.id.raw_value)" alt="Blog Image"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="title"/>
+                                        </strong>
+                                        <div class="o_kanban_record_subtitle text-muted">
+                                            <field name="category_id"/> • <field name="blog_type"/>
+                                            <span t-if="record.reading_time.raw_value"> • <field name="reading_time"/> min read</span>
+                                        </div>
+                                    </div>
+                                    <div class="o_kanban_manage_button_section">
+                                        <a class="o_kanban_manage_toggle_button" href="#" role="button">
+                                            <i class="fa fa-ellipsis-v" role="img" aria-label="Manage" title="Manage"/>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="o_kanban_record_body">
+                                    <field name="excerpt"/>
+                                </div>
+                                <div class="o_kanban_record_bottom">
+                                    <div class="oe_kanban_bottom_left">
+                                        <span t-if="record.featured.raw_value" class="badge badge-success">Featured</span>
+                                        <span t-if="record.sticky.raw_value" class="badge badge-info">Sticky</span>
+                                        <span t-if="record.priority.raw_value == 'urgent'" class="badge badge-danger">Urgent</span>
+                                        <span t-if="record.priority.raw_value == 'high'" class="badge badge-warning">High</span>
+                                    </div>
+                                    <div class="oe_kanban_bottom_right">
+                                        <field name="author_id" widget="many2one_avatar_user"/>
+                                        <field name="activity_ids" widget="kanban_activity"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_search" model="ir.ui.view">
+        <field name="name">alromaih.blog.search</field>
+        <field name="model">alromaih.blog</field>
+        <field name="arch" type="xml">
+            <search string="Search Blogs">
+                <field name="title" string="Title"/>
+                <field name="content" string="Content"/>
+                <field name="category_id" string="Category"/>
+                <field name="author_id" string="Author"/>
+                <field name="tag_ids" string="Tags"/>
+                <separator/>
+                <filter string="Featured" name="featured" domain="[('featured', '=', True)]"/>
+                <filter string="Sticky" name="sticky" domain="[('sticky', '=', True)]"/>
+                <filter string="Published" name="published" domain="[('status', '=', 'published')]"/>
+                <filter string="Draft" name="draft" domain="[('status', '=', 'draft')]"/>
+                <filter string="Under Review" name="review" domain="[('status', '=', 'review')]"/>
+                <filter string="Scheduled" name="scheduled" domain="[('status', '=', 'scheduled')]"/>
+                <separator/>
+                <filter string="Article" name="article" domain="[('blog_type', '=', 'article')]"/>
+                <filter string="Car Review" name="review_type" domain="[('blog_type', '=', 'review')]"/>
+                <filter string="Buying Guide" name="guide" domain="[('blog_type', '=', 'guide')]"/>
+                <filter string="Industry News" name="news" domain="[('blog_type', '=', 'news')]"/>
+                <separator/>
+                <filter string="This Month" name="this_month" 
+                        domain="[('publish_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%Y-%m-01'))]"/>
+                <filter string="This Week" name="this_week" 
+                        domain="[('publish_date', '&gt;=', (context_today() - relativedelta(weeks=1)))]"/>
+                <filter string="High Priority" name="high_priority" domain="[('priority', 'in', ['high', 'urgent'])]"/>
+                <separator/>
+                <filter string="Allow Comments" name="allow_comments" domain="[('allow_comments', '=', True)]"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                    <filter string="Blog Type" name="group_type" context="{'group_by': 'blog_type'}"/>
+                    <filter string="Author" name="group_author" context="{'group_by': 'author_id'}"/>
+                    <filter string="Priority" name="group_priority" context="{'group_by': 'priority'}"/>
+                    <filter string="Publish Date" name="group_publish_date" context="{'group_by': 'publish_date:month'}"/>
+                    <filter string="Language" name="group_language" context="{'group_by': 'language'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- Blog Image Gallery Views -->
+    <record id="view_alromaih_blog_image_tree" model="ir.ui.view">
+        <field name="name">alromaih.blog.image.tree</field>
+        <field name="model">alromaih.blog.image</field>
+        <field name="arch" type="xml">
+            <list string="Blog Images" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="image" widget="image"/>
+                <field name="alt_text"/>
+                <field name="caption"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_alromaih_blog_image_form" model="ir.ui.view">
+        <field name="name">alromaih.blog.image.form</field>
+        <field name="model">alromaih.blog.image</field>
+        <field name="arch" type="xml">
+            <form string="Blog Image">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group>
+                            <field name="image" widget="image"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="alt_text" placeholder="Alternative text for accessibility"/>
+                        <field name="caption" placeholder="Image caption"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo> 

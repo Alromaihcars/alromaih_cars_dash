@@ -1,0 +1,625 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Car Form View - Enhanced with SEO, AI, and Multilingual Features -->
+    <record id="view_alromaih_car_form" model="ir.ui.view">
+        <field name="name">alromaih.car.form</field>
+        <field name="model">alromaih.car</field>
+        <field name="arch" type="xml">
+            <form string="Car">
+                <header>
+                    <button name="action_publish_car" string="Publish" type="object" 
+                            class="btn-primary" invisible="status not in ['draft', 'out_of_stock']"/>
+                    <button name="action_unpublish_car" string="Unpublish" type="object" 
+                            class="btn-secondary" invisible="status != 'published'"/>
+                    <button name="generate_variants" string="Generate Variants" type="object" 
+                            class="btn-success" invisible="not color_ids"/>
+                    <button name="generate_specifications_from_template" string="Generate Specifications" type="object" 
+                            class="btn-info" invisible="not specification_template_id"/>
+                    <button name="action_duplicate_car" string="Duplicate" type="object" 
+                            class="btn-outline-secondary"/>
+                    <field name="status" widget="statusbar" statusbar_visible="draft,published,out_of_stock"/>
+                </header>
+                <sheet>
+                    <!-- Car Header Information -->
+                    <div class="car-form-header">
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="Car Name (editable and multilingual)" class="oe_inline"/>
+                            </h1>
+                            <div class="o_row mt-2">
+                                <field name="suggested_name" placeholder="Auto-suggested name (editable and multilingual)" class="oe_inline"/>
+                                <button name="action_generate_suggested_name" string="↻ Generate" type="object" 
+                                        class="btn btn-sm btn-primary ml-2" title="Generate suggested name from car attributes"/>
+                                <button name="action_apply_suggested_name" string="Apply" type="object" 
+                                        class="btn btn-sm btn-secondary ml-1" title="Apply suggested name to main name field"
+                                        invisible="not suggested_name"/>
+                                <button name="action_reset_name" string="Reset" type="object" 
+                                        class="btn btn-sm btn-outline-secondary ml-1" title="Reset to auto-generated name"/>
+                            </div>
+                        </div>
+                        <div class="oe_clear mt-3">
+                            <field name="is_featured" widget="boolean_toggle"/>
+                            <label for="is_featured" string="Featured Car" class="ml-2"/>
+                        </div>
+                    </div>
+
+                    <!-- Basic Car Information -->
+                    <group>
+                        <group string="Basic Information">
+                            <field name="brand_id" options="{'no_create': True}" required="1"/>
+                            <field name="model_id" options="{'no_create': True}" domain="[('brand_id', '=', brand_id)]" required="1"/>
+                            <field name="trim_id" options="{'no_create': True}" domain="[('model_id', '=', model_id)]"/>
+                            <field name="year_id" options="{'no_create': True}" required="1"/>
+                            <field name="primary_color_id" options="{'no_create': True}"/>
+                        </group>
+                        <group string="Status &amp; Settings">
+                            <field name="active"/>
+                            <field name="sequence"/>
+                            <field name="specification_completion" widget="progressbar"/>
+                            <field name="has_active_offer" readonly="1"/>
+                        </group>
+                    </group>
+
+                    <!-- Pricing Information -->
+                    <group string="Pricing">
+                        <group>
+                            <field name="cash_price" widget="monetary"/>
+                            <field name="vat_percentage"/>
+                            <field name="cash_price_with_vat" widget="monetary" readonly="1"/>
+                        </group>
+                        <group>
+                            <field name="finance_price" widget="monetary"/>
+                        </group>
+                    </group>
+
+                    <!-- Description -->
+                    <group string="Description &amp; Marketing">
+                        <field name="description" nolabel="1" placeholder="Rich text description for SEO and marketing purposes..."/>
+                    </group>
+
+                    <!-- Colors and Variants -->
+                    <group string="Colors &amp; Variants">
+                        <field name="color_ids" widget="many2many_tags" options="{'color_field': 'color_picker'}"/>
+                        <field name="primary_variant_id" domain="[('car_id', '=', id)]" 
+                               options="{'no_create': True, 'no_open': True}"/>
+                    </group>
+
+                    <!-- Specification Template -->
+                    <group string="Specifications">
+                        <field name="specification_template_id" options="{'no_create': True}"/>
+                    </group>
+
+                    <!-- Tabs for detailed information -->
+                    <notebook>
+                        <!-- SEO Tab -->
+                        <page string="SEO &amp; Marketing" name="seo">
+                            <div class="alert alert-info" role="alert">
+                                <strong>Multi-Language Support:</strong> All SEO fields support translation. 
+                                Use the language menu to edit content for different languages.
+                            </div>
+                            
+                            <group string="SEO Management Tools">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <button name="action_generate_auto_seo_fields" string="🔄 Regenerate All Auto-SEO" type="object" 
+                                                class="btn btn-primary btn-block" title="Regenerate all auto-SEO fields from current car data"/>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <button name="action_populate_all_auto_fields" string="✨ Populate All Auto-Fields" type="object" 
+                                                class="btn btn-success btn-block" title="Generate suggested name and all auto-SEO fields"/>
+                                    </div>
+                                </div>
+                            </group>
+                            
+                            <group string="Manual SEO Fields (Override Auto-Generated)">
+                                <group string="Primary SEO">
+                                    <field name="meta_title" placeholder="SEO meta title (50-60 characters recommended)"/>
+                                    <field name="meta_description" placeholder="SEO meta description (150-160 characters recommended)"/>
+                                    <field name="meta_keywords" placeholder="SEO keywords separated by commas"/>
+                                    <field name="seo_url_slug" placeholder="URL-friendly slug"/>
+                                    <field name="seo_canonical_url" placeholder="Canonical URL for SEO"/>
+                                </group>
+                                <group string="Social Media (Open Graph)">
+                                    <field name="seo_og_title" placeholder="Title for social media sharing"/>
+                                    <field name="seo_og_description" placeholder="Description for social media sharing"/>
+                                    <field name="seo_og_image" widget="image" class="oe_avatar"/>
+                                </group>
+                            </group>
+                            
+                            <separator string="Auto-Generated SEO Fields (Editable &amp; Multilingual)"/>
+                            <group string="Auto-Generated SEO Content">
+                                <group string="Auto-SEO Fields">
+                                    <field name="auto_meta_title" placeholder="Auto-generated meta title (editable and multilingual)"/>
+                                    <field name="auto_meta_description" placeholder="Auto-generated meta description (editable and multilingual)"/>
+                                    <field name="auto_seo_keywords" placeholder="Auto-generated SEO keywords (editable and multilingual)"/>
+                                </group>
+                                <group string="Generation Info">
+                                    <div class="alert alert-success" role="alert">
+                                        <strong>✨ Smart Auto-Generation:</strong>
+                                        <ul class="mb-0">
+                                            <li><strong>Auto-populates</strong> when you change car attributes</li>
+                                            <li><strong>Fully editable</strong> - customize as needed</li>
+                                            <li><strong>Multilingual</strong> - translate for different languages</li>
+                                            <li><strong>Non-intrusive</strong> - won't overwrite your edits</li>
+                                        </ul>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+
+                        <!-- Specifications Tab -->
+                        <page string="Specifications" name="specifications">
+                            <field name="specification_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="attribute_id" options="{'no_create': True}"/>
+                                    <field name="attribute_value_id" options="{'no_create': True}" 
+                                           domain="[('attribute_id', '=', attribute_id)]"/>
+                                    <field name="custom_value"/>
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="is_highlighted"/>
+                                    <field name="active"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="attribute_id"/>
+                                            <field name="attribute_value_id" domain="[('attribute_id', '=', attribute_id)]"/>
+                                            <field name="custom_value"/>
+                                        </group>
+                                        <group>
+                                            <field name="sequence"/>
+                                            <field name="is_highlighted"/>
+                                            <field name="is_public"/>
+                                            <field name="active"/>
+                                        </group>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <!-- Variants Tab -->
+                        <page string="Color Variants" name="variants">
+                            <field name="variant_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="color_id"/>
+                                    <field name="is_primary"/>
+                                    <field name="price" widget="monetary"/>
+                                    <field name="stock_status" widget="badge"/>
+                                    <field name="qty_available"/>
+                                    <field name="media_count"/>
+                                    <field name="active"/>
+                                </list>
+                                <form>
+                                    <header>
+                                                            <button name="action_set_as_primary" string="Set as Primary" type="object" 
+                            class="btn-primary" invisible="is_primary"/>
+                                    </header>
+                                    <sheet>
+                                        <group>
+                                            <group>
+                                                <field name="color_id"/>
+                                                <field name="is_primary" readonly="1"/>
+                                                <field name="price" widget="monetary"/>
+                                            </group>
+                                            <group>
+                                                <field name="stock_status"/>
+                                                <field name="qty_available"/>
+                                                <field name="product_variant_id" options="{'no_create': True}"/>
+                                                <field name="active"/>
+                                            </group>
+                                        </group>
+                                        <group string="Description &amp; SEO">
+                                            <field name="description" nolabel="1" placeholder="Rich text variant description for SEO..."/>
+                                        </group>
+                                        <notebook>
+                                            <page string="SEO" name="variant_seo">
+                                                <group string="Variant SEO Settings">
+                                                    <group string="Manual SEO Fields">
+                                                        <field name="meta_title" placeholder="Variant meta title"/>
+                                                        <field name="meta_description" placeholder="Variant meta description"/>
+                                                        <field name="meta_keywords" placeholder="Variant keywords"/>
+                                                        <field name="seo_url_slug" placeholder="Variant URL slug"/>
+                                                    </group>
+                                                    <group string="Auto-Generated SEO (Editable &amp; Multilingual)">
+                                                        <field name="auto_meta_title" placeholder="Auto-generated meta title (editable)"/>
+                                                        <field name="auto_meta_description" placeholder="Auto-generated meta description (editable)"/>
+                                                        <field name="auto_seo_keywords" placeholder="Auto-generated keywords (editable)"/>
+                                                        <button name="action_generate_auto_seo_fields" string="🔄 Regenerate" type="object" 
+                                                                class="btn btn-sm btn-primary" title="Regenerate auto-SEO fields"/>
+                                                    </group>
+                                                </group>
+                                            </page>
+                                            <page string="Media" name="media">
+                                                <field name="media_ids" nolabel="1">
+                                                    <list>
+                                                        <field name="name"/>
+                                                        <field name="media_type"/>
+                                                        <field name="content_type"/>
+                                                        <field name="is_primary"/>
+                                                        <field name="active"/>
+                                                    </list>
+                                                </field>
+                                            </page>
+                                            <page string="Inventory" name="inventory">
+                                                <group string="Stock Information">
+                                                    <field name="qty_available" readonly="1"/>
+                                                    <field name="virtual_available" readonly="1"/>
+                                                    <field name="incoming_qty" readonly="1"/>
+                                                    <field name="outgoing_qty" readonly="1"/>
+                                                    <field name="stock_status" readonly="1"/>
+                                                </group>
+                                                <group string="Product Mapping">
+                                                    <field name="product_variant_id"/>
+                                                    <field name="product_template_id" readonly="1"/>
+                                                </group>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+
+                        <!-- Media Tab -->
+                        <page string="Media" name="media">
+                            <field name="media_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="media_type"/>
+                                    <field name="content_type"/>
+                                    <field name="car_variant_id"/>
+                                    <field name="is_primary"/>
+                                    <field name="active"/>
+                                </list>
+                                <form>
+                                    <header>
+                                        <button name="action_set_as_primary" string="Set as Primary" type="object" 
+                                                class="btn-primary" invisible="is_primary"/>
+                                    </header>
+                                    <sheet>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="media_type"/>
+                                            <field name="content_type"/>
+                                            <field name="car_variant_id" domain="[('car_id', '=', car_id)]"/>
+                                        </group>
+                                        <group>
+                                            <field name="video_url"/>
+                                            <field name="external_link"/>
+                                            <field name="sequence"/>
+                                            <field name="active"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="description" placeholder="Media description..."/>
+                                    </group>
+                                        <notebook>
+                                            <page string="Content" name="content">
+                                                <group string="Files">
+                                                    <field name="image" widget="binary" invisible="content_type != 'image'"/>
+                                                    <field name="video_file" widget="binary" invisible="content_type != 'video_file'"/>
+                                                    <field name="document_file" widget="binary" invisible="content_type != 'document'"/>
+                                                </group>
+                                                <group string="External Content" invisible="content_type not in ('video_url', 'external_link', 'iframe_360', 'iframe_code')">
+                                                    <field name="video_url" widget="url" invisible="content_type != 'video_url'"/>
+                                                    <field name="external_link" widget="url" invisible="content_type != 'external_link'"/>
+                                                    <field name="iframe_code" widget="html" invisible="content_type not in ('iframe_360', 'iframe_code')"/>
+                                                </group>
+                                            </page>
+                                            <page string="SEO &amp; Accessibility" name="seo">
+                                                <group>
+                                                    <field name="alt_text"/>
+                                                    <field name="seo_title"/>
+                                                    <field name="seo_description"/>
+                                                </group>
+                                            </page>
+                                        </notebook>
+                                    </sheet>
+                                </form>
+                            </field>
+                        </page>
+
+                        <!-- Offers Tab -->
+                        <page string="Offers" name="offers">
+                            <field name="offer_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="discount_type"/>
+                                    <field name="discount_value"/>
+                                    <field name="original_price" widget="monetary"/>
+                                    <field name="final_price" widget="monetary"/>
+                                    <field name="start_date"/>
+                                    <field name="end_date"/>
+                                    <field name="is_active" widget="boolean"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group>
+                                            <field name="name"/>
+                                            <field name="discount_type"/>
+                                            <field name="discount_value"/>
+                                            <field name="offer_tag"/>
+                                        </group>
+                                        <group>
+                                            <field name="start_date"/>
+                                            <field name="end_date"/>
+                                            <field name="apply_to_all_variants"/>
+                                            <field name="final_price" widget="monetary" readonly="1"/>
+                                        </group>
+                                    </group>
+                                    <group>
+                                        <field name="description" placeholder="Offer description..."/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+
+                        <!-- Analytics Tab -->
+                        <page string="Analytics" name="analytics">
+                            <group string="Completion Statistics">
+                                <field name="total_specifications" readonly="1"/>
+                                <field name="filled_specifications" readonly="1"/>
+                                <field name="specification_completion" widget="progressbar" readonly="1"/>
+                            </group>
+                            <group string="Content Statistics">
+                                <field name="media_count_by_type" readonly="1" widget="text"/>
+                            </group>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+    <!-- Car List View - Enhanced -->
+    <record id="view_alromaih_car_list" model="ir.ui.view">
+        <field name="name">alromaih.car.list</field>
+        <field name="model">alromaih.car</field>
+        <field name="arch" type="xml">
+            <list string="Cars" decoration-muted="not active" decoration-success="status == 'published'" 
+                  decoration-warning="status == 'draft'" decoration-danger="status == 'discontinued'"
+                  decoration-info="status == 'coming_soon'" decoration-bf="status == 'out_of_stock'">
+                <field name="sequence" widget="handle"/>
+                <field name="thumbnail" widget="image" class="oe_avatar"/>
+                <field name="name"/>
+                <field name="suggested_name" optional="hide"/>
+                <field name="brand_id"/>
+                <field name="model_id"/>
+                <field name="year_id"/>
+                <field name="status" widget="badge"/>
+                <field name="cash_price_with_vat" widget="monetary"/>
+                <field name="specification_completion" widget="progressbar"/>
+                <field name="has_active_offer" widget="boolean"/>
+                <field name="is_featured" widget="boolean"/>
+                <field name="meta_title" optional="hide" string="SEO Title"/>
+                <field name="seo_url_slug" optional="hide" string="URL Slug"/>
+                <field name="auto_meta_title" optional="hide" string="Auto SEO Title"/>
+                <field name="auto_meta_description" optional="hide" string="Auto SEO Description"/>
+                <field name="auto_seo_keywords" optional="hide" string="Auto SEO Keywords"/>
+                <field name="active" widget="boolean"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Car Kanban View - Enhanced -->
+    <record id="view_alromaih_car_kanban" model="ir.ui.view">
+        <field name="name">alromaih.car.kanban</field>
+        <field name="model">alromaih.car</field>
+        <field name="arch" type="xml">
+            <kanban default_group_by="status" class="o_kanban_dashboard">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="brand_id"/>
+                <field name="model_id"/>
+                <field name="year_id"/>
+                <field name="status"/>
+                <field name="cash_price_with_vat"/>
+                <field name="specification_completion"/>
+                <field name="has_active_offer"/>
+                <field name="is_featured"/>
+                <field name="active"/>
+                <field name="thumbnail"/>
+                <field name="meta_title"/>
+                <field name="description"/>
+                <field name="color_ids"/>
+                
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <strong><field name="name"/></strong><br/>
+                                        <span class="text-muted">
+                                            <field name="brand_id"/> <field name="model_id"/> <field name="year_id"/>
+                                        </span>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <field name="thumbnail" widget="image" class="oe_kanban_avatar"/>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-6">
+                                        <t t-if="record.is_featured.raw_value">
+                                            <span class="badge badge-warning">Featured</span>
+                                        </t>
+                                        <t t-if="record.has_active_offer.raw_value">
+                                            <span class="badge badge-success">On Offer</span>
+                                        </t>
+                                        <t t-if="record.meta_title.raw_value">
+                                            <span class="badge badge-info">SEO</span>
+                                        </t>
+                                        <t t-if="record.description.raw_value">
+                                            <span class="badge badge-primary">Desc</span>
+                                        </t>
+                                        <t t-if="!record.active.raw_value">
+                                            <span class="badge badge-secondary">Inactive</span>
+                                        </t>
+                                    </div>
+                                    <div class="col-6 text-right">
+                                        <strong>
+                                            <field name="cash_price_with_vat" widget="monetary"/>
+                                        </strong>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <field name="specification_completion" widget="progressbar"/>
+                                        <small class="text-muted">Specifications Complete</small>
+                                    </div>
+                                </div>
+                                <div class="row mt-2" t-if="record.color_ids.raw_value">
+                                    <div class="col-12">
+                                        <small class="text-muted">Colors: </small>
+                                        <span t-esc="record.color_ids.raw_value.length"/> available
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <!-- Car Search View - Enhanced -->
+    <record id="view_alromaih_car_search" model="ir.ui.view">
+        <field name="name">alromaih.car.search</field>
+        <field name="model">alromaih.car</field>
+        <field name="arch" type="xml">
+            <search string="Cars">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="meta_title"/>
+                <field name="meta_keywords"/>
+                <field name="auto_meta_title"/>
+                <field name="auto_meta_description"/>
+                <field name="auto_seo_keywords"/>
+                <field name="suggested_name"/>
+                <field name="brand_id"/>
+                <field name="model_id"/>
+                <field name="year_id"/>
+                <field name="status"/>
+                
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Featured" name="featured" domain="[('is_featured', '=', True)]"/>
+                <filter string="With Offers" name="with_offers" domain="[('has_active_offer', '=', True)]"/>
+                
+                <separator/>
+                
+                <filter string="With Description" name="has_description" domain="[('description', '!=', False)]"/>
+                <filter string="With SEO Title" name="has_seo_title" domain="[('meta_title', '!=', False)]"/>
+                <filter string="With SEO Description" name="has_seo_desc" domain="[('meta_description', '!=', False)]"/>
+                <filter string="SEO Ready" name="seo_ready" domain="[('meta_title', '!=', False), ('meta_description', '!=', False)]"/>
+                <filter string="With Auto-SEO Title" name="has_auto_seo_title" domain="[('auto_meta_title', '!=', False)]"/>
+                <filter string="With Auto-SEO Description" name="has_auto_seo_desc" domain="[('auto_meta_description', '!=', False)]"/>
+                <filter string="Auto-SEO Complete" name="auto_seo_complete" domain="[('auto_meta_title', '!=', False), ('auto_meta_description', '!=', False), ('auto_seo_keywords', '!=', False)]"/>
+                <filter string="With Suggested Name" name="has_suggested_name" domain="[('suggested_name', '!=', False)]"/>
+                
+                <separator/>
+                
+                <filter string="Draft" name="draft" domain="[('status', '=', 'draft')]"/>
+                <filter string="Published" name="published" domain="[('status', '=', 'published')]"/>
+                <filter string="Out of Stock" name="out_of_stock" domain="[('status', '=', 'out_of_stock')]"/>
+                <filter string="Coming Soon" name="coming_soon" domain="[('status', '=', 'coming_soon')]"/>
+                <filter string="Discontinued" name="discontinued" domain="[('status', '=', 'discontinued')]"/>
+                
+                <separator/>
+                
+                <filter string="Spec Completion > 80%" name="high_completion" domain="[('specification_completion', '&gt;', 80)]"/>
+                <filter string="Spec Completion 50-80%" name="medium_completion" domain="[('specification_completion', '&gt;=', 50), ('specification_completion', '&lt;=', 80)]"/>
+                <filter string="Spec Completion &lt; 50%" name="low_completion" domain="[('specification_completion', '&lt;', 50)]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Status" name="group_status" context="{'group_by': 'status'}"/>
+                    <filter string="Brand" name="group_brand" context="{'group_by': 'brand_id'}"/>
+                    <filter string="Model" name="group_model" context="{'group_by': 'model_id'}"/>
+                    <filter string="Year" name="group_year" context="{'group_by': 'year_id'}"/>
+                    <filter string="SEO Status" name="group_seo" context="{'group_by': 'meta_title'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- ========== ACTIONS ========== -->
+    
+    <!-- Main Car Action -->
+    <record id="action_alromaih_car" model="ir.actions.act_window">
+        <field name="name">Cars</field>
+        <field name="res_model">alromaih.car</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first car!
+            </p>
+            <p>
+                Add cars to your inventory with <strong>multilingual names</strong>, rich text descriptions, 
+                and comprehensive <strong>SEO optimization</strong>. Names auto-populate based on brand, model, trim, and year.
+                Manage specifications, media, variants, and offers all in one place.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Car Variant Action -->
+    <record id="action_alromaih_car_variant" model="ir.actions.act_window">
+        <field name="name">Car Variants</field>
+        <field name="res_model">alromaih.car.variant</field>
+        <field name="view_mode">list,form,kanban</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+    
+    <!-- Car Media Action -->
+    <record id="action_alromaih_car_media" model="ir.actions.act_window">
+        <field name="name">Car Media</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+    </record>
+    
+    <!-- Car Offer Action -->
+    <record id="action_alromaih_car_offer" model="ir.actions.act_window">
+        <field name="name">Car Offers</field>
+        <field name="res_model">alromaih.car.offer</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_is_active': 1}</field>
+    </record>
+
+    <!-- Published Cars Action -->
+    <record id="action_published_cars" model="ir.actions.act_window">
+        <field name="name">Published Cars</field>
+        <field name="res_model">alromaih.car</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_published': 1}</field>
+        <field name="domain">[('status', '=', 'published')]</field>
+    </record>
+
+    <!-- Draft Cars Action -->
+    <record id="action_draft_cars" model="ir.actions.act_window">
+        <field name="name">Draft Cars</field>
+        <field name="res_model">alromaih.car</field>
+        <field name="view_mode">list,kanban,form</field>
+        <field name="context">{'search_default_draft': 1}</field>
+        <field name="domain">[('status', '=', 'draft')]</field>
+    </record>
+
+    <!-- SEO Focused Action -->
+    <record id="action_cars_seo" model="ir.actions.act_window">
+        <field name="name">Cars - SEO Management</field>
+        <field name="res_model">alromaih.car</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Manage SEO for your cars!
+            </p>
+            <p>
+                Optimize your car listings for search engines with auto-generated and manual SEO fields.
+                Track completion and improve your online visibility.
+            </p>
+        </field>
+    </record>
+</odoo>

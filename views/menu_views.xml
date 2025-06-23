@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Top Level Menu - Alromaih Cars -->
+    <menuitem id="menu_alromaih_cars_root"
+              name="Alromaih Cars"
+              web_icon="alromaih_cars_dash,static/description/icon.png"
+              sequence="10"/>
+    
+    <!-- Dashboard Menu Item -->
+    <menuitem id="menu_dashboard" 
+              name="Dashboard" 
+              parent="menu_alromaih_cars_root"
+              action="action_alromaih_cars_dashboard"
+              sequence="10"/>
+              
+    <!-- Next.js Dashboard Menu Item -->
+    <menuitem id="menu_nextjs_dashboard" 
+              name="Next.js Dashboard" 
+              parent="menu_alromaih_cars_root"
+              action="action_nextjs_dashboard_iframe"
+              sequence="15"/>
+              
+    <!-- Cars Menu Item -->
+    <menuitem id="menu_cars" 
+              name="Cars" 
+              parent="menu_alromaih_cars_root"
+              sequence="20"/>
+              
+    <!-- Content Management Menu Item -->
+    <menuitem id="menu_content_management" 
+              name="Blogs &amp; Content" 
+              parent="menu_alromaih_cars_root"
+              sequence="25"/>
+              
+    <!-- Offers Menu Item -->
+    <menuitem id="menu_offers" 
+              name="Offers" 
+              parent="menu_alromaih_cars_root"
+              sequence="30"/>
+              
+    <!-- Customers Menu Item -->
+    <menuitem id="menu_customers" 
+              name="Customers" 
+              parent="menu_alromaih_cars_root"
+              sequence="40"/>
+              
+    <!-- Configuration Menu Item -->
+    <menuitem id="menu_configuration" 
+              name="Configuration" 
+              parent="menu_alromaih_cars_root"
+              sequence="50"/>
+              
+    <!-- Settings Menu Item -->
+    <menuitem id="menu_settings" 
+              name="Settings" 
+              parent="menu_alromaih_cars_root"
+              sequence="60"/>
+              
+    <!-- Settings Submenus -->
+    <menuitem id="menu_system_settings" 
+              name="System Configuration" 
+              parent="menu_settings"
+              action="action_alromaih_system_settings_config"
+              sequence="10"/>
+              
+    <menuitem id="menu_settings_management" 
+              name="Settings Management" 
+              parent="menu_settings"
+              action="action_alromaih_system_settings"
+              sequence="20"/>
+              
+    <menuitem id="menu_website_settings" 
+              name="Website Settings" 
+              parent="menu_settings"
+              action="action_alromaih_system_settings_config"
+              sequence="30"/>
+              
+    <menuitem id="menu_mobile_settings" 
+              name="Mobile App Settings" 
+              parent="menu_settings"
+              action="action_alromaih_system_settings_config"
+              sequence="40"/>
+              
+    <menuitem id="menu_analytics_settings" 
+              name="Analytics &amp; Tracking" 
+              parent="menu_settings"
+              action="action_alromaih_system_settings_config"
+              sequence="50"/>
+    
+    <!-- Cars Submenus -->
+    <menuitem id="menu_car" 
+              name="All Cars" 
+              parent="menu_cars" 
+              action="action_alromaih_car" 
+              sequence="10"/>
+              
+    <menuitem id="menu_car_variant" 
+              name="Variants" 
+              parent="menu_cars" 
+              action="action_car_variant" 
+              sequence="20"/>
+              
+    <menuitem id="menu_car_specifications" 
+              name="Specifications" 
+              parent="menu_cars" 
+              action="action_car_specification" 
+              sequence="30"/>
+
+    <menuitem id="menu_car_media" 
+              name="Media" 
+              parent="menu_cars" 
+              action="action_alromaih_car_media" 
+              sequence="40"/>
+
+    <!-- Published Cars -->
+    <menuitem id="menu_published_cars" 
+              name="Published Cars" 
+              parent="menu_cars" 
+              action="action_published_cars" 
+              sequence="50"/>
+
+    <!-- Draft Cars -->
+    <menuitem id="menu_draft_cars" 
+              name="Draft Cars" 
+              parent="menu_cars" 
+              action="action_draft_cars" 
+              sequence="60"/>
+
+    <!-- SEO Management -->
+    <menuitem id="menu_cars_seo" 
+              name="SEO Management" 
+              parent="menu_cars" 
+              action="action_cars_seo" 
+              sequence="70"/>
+    
+    <!-- ========== CONTENT MANAGEMENT SUBMENUS ========== -->
+    
+    <!-- Blogs & Articles Section -->
+    <menuitem id="menu_blogs_section" 
+              name="Blogs &amp; Articles" 
+              parent="menu_content_management" 
+              sequence="10"/>
+              
+    <menuitem id="menu_alromaih_blogs" 
+              name="All Blogs" 
+              parent="menu_blogs_section" 
+              action="action_alromaih_blog" 
+              sequence="10"/>
+              
+    <menuitem id="menu_featured_blogs" 
+              name="Featured Blogs" 
+              parent="menu_blogs_section" 
+              action="action_featured_blogs" 
+              sequence="20"/>
+              
+    <menuitem id="menu_draft_blogs" 
+              name="Draft Blogs" 
+              parent="menu_blogs_section" 
+              action="action_draft_blogs" 
+              sequence="30"/>
+              
+    <menuitem id="menu_blog_categories" 
+              name="Blog Categories" 
+              parent="menu_blogs_section" 
+              action="action_alromaih_blog_category" 
+              sequence="40"/>
+              
+    <menuitem id="menu_blog_tags" 
+              name="Blog Tags" 
+              parent="menu_blogs_section" 
+              action="action_alromaih_blog_tag" 
+              sequence="50"/>
+
+    <menuitem id="menu_blog_comments" 
+              name="Comments" 
+              parent="menu_blogs_section" 
+              action="action_alromaih_blog_comment" 
+              sequence="60"/>
+    
+    <!-- News Section -->
+    <menuitem id="menu_news_section" 
+              name="News Management" 
+              parent="menu_content_management" 
+              sequence="20"/>
+              
+    <menuitem id="menu_alromaih_news" 
+              name="All News" 
+              parent="menu_news_section" 
+              action="action_alromaih_news" 
+              sequence="10"/>
+              
+    <menuitem id="menu_breaking_news" 
+              name="Breaking News" 
+              parent="menu_news_section" 
+              action="action_breaking_news" 
+              sequence="20"/>
+              
+    <menuitem id="menu_featured_news" 
+              name="Featured News" 
+              parent="menu_news_section" 
+              action="action_featured_news" 
+              sequence="30"/>
+              
+    <menuitem id="menu_news_categories" 
+              name="News Categories" 
+              parent="menu_news_section" 
+              action="action_alromaih_news_category" 
+              sequence="40"/>
+              
+    <menuitem id="menu_news_tags" 
+              name="News Tags" 
+              parent="menu_news_section" 
+              action="action_alromaih_news_tag" 
+              sequence="50"/>
+    
+    <!-- Press Releases Section -->
+    <menuitem id="menu_press_section" 
+              name="Press &amp; Media" 
+              parent="menu_content_management" 
+              sequence="30"/>
+              
+    <menuitem id="menu_press_releases" 
+              name="Press Releases" 
+              parent="menu_press_section" 
+              action="action_alromaih_press_release" 
+              sequence="10"/>
+              
+    <menuitem id="menu_press_kit" 
+              name="Press Kit Assets" 
+              parent="menu_press_section" 
+              action="action_alromaih_press_kit" 
+              sequence="20"/>
+    
+    <!-- Offers Submenus -->
+    <menuitem id="menu_car_offer" 
+              name="All Offers" 
+              parent="menu_offers" 
+              action="action_car_offer" 
+              sequence="10"/>
+    
+    <!-- Customers Submenus - Using CRM Leads -->
+    <menuitem id="menu_crm_leads" 
+              name="Car Leads" 
+              parent="menu_customers" 
+              action="crm.crm_lead_all_leads" 
+              sequence="10"/>
+              
+    <menuitem id="menu_crm_opportunities" 
+              name="Opportunities" 
+              parent="menu_customers" 
+              action="crm.crm_lead_opportunities" 
+              sequence="20"/>
+              
+    <menuitem id="menu_crm_pipeline" 
+              name="Pipeline" 
+              parent="menu_customers" 
+              action="crm.crm_lead_action_pipeline" 
+              sequence="30"/>
+              
+    <menuitem id="menu_crm_customers" 
+              name="Customers" 
+              parent="menu_customers" 
+              action="base.action_partner_form" 
+              sequence="40"/>
+    
+    <!-- Configuration Submenus -->
+    <menuitem id="menu_car_brands"
+              name="Car Brands"
+              parent="menu_configuration"
+              action="action_car_brand_view"
+              sequence="10"/>
+              
+    <menuitem id="menu_car_models"
+              name="Car Models"
+              parent="menu_configuration"
+              action="action_car_model_view"
+              sequence="20"/>
+              
+    <menuitem id="menu_car_colors"
+              name="Car Colors"
+              parent="menu_configuration"
+              action="action_car_color_view"
+              sequence="30"/>
+              
+    <menuitem id="menu_car_trim"
+              name="Trims"
+              parent="menu_configuration"
+              action="action_car_trim_view"
+              sequence="40"/>
+              
+    <menuitem id="menu_car_year"
+              name="Years"
+              parent="menu_configuration"
+              action="action_car_year_view"
+              sequence="50"/>
+    <!-- Specifications Menu -->
+    <menuitem id="menu_specifications"
+              name="Specifications"
+              parent="menu_configuration"
+              sequence="90"/>
+              
+    <menuitem id="menu_product_attribute_category"
+              name="Specification Categories"
+              parent="menu_specifications"
+              action="alromaih_cars_inventory.action_product_attribute_category_view"
+              sequence="1"
+              groups="stock.group_stock_manager"/>
+
+    <menuitem id="menu_product_attributes"
+              name="Specifications"
+              parent="menu_specifications"
+              action="alromaih_cars_inventory.action_product_attribute_view"
+              sequence="2"
+              groups="stock.group_stock_manager"/>
+              
+    <menuitem id="menu_product_attribute_unit"
+              name="Units"
+              parent="menu_specifications"
+              action="alromaih_cars_inventory.action_product_attribute_unit"
+              sequence="3"
+              groups="stock.group_stock_manager"/>
+
+    <!-- Specification Templates -->
+    <menuitem id="menu_specification_templates"
+              name="Specification Templates"
+              parent="menu_specifications"
+              action="action_car_specification_template"
+              sequence="4"
+              groups="stock.group_stock_manager"/>
+
+    <!-- Car Specifications -->
+    <menuitem id="menu_car_specifications_all"
+              name="Car Specifications"
+              parent="menu_specifications"
+              action="action_car_specification"
+              sequence="5"
+              groups="stock.group_stock_manager"/>
+
+    <!-- Template Lines -->
+    <menuitem id="menu_specification_template_lines"
+              name="Template Lines"
+              parent="menu_specifications"
+              action="action_car_specification_template_line"
+              sequence="6"
+              groups="stock.group_stock_manager"/>
+</odoo> 

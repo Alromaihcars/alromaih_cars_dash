@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        
+        <!-- Specification Categories -->
+        <!-- 1. Safety -->
+        <record id="spec_category_safety" model="product.attribute.category">
+            <field name="name">السلامة</field>
+            <field name="name" lang="en_US">Safety</field>
+            <field name="sequence">10</field>
+            <field name="icon">fa-shield-alt</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">مواصفات السلامة في السيارة</field>
+            <field name="description" lang="en_US">Vehicle safety specifications</field>
+        </record>
+
+        <!-- 2. Audio and Communication System -->
+        <record id="spec_category_audio" model="product.attribute.category">
+            <field name="name">النظام الصوتي والاتصال</field>
+            <field name="name" lang="en_US">Audio and Communication System</field>
+            <field name="sequence">20</field>
+            <field name="icon">fa-volume-up</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">الأنظمة الصوتية وأنظمة الاتصال</field>
+            <field name="description" lang="en_US">Audio and communication systems</field>
+        </record>
+
+        <!-- 3. Seats -->
+        <record id="spec_category_seats" model="product.attribute.category">
+            <field name="name">المقاعد</field>
+            <field name="name" lang="en_US">Seats</field>
+            <field name="sequence">30</field>
+            <field name="icon">fa-chair</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">مواصفات وميزات المقاعد</field>
+            <field name="description" lang="en_US">Seat specifications and features</field>
+        </record>
+
+        <!-- 4. Comfort and Convenience -->
+        <record id="spec_category_comfort" model="product.attribute.category">
+            <field name="name">السيولة والراحة</field>
+            <field name="name" lang="en_US">Comfort and Convenience</field>
+            <field name="sequence">40</field>
+            <field name="icon">fa-snowflake</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">ميزات الراحة والتيسير</field>
+            <field name="description" lang="en_US">Comfort and convenience features</field>
+        </record>
+
+        <!-- 5. External Equipment -->
+        <record id="spec_category_exterior" model="product.attribute.category">
+            <field name="name">التجهيزات الخارجية</field>
+            <field name="name" lang="en_US">External Equipment</field>
+            <field name="sequence">50</field>
+            <field name="icon">fa-car-side</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">التجهيزات والميزات الخارجية</field>
+            <field name="description" lang="en_US">External equipment and features</field>
+        </record>
+
+        <!-- 6. Structure/Measurements -->
+        <record id="spec_category_dimensions" model="product.attribute.category">
+            <field name="name">الهيكل / القياسات</field>
+            <field name="name" lang="en_US">Structure/Measurements</field>
+            <field name="sequence">60</field>
+            <field name="icon">fa-ruler-combined</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">القياسات والأبعاد الهيكلية</field>
+            <field name="description" lang="en_US">Structural dimensions and measurements</field>
+        </record>
+
+        <!-- 7. Transmission -->
+        <record id="spec_category_transmission" model="product.attribute.category">
+            <field name="name">نقل الحركة</field>
+            <field name="name" lang="en_US">Transmission</field>
+            <field name="sequence">70</field>
+            <field name="icon">fa-cogs</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">أنظمة نقل الحركة والدفع</field>
+            <field name="description" lang="en_US">Transmission and drivetrain systems</field>
+        </record>
+
+        <!-- 8. Engine Specifications -->
+        <record id="spec_category_engine" model="product.attribute.category">
+            <field name="name">مواصفات المحرك</field>
+            <field name="name" lang="en_US">Engine Specifications</field>
+            <field name="sequence">80</field>
+            <field name="icon">fa-tachometer-alt</field>
+            <field name="display_type">technical</field>
+            <field name="website_display_style">tabs</field>
+            <field name="description">مواصفات المحرك والأداء</field>
+            <field name="description" lang="en_US">Engine specifications and performance</field>
+        </record>
+        
+    </data>
+</odoo> 

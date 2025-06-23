@@ -1,0 +1,1004 @@
+@import url('https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ===== ALROMAIH DESIGN SYSTEM - ROOT VARIABLES ===== */
+/* Primary Color: #46194F (Alromaih Purple) */
+/* Secondary Color: #FFFFFF (White) */
+
+:root {
+  /* ===== PRIMARY COLOR PALETTE ===== */
+  --primary-base: #46194f;
+  --primary-50: #f8f5f9;
+  --primary-100: #f0e8f2;
+  --primary-200: #e1d1e5;
+  --primary-300: #d2bad8;
+  --primary-400: #c3a3cb;
+  --primary-500: #b48cbe;
+  --primary-600: #9a6fa8;
+  --primary-700: #7f5292;
+  --primary-800: #65357c;
+  --primary-900: #46194f;
+  --primary-950: #2d0f32;
+
+  /* ===== NEUTRAL COLORS ===== */
+  --white: #ffffff;
+  --light-gray: #f8f9fa;
+  --border-gray: #e9ecef;
+  --text-gray: #6c757d;
+
+  /* ===== SEMANTIC COLORS ===== */
+  --success: #28a745;
+  --warning: #ffc107;
+  --error: #dc3545;
+  --info: #17a2b8;
+
+  /* ===== TEXT COLORS ===== */
+  --text-primary: var(--primary-900);
+  --text-secondary: var(--primary-700);
+  --text-muted: var(--text-gray);
+
+  /* ===== BACKGROUND COLORS ===== */
+  --bg-primary: var(--white);
+  --bg-secondary: var(--light-gray);
+  --bg-tertiary: var(--primary-50);
+
+  /* ===== BORDER COLORS ===== */
+  --border-light: var(--border-gray);
+  --border-medium: var(--primary-200);
+  --border-dark: var(--primary-400);
+
+  /* ===== SPACING SYSTEM ===== */
+  --spacing-xs: 0.25rem; /* 4px */
+  --spacing-sm: 0.5rem; /* 8px */
+  --spacing-md: 0.75rem; /* 12px */
+  --spacing-lg: 1rem; /* 16px */
+  --spacing-xl: 1.5rem; /* 24px */
+  --spacing-2xl: 2rem; /* 32px */
+
+  /* ===== BORDER RADIUS ===== */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-xl: 12px;
+
+  /* ===== SHADOWS ===== */
+  --shadow-sm: 0 1px 2px 0 rgba(70, 25, 79, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(70, 25, 79, 0.1);
+  --shadow-lg: 0 10px 15px -3px rgba(70, 25, 79, 0.1);
+
+  /* ===== TYPOGRAPHY ===== */
+  --font-family-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-family-arabic: "Almarai", system-ui, -apple-system, sans-serif;
+  --font-size-xs: 0.75rem; /* 12px */
+  --font-size-sm: 0.875rem; /* 14px */
+  --font-size-md: 1rem; /* 16px */
+  --font-size-lg: 1.125rem; /* 18px */
+  --font-size-xl: 1.25rem; /* 20px */
+  --font-size-2xl: 1.5rem; /* 24px */
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* ===== TRANSITIONS ===== */
+  --transition-fast: all 0.15s ease-in-out;
+  --transition-normal: all 0.3s ease-in-out;
+
+  /* ===== COMPONENT SPECIFIC ===== */
+  --header-height: 64px;
+  --sidebar-width: 280px;
+  --form-max-width: 1200px;
+
+  /* ===== SHADCN VARIABLES ===== */
+  --background: 0 0% 100%;
+  --foreground: 240 10% 3.9%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 10% 3.9%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 240 10% 3.9%;
+  --primary: 280 100% 20%;
+  --primary-foreground: 0 0% 98%;
+  --secondary: 240 4.8% 95.9%;
+  --secondary-foreground: 240 5.9% 10%;
+  --muted: 240 4.8% 95.9%;
+  --muted-foreground: 240 3.8% 46.1%;
+  --accent: 240 4.8% 95.9%;
+  --accent-foreground: 240 5.9% 10%;
+  --destructive: 0 84.2% 60.2%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 5.9% 90%;
+  --input: 240 5.9% 90%;
+  --ring: 280 100% 20%;
+  --radius: 0.5rem;
+  --sidebar-background: 0 0% 98%;
+  --sidebar-foreground: 240 5.3% 26.1%;
+  --sidebar-primary: 280 100% 20%;
+  --sidebar-primary-foreground: 0 0% 98%;
+  --sidebar-accent: 240 4.8% 95.9%;
+  --sidebar-accent-foreground: 240 5.9% 10%;
+  --sidebar-border: 220 13% 91%;
+  --sidebar-ring: 280 100% 20%;
+}
+
+.dark {
+  --background: 240 10% 3.9%;
+  --foreground: 0 0% 98%;
+  --card: 240 10% 3.9%;
+  --card-foreground: 0 0% 98%;
+  --popover: 240 10% 3.9%;
+  --popover-foreground: 0 0% 98%;
+  --primary: 280 100% 70%;
+  --primary-foreground: 240 5.9% 10%;
+  --secondary: 240 3.7% 15.9%;
+  --secondary-foreground: 0 0% 98%;
+  --muted: 240 3.7% 15.9%;
+  --muted-foreground: 240 5% 64.9%;
+  --accent: 240 3.7% 15.9%;
+  --accent-foreground: 0 0% 98%;
+  --destructive: 0 62.8% 30.6%;
+  --destructive-foreground: 0 0% 98%;
+  --border: 240 3.7% 15.9%;
+  --input: 240 3.7% 15.9%;
+  --ring: 280 100% 70%;
+  --sidebar-background: 240 5.9% 10%;
+  --sidebar-foreground: 240 4.8% 95.9%;
+  --sidebar-primary: 280 100% 70%;
+  --sidebar-primary-foreground: 240 5.9% 10%;
+  --sidebar-accent: 240 3.7% 15.9%;
+  --sidebar-accent-foreground: 240 4.8% 95.9%;
+  --sidebar-border: 240 3.7% 15.9%;
+  --sidebar-ring: 280 100% 70%;
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  /* Force light theme - prevent dark theme */
+  html,
+  html.light,
+  html[data-theme="light"] {
+    color-scheme: light;
+  }
+  
+  /* Disable dark theme completely */
+  html.dark,
+  html[data-theme="dark"] {
+    color-scheme: light !important;
+    /* Override dark theme variables with light theme */
+    --background: 0 0% 100% !important;
+    --foreground: 240 10% 3.9% !important;
+    --card: 0 0% 100% !important;
+    --card-foreground: 240 10% 3.9% !important;
+    --popover: 0 0% 100% !important;
+    --popover-foreground: 240 10% 3.9% !important;
+    --primary: 280 100% 20% !important;
+    --primary-foreground: 0 0% 98% !important;
+    --secondary: 240 4.8% 95.9% !important;
+    --secondary-foreground: 240 5.9% 10% !important;
+    --muted: 240 4.8% 95.9% !important;
+    --muted-foreground: 240 3.8% 46.1% !important;
+    --accent: 240 4.8% 95.9% !important;
+    --accent-foreground: 240 5.9% 10% !important;
+    --destructive: 0 84.2% 60.2% !important;
+    --destructive-foreground: 0 0% 98% !important;
+    --border: 240 5.9% 90% !important;
+    --input: 240 5.9% 90% !important;
+    --ring: 280 100% 20% !important;
+    --sidebar-background: 0 0% 98% !important;
+    --sidebar-foreground: 240 5.3% 26.1% !important;
+    --sidebar-primary: 280 100% 20% !important;
+    --sidebar-primary-foreground: 0 0% 98% !important;
+    --sidebar-accent: 240 4.8% 95.9% !important;
+    --sidebar-accent-foreground: 240 5.9% 10% !important;
+    --sidebar-border: 220 13% 91% !important;
+    --sidebar-ring: 280 100% 20% !important;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-family-sans);
+    background-color: white !important;
+    color: #1a1a1a !important;
+  }
+}
+
+/* ===== UTILITY CLASSES ===== */
+.text-primary {
+  color: var(--text-primary) !important;
+}
+.text-secondary {
+  color: var(--text-secondary) !important;
+}
+.text-muted {
+  color: var(--text-muted) !important;
+}
+.text-white {
+  color: var(--white) !important;
+}
+
+.bg-primary {
+  background-color: var(--primary-900) !important;
+}
+.bg-secondary {
+  background-color: var(--bg-secondary) !important;
+}
+.bg-white {
+  background-color: var(--white) !important;
+}
+
+.rounded-sm {
+  border-radius: var(--radius-sm) !important;
+}
+.rounded-md {
+  border-radius: var(--radius-md) !important;
+}
+.rounded-lg {
+  border-radius: var(--radius-lg) !important;
+}
+
+.shadow-sm {
+  box-shadow: var(--shadow-sm) !important;
+}
+.shadow-md {
+  box-shadow: var(--shadow-md) !important;
+}
+.shadow-lg {
+  box-shadow: var(--shadow-lg) !important;
+}
+
+/* Custom scrollbar styles */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--primary-300);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--primary-500);
+}
+
+/* Loading animations */
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Alromaih specific animations */
+@keyframes alromaih-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.alromaih-fade-in {
+  animation: alromaih-fade-in 0.3s ease-out;
+}
+
+/* Custom focus styles */
+.focus-visible:focus-visible {
+  outline: 2px solid hsl(var(--ring));
+  outline-offset: 2px;
+}
+
+/* ===== RTL SUPPORT ===== */
+
+/* Base RTL styles */
+[dir="rtl"] {
+  text-align: right;
+}
+
+/* Flex direction fixes */
+[dir="rtl"] .flex:not(.flex-col):not(.flex-col-reverse) {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex.items-center {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex.justify-between {
+  flex-direction: row-reverse;
+}
+
+/* Space utilities for RTL */
+[dir="rtl"] .space-x-1 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(0.25rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.25rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+[dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(0.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+[dir="rtl"] .space-x-3 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(0.75rem * var(--tw-space-x-reverse));
+  margin-left: calc(0.75rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+[dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(1rem * var(--tw-space-x-reverse));
+  margin-left: calc(1rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+[dir="rtl"] .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+  --tw-space-x-reverse: 1;
+  margin-right: calc(1.5rem * var(--tw-space-x-reverse));
+  margin-left: calc(1.5rem * calc(1 - var(--tw-space-x-reverse)));
+}
+
+/* Gap utilities for RTL */
+[dir="rtl"] .gap-2 {
+  gap: 0.5rem;
+}
+
+[dir="rtl"] .gap-4 {
+  gap: 1rem;
+}
+
+/* Margin utilities */
+[dir="rtl"] .ml-1 { margin-left: 0; margin-right: 0.25rem; }
+[dir="rtl"] .ml-2 { margin-left: 0; margin-right: 0.5rem; }
+[dir="rtl"] .ml-3 { margin-left: 0; margin-right: 0.75rem; }
+[dir="rtl"] .ml-4 { margin-left: 0; margin-right: 1rem; }
+[dir="rtl"] .ml-6 { margin-left: 0; margin-right: 1.5rem; }
+[dir="rtl"] .ml-8 { margin-left: 0; margin-right: 2rem; }
+[dir="rtl"] .ml-auto { margin-left: 0; margin-right: auto; }
+
+[dir="rtl"] .mr-1 { margin-right: 0; margin-left: 0.25rem; }
+[dir="rtl"] .mr-2 { margin-right: 0; margin-left: 0.5rem; }
+[dir="rtl"] .mr-3 { margin-right: 0; margin-left: 0.75rem; }
+[dir="rtl"] .mr-4 { margin-right: 0; margin-left: 1rem; }
+[dir="rtl"] .mr-6 { margin-right: 0; margin-left: 1.5rem; }
+[dir="rtl"] .mr-8 { margin-right: 0; margin-left: 2rem; }
+[dir="rtl"] .mr-auto { margin-right: 0; margin-left: auto; }
+
+/* Padding utilities */
+[dir="rtl"] .pl-1 { padding-left: 0; padding-right: 0.25rem; }
+[dir="rtl"] .pl-2 { padding-left: 0; padding-right: 0.5rem; }
+[dir="rtl"] .pl-3 { padding-left: 0; padding-right: 0.75rem; }
+[dir="rtl"] .pl-4 { padding-left: 0; padding-right: 1rem; }
+[dir="rtl"] .pl-6 { padding-left: 0; padding-right: 1.5rem; }
+[dir="rtl"] .pl-8 { padding-left: 0; padding-right: 2rem; }
+
+[dir="rtl"] .pr-1 { padding-right: 0; padding-left: 0.25rem; }
+[dir="rtl"] .pr-2 { padding-right: 0; padding-left: 0.5rem; }
+[dir="rtl"] .pr-3 { padding-right: 0; padding-left: 0.75rem; }
+[dir="rtl"] .pr-4 { padding-right: 0; padding-left: 1rem; }
+[dir="rtl"] .pr-6 { padding-right: 0; padding-left: 1.5rem; }
+[dir="rtl"] .pr-8 { padding-right: 0; padding-left: 2rem; }
+
+/* Text alignment */
+[dir="rtl"] .text-left { text-align: right; }
+[dir="rtl"] .text-right { text-align: left; }
+
+/* Positioning utilities */
+[dir="rtl"] .left-0 { left: auto; right: 0; }
+[dir="rtl"] .left-1 { left: auto; right: 0.25rem; }
+[dir="rtl"] .left-2 { left: auto; right: 0.5rem; }
+[dir="rtl"] .left-3 { left: auto; right: 0.75rem; }
+[dir="rtl"] .left-4 { left: auto; right: 1rem; }
+
+[dir="rtl"] .right-0 { right: auto; left: 0; }
+[dir="rtl"] .right-1 { right: auto; left: 0.25rem; }
+[dir="rtl"] .right-2 { right: auto; left: 0.5rem; }
+[dir="rtl"] .right-3 { right: auto; left: 0.75rem; }
+[dir="rtl"] .right-4 { right: auto; left: 1rem; }
+
+/* Border radius for RTL */
+[dir="rtl"] .rounded-l { border-radius: 0 0.25rem 0.25rem 0; }
+[dir="rtl"] .rounded-r { border-radius: 0.25rem 0 0 0.25rem; }
+[dir="rtl"] .rounded-tl { border-radius: 0 0.25rem 0 0; }
+[dir="rtl"] .rounded-tr { border-radius: 0.25rem 0 0 0; }
+[dir="rtl"] .rounded-bl { border-radius: 0 0 0.25rem 0; }
+[dir="rtl"] .rounded-br { border-radius: 0 0 0 0.25rem; }
+
+/* Component-specific RTL fixes */
+[dir="rtl"] .dropdown-menu,
+[dir="rtl"] .popover {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .sidebar {
+  left: auto;
+  right: 0;
+}
+
+[dir="rtl"] .sidebar-toggle {
+  left: auto;
+  right: 1rem;
+}
+
+/* Button groups and flex items */
+[dir="rtl"] .btn-group {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .flex.justify-end {
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .flex.justify-start {
+  justify-content: flex-end;
+}
+
+/* Table RTL support */
+[dir="rtl"] .table th:first-child,
+[dir="rtl"] .table td:first-child {
+  text-align: right;
+}
+
+[dir="rtl"] .table th:last-child,
+[dir="rtl"] .table td:last-child {
+  text-align: left;
+}
+
+[dir="rtl"] .text-right {
+  text-align: left !important;
+}
+
+/* Form elements RTL */
+[dir="rtl"] input,
+[dir="rtl"] textarea,
+[dir="rtl"] select {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] input::placeholder,
+[dir="rtl"] textarea::placeholder {
+  text-align: right;
+  direction: rtl;
+}
+
+[dir="rtl"] .form-control {
+  text-align: right;
+}
+
+/* Icon positioning in inputs */
+[dir="rtl"] .relative .absolute.left-2 {
+  left: auto;
+  right: 0.5rem;
+}
+
+[dir="rtl"] .relative .absolute.left-3 {
+  left: auto;
+  right: 0.75rem;
+}
+
+[dir="rtl"] .relative .absolute.right-2 {
+  right: auto;
+  left: 0.5rem;
+}
+
+[dir="rtl"] .relative .absolute.right-3 {
+  right: auto;
+  left: 0.75rem;
+}
+
+/* Input with icons padding adjustment */
+[dir="rtl"] .pl-8 {
+  padding-left: 0.75rem;
+  padding-right: 2rem;
+}
+
+[dir="rtl"] .pr-8 {
+  padding-right: 0.75rem;
+  padding-left: 2rem;
+}
+
+/* Card and dialog RTL */
+[dir="rtl"] .card-header,
+[dir="rtl"] .card-content,
+[dir="rtl"] .dialog-content {
+  text-align: right;
+}
+
+/* Navigation and breadcrumb */
+[dir="rtl"] .breadcrumb {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .nav-item {
+  margin-left: 0;
+  margin-right: 1rem;
+}
+
+/* Badge and chip positioning */
+[dir="rtl"] .badge {
+  margin-left: 0;
+  margin-right: 0.5rem;
+}
+
+/* RTL Icons - Enhanced */
+[dir="rtl"] .lucide-chevron-left,
+[dir="rtl"] .lucide-chevron-right,
+[dir="rtl"] .lucide-arrow-left,
+[dir="rtl"] .lucide-arrow-right,
+[dir="rtl"] .lucide-caret-left,
+[dir="rtl"] .lucide-caret-right {
+  transform: scaleX(-1);
+}
+
+/* Menu and dropdown items */
+[dir="rtl"] .menu-item,
+[dir="rtl"] .dropdown-item {
+  text-align: right;
+  flex-direction: row-reverse;
+}
+
+/* Grid and layout adjustments */
+[dir="rtl"] .grid {
+  direction: rtl;
+}
+
+[dir="rtl"] .container {
+  direction: rtl;
+}
+
+/* Arabic font optimization - Almarai */
+[dir="rtl"] body,
+[dir="rtl"] .font-sans {
+  font-family: var(--font-family-arabic);
+  font-feature-settings: 'liga' 1, 'kern' 1;
+}
+
+/* Better Arabic text rendering - Override existing */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 700 !important;
+  line-height: 1.5 !important;
+  letter-spacing: 0 !important;
+}
+
+[dir="rtl"] p,
+[dir="rtl"] span,
+[dir="rtl"] div {
+  line-height: 1.6;
+}
+
+/* Number and date inputs should remain LTR */
+[dir="rtl"] input[type="number"],
+[dir="rtl"] input[type="date"],
+[dir="rtl"] input[type="time"],
+[dir="rtl"] input[type="datetime-local"],
+[dir="rtl"] input[type="tel"],
+[dir="rtl"] input[type="url"],
+[dir="rtl"] input[type="email"] {
+  direction: ltr;
+  text-align: left;
+}
+
+/* Sidebar specific RTL fixes */
+[dir="rtl"] .sidebar-menu {
+  direction: rtl;
+}
+
+[dir="rtl"] .sidebar-menu-item {
+  flex-direction: row-reverse;
+}
+
+[dir="rtl"] .sidebar-menu-icon {
+  margin-left: 0.75rem;
+  margin-right: 0;
+}
+
+/* Toast and notification positioning */
+[dir="rtl"] .toast,
+[dir="rtl"] .notification {
+  left: auto;
+  right: 1rem;
+}
+
+/* Modal and dialog positioning */
+[dir="rtl"] .modal-content,
+[dir="rtl"] .dialog-content {
+  text-align: right;
+}
+
+/* Tab navigation */
+[dir="rtl"] .tabs-list {
+  flex-direction: row-reverse;
+}
+
+/* Scrollbar for RTL */
+[dir="rtl"] ::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+[dir="rtl"] ::-webkit-scrollbar-track {
+  background: hsl(var(--muted));
+}
+
+[dir="rtl"] ::-webkit-scrollbar-thumb {
+  background: var(--primary-300);
+  border-radius: 3px;
+}
+
+/* Animation adjustments for RTL */
+[dir="rtl"] .slide-in-right {
+  animation: slideInLeft 0.3s ease-out;
+}
+
+[dir="rtl"] .slide-in-left {
+  animation: slideInRight 0.3s ease-out;
+}
+
+@keyframes slideInLeft {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+}
+
+/* ===== ALMARAI ARABIC FONT UTILITIES ===== */
+.font-arabic {
+  font-family: var(--font-family-arabic) !important;
+}
+
+.text-arabic {
+  font-family: var(--font-family-arabic) !important;
+}
+
+/* Arabic font weights using Almarai */
+.font-arabic-light {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 300 !important;
+}
+
+.font-arabic-normal {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+}
+
+.font-arabic-bold {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 700 !important;
+}
+
+.font-arabic-extrabold {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 800 !important;
+}
+
+/* Apply Almarai font when content is in Arabic */
+[lang="ar"] *,
+[lang="ar-SA"] *,
+[lang="ar-001"] * {
+  font-family: var(--font-family-arabic) !important;
+}
+
+/* Enhanced Arabic text rendering with Almarai */
+[dir="rtl"] h1,
+[dir="rtl"] h2,
+[dir="rtl"] h3,
+[dir="rtl"] h4,
+[dir="rtl"] h5,
+[dir="rtl"] h6 {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 700 !important;
+  line-height: 1.5;
+  letter-spacing: 0;
+}
+
+[dir="rtl"] p,
+[dir="rtl"] span,
+[dir="rtl"] div,
+[dir="rtl"] label,
+[dir="rtl"] button {
+  font-family: var(--font-family-arabic) !important;
+  line-height: 1.7;
+  letter-spacing: 0;
+}
+
+/* Improve text rendering for Arabic */
+[dir="rtl"] * {
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Sidebar Arabic font and spacing */
+[dir="rtl"] .sidebar *,
+[dir="rtl"] .sidebar-menu *,
+[dir="rtl"] .sidebar-menu-item * {
+  font-family: var(--font-family-arabic) !important;
+}
+
+/* Language switcher Arabic font */
+.language-switcher [dir="rtl"] *,
+[dir="rtl"] .language-switcher * {
+  font-family: var(--font-family-arabic) !important;
+}
+
+/* Fix sidebar menu item spacing for Arabic */
+[dir="rtl"] .sidebar-menu-button {
+  text-align: right;
+  justify-content: flex-start;
+}
+
+[dir="rtl"] .sidebar-menu-sub-button {
+  text-align: right;
+  justify-content: flex-start;
+}
+
+/* Card and component improvements for RTL */
+[dir="rtl"] .card-title,
+[dir="rtl"] .card-description {
+  text-align: right;
+}
+
+[dir="rtl"] .flex.items-center.justify-between {
+  flex-direction: row-reverse;
+}
+
+/* Badge positioning for RTL */
+[dir="rtl"] .badge {
+  margin-left: 0.5rem;
+  margin-right: 0;
+}
+
+/* Button text alignment for RTL */
+[dir="rtl"] .button,
+[dir="rtl"] button {
+  text-align: center;
+}
+
+[dir="rtl"] .justify-start {
+  justify-content: flex-end;
+}
+
+[dir="rtl"] .justify-end {
+  justify-content: flex-start;
+}
+
+/* Stats cards and dashboard improvements */
+[dir="rtl"] .stats-card {
+  text-align: right;
+}
+
+[dir="rtl"] .dashboard-header {
+  text-align: right;
+}
+
+/* Breadcrumb improvements */
+[dir="rtl"] .breadcrumb-separator {
+  transform: scaleX(-1);
+}
+
+/* Table improvements for RTL */
+[dir="rtl"] .table {
+  text-align: right;
+}
+
+[dir="rtl"] .table th,
+[dir="rtl"] .table td {
+  text-align: right;
+}
+
+/* Form improvements */
+[dir="rtl"] .form-label {
+  text-align: right;
+}
+
+[dir="rtl"] .form-description {
+  text-align: right;
+}
+
+/* Dropdown and select improvements */
+[dir="rtl"] .dropdown-menu {
+  text-align: right;
+}
+
+[dir="rtl"] .select-content {
+  text-align: right;
+}
+
+/* Chart and analytics improvements */
+[dir="rtl"] .chart-container {
+  direction: ltr; /* Keep charts LTR for proper data visualization */
+}
+
+[dir="rtl"] .chart-legend {
+  direction: rtl;
+  text-align: right;
+}
+
+/* Toast and notification improvements */
+[dir="rtl"] .toast {
+  text-align: right;
+}
+
+[dir="rtl"] .notification {
+  text-align: right;
+}
+
+/* ===== SPECIFIC COMPONENT FIXES FOR ARABIC ===== */
+
+/* Dashboard page improvements */
+[dir="rtl"] .dashboard-title {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 800 !important;
+  font-size: 2rem !important;
+  line-height: 1.4 !important;
+}
+
+[dir="rtl"] .dashboard-description {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+  line-height: 1.6 !important;
+}
+
+/* Stats cards specific improvements */
+[dir="rtl"] .stats-card-title {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+}
+
+[dir="rtl"] .stats-card-value {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 800 !important;
+  font-size: 2rem !important;
+  direction: ltr !important; /* Keep numbers LTR */
+  text-align: center !important;
+}
+
+[dir="rtl"] .stats-card-description {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+  font-size: 0.75rem !important;
+}
+
+/* Card headers and content */
+[dir="rtl"] .card h3,
+[dir="rtl"] .card-header h3 {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 700 !important;
+  font-size: 1.125rem !important;
+}
+
+[dir="rtl"] .card p,
+[dir="rtl"] .card-description p {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+  font-size: 0.875rem !important;
+}
+
+/* Sidebar menu improvements */
+[dir="rtl"] .sidebar-group-label {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 600 !important;
+  font-size: 0.75rem !important;
+  text-transform: none !important;
+}
+
+[dir="rtl"] .sidebar-menu-item span {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+  font-size: 0.875rem !important;
+}
+
+/* Language switcher improvements */
+[dir="rtl"] .language-switcher span {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+}
+
+/* Button text improvements */
+[dir="rtl"] .btn span,
+[dir="rtl"] button span {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+}
+
+/* Badge text improvements */
+[dir="rtl"] .badge {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+  font-size: 0.75rem !important;
+}
+
+/* Chart and data visualization */
+[dir="rtl"] .chart-title {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 700 !important;
+  text-align: right !important;
+}
+
+[dir="rtl"] .chart-label {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+}
+
+/* Activity and recent items */
+[dir="rtl"] .activity-item-title {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 600 !important;
+}
+
+[dir="rtl"] .activity-item-description {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+}
+
+/* Offers and promotions */
+[dir="rtl"] .offer-title {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 600 !important;
+}
+
+[dir="rtl"] .offer-description {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+}
+
+/* Numbers and currency should remain LTR */
+[dir="rtl"] .currency,
+[dir="rtl"] .number,
+[dir="rtl"] .percentage {
+  direction: ltr !important;
+  font-family: 'Inter', sans-serif !important;
+  unicode-bidi: embed;
+}
+
+/* Breadcrumb improvements */
+[dir="rtl"] .breadcrumb-item {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+}
+
+/* Search input improvements */
+[dir="rtl"] .search-input::placeholder {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 400 !important;
+}
+
+/* Dropdown menu items */
+[dir="rtl"] .dropdown-menu-item {
+  font-family: var(--font-family-arabic) !important;
+  font-weight: 500 !important;
+  text-align: right !important;
+}

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Car Brand List View -->
+    <record id="view_car_brand_list" model="ir.ui.view">
+        <field name="name">car.brand.list</field>
+        <field name="model">car.brand</field>
+        <field name="type">list</field>
+        <field name="arch" type="xml">
+            <list string="Car Brands">
+                <field name="name"/>
+                <field name="slug"/>
+                <field name="logo" widget="image" class="oe_avatar" options="{'size': [100, 100], 'size_small': [50, 50]}"/>
+                <field name="active"/>
+                <field name="description"/>
+            </list>
+        </field>
+    </record>
+
+    <!-- Car Brand Form View -->
+    <record id="view_car_brand_form" model="ir.ui.view">
+        <field name="name">car.brand.form</field>
+        <field name="model">car.brand</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Car Brand">
+                <sheet>
+                    <field name="logo" widget="image" class="oe_avatar" options="{'size': [100, 100], 'size_small': [50, 50]}"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="اسم العلامة التجارية"/>
+                        </h1>
+                        <h2>
+                            <field name="slug" readonly="1"/>
+                        </h2>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="active"/>
+                            <field name="description"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Car Brand Search View -->
+    <record id="view_car_brand_search" model="ir.ui.view">
+        <field name="name">car.brand.search</field>
+        <field name="model">car.brand</field>
+        <field name="type">search</field>
+        <field name="arch" type="xml">
+            <search string="Car Brands">
+                <field name="name"/>
+                <field name="slug"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Car Brand Action -->
+    <record id="action_car_brand_view" model="ir.actions.act_window">
+        <field name="name">Car Brands</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">car.brand</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_car_brand_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first car brand!
+            </p>
+        </field>
+    </record>
+</odoo>

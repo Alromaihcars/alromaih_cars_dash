@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- List View -->
+    <record id="view_car_trim_list" model="ir.ui.view">
+        <field name="name">car.trim.list</field>
+        <field name="model">car.trim</field>
+        <field name="arch" type="xml">
+            <list string="Car Trims">
+                <field name="name"/>
+                <field name="model_id"/>
+                <field name="active"/>
+                <field name="description"/>
+                </list>
+        </field>
+    </record>
+
+    <!-- Form View -->
+    <record id="view_car_trim_form" model="ir.ui.view">
+        <field name="name">car.trim.form</field>
+        <field name="model">car.trim</field>
+        <field name="arch" type="xml">
+            <form string="Car Trim">
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" placeholder="اسم الفئة"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <field name="model_id"/>
+                        <field name="active"/>
+                        <field name="description"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Search View -->
+    <record id="view_car_trim_search" model="ir.ui.view">
+        <field name="name">car.trim.search</field>
+        <field name="model">car.trim</field>
+        <field name="arch" type="xml">
+            <search string="Car Trims">
+                <field name="name"/>
+                <field name="model_id"/>
+                <filter string="Archived" name="inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <!-- Action -->
+    <record id="action_car_trim_view" model="ir.actions.act_window">
+        <field name="name">Car Trims</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">car.trim</field>
+        <field name="view_mode">list,form</field>
+        <field name="search_view_id" ref="view_car_trim_search"/>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first car trim!
+            </p>
+        </field>
+    </record>
+</odoo>

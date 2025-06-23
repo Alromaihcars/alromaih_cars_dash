@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- Car Dashboard Menu Action -->
+    <record id="action_alromaih_cars_dashboard" model="ir.actions.act_window">
+        <field name="name">Cars Dashboard</field>
+        <field name="res_model">alromaih.car</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Welcome to Alromaih Cars Dashboard!
+            </p>
+            <p>
+                Manage your car inventory, track sales, and monitor performance
+                with our comprehensive dashboard system.
+            </p>
+        </field>
+    </record>
+
+    <!-- Next.js Dashboard iFrame Form View -->
+    <record id="view_nextjs_dashboard_iframe_form" model="ir.ui.view">
+        <field name="name">Next.js Dashboard Form</field>
+        <field name="model">alromaih.iframe.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Next.js Dashboard" create="false" edit="false" delete="false">
+                <sheet style="padding: 0; margin: 0;">
+                    <div class="o_form_sheet" style="padding: 0; margin: 0; background: white;">
+                        <iframe 
+                            src="http://92.112.192.192:3002"
+                            style="width: 100%; height: 90vh; border: none; margin: 0; padding: 0; display: block;"
+                            frameborder="0"
+                            allowfullscreen="true"
+                            allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation allow-downloads">
+                            <p>Your browser does not support iframes. Please visit 
+                               <a href="http://92.112.192.192:3002" target="_blank">Next.js Dashboard</a> directly.
+                            </p>
+                        </iframe>
+                    </div>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Next.js Dashboard Action -->
+    <record id="action_nextjs_dashboard_iframe" model="ir.actions.act_window">
+        <field name="name">Next.js Dashboard</field>
+        <field name="res_model">alromaih.iframe.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_nextjs_dashboard_iframe_form"/>
+        <field name="target">current</field>
+        <field name="context">{'create': False, 'edit': False, 'delete': False}</field>
+        <field name="domain">[('id', '=', 1)]</field>
+        <field name="limit">1</field>
+    </record>
+</odoo> 

@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- System Settings Form View -->
+        <record id="view_alromaih_system_settings_form" model="ir.ui.view">
+            <field name="name">alromaih.system.settings.form</field>
+            <field name="model">alromaih.system.settings</field>
+            <field name="arch" type="xml">
+                <form string="System Settings">
+                    <header>
+                        <field name="active" widget="boolean_toggle"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button type="object" name="get_settings" class="oe_stat_button" icon="fa-cog">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_text">Settings</span>
+                                    <span class="o_stat_value">Active</span>
+                                </div>
+                            </button>
+                        </div>
+                        
+                        <field name="website_logo" widget="image" class="oe_avatar" 
+                               options="{'preview_image': 'website_logo', 'size': [120, 120]}"/>
+                        
+                        <div class="oe_title">
+                            <label for="display_name" class="oe_edit_only"/>
+                            <h1>
+                                <field name="display_name" placeholder="System Settings Name"/>
+                            </h1>
+                            <h3>
+                                <field name="website_name" placeholder="Website Name" class="text-muted"/>
+                            </h3>
+                        </div>
+                        
+                        <notebook>
+                            <!-- Website Settings Tab -->
+                            <page string="🌐 Website Settings" name="website">
+                                <group>
+                                    <group string="Basic Information">
+                                        <field name="website_name" required="1"/>
+                                        <field name="website_logo" widget="image"/>
+                                        <field name="website_favicon" widget="image"/>
+                                    </group>
+                                    <group string="Contact Information">
+                                        <field name="company_email" widget="email"/>
+                                        <field name="company_phone" widget="phone"/>
+                                        <field name="company_address" widget="text" rows="3"/>
+                                    </group>
+                                </group>
+                                
+                                <group>
+                                    <group string="Colors &amp; Theme">
+                                        <field name="primary_color" widget="color"/>
+                                        <field name="secondary_color" widget="color"/>
+                                        <field name="footer_text" widget="text" rows="2"/>
+                                    </group>
+                                    <group string="Social Media Links">
+                                        <field name="facebook_url" widget="url" placeholder="https://facebook.com/yourpage"/>
+                                        <field name="twitter_url" widget="url" placeholder="https://twitter.com/yourhandle"/>
+                                        <field name="instagram_url" widget="url" placeholder="https://instagram.com/yourpage"/>
+                                        <field name="youtube_url" widget="url" placeholder="https://youtube.com/yourchannel"/>
+                                    </group>
+                                </group>
+                                
+                                <group string="SEO Settings" col="1">
+                                    <group>
+                                        <field name="meta_title" placeholder="Your Site Title - Brand Name"/>
+                                        <field name="meta_description" widget="text" rows="3" 
+                                               placeholder="Brief description of your website (150-160 characters)"/>
+                                        <field name="meta_keywords" placeholder="keyword1, keyword2, keyword3"/>
+                                    </group>
+                                </group>
+                            </page>
+                            
+                            <!-- Mobile App Settings Tab -->
+                            <page string="📱 Mobile App" name="mobile">
+                                <group>
+                                    <group string="App Branding">
+                                        <field name="app_name"/>
+                                        <field name="app_logo" widget="image"/>
+                                        <field name="app_splash_screen" widget="image"/>
+                                    </group>
+                                    <group string="App Theme">
+                                        <field name="app_primary_color" widget="color"/>
+                                        <field name="app_secondary_color" widget="color"/>
+                                    </group>
+                                </group>
+                                
+                                <separator string="Version Management"/>
+                                <group>
+                                    <group string="Android Version Control">
+                                        <field name="android_app_version" placeholder="1.0.0"/>
+                                        <field name="android_min_version" placeholder="1.0.0"/>
+                                    </group>
+                                    <group string="iOS Version Control">
+                                        <field name="ios_app_version" placeholder="1.0.0"/>
+                                        <field name="ios_min_version" placeholder="1.0.0"/>
+                                        <field name="force_update"/>
+                                    </group>
+                                </group>
+                                
+                                <separator string="App Configuration"/>
+                                <group>
+                                    <group string="Content Settings">
+                                        <field name="cars_per_page"/>
+                                    </group>
+                                    <group string="Analytics">
+                                        <field name="app_analytics_enabled"/>
+                                        <field name="firebase_analytics_id" 
+                                               invisible="not app_analytics_enabled"
+                                               placeholder="Your Firebase Analytics ID"/>
+                                    </group>
+                                </group>
+                                
+                                <separator string="Feature Toggles"/>
+                                <group>
+                                    <group string="Communication Features">
+                                        <field name="enable_app_notifications"/>
+                                        <field name="enable_in_app_chat"/>
+                                    </group>
+                                    <group string="Car Features">
+                                        <field name="enable_car_comparison"/>
+                                        <field name="enable_app_booking"/>
+                                        <field name="enable_app_reviews"/>
+                                    </group>
+                                </group>
+                                
+                                <separator string="API Integration"/>
+                                <group string="Authentication &amp; Notifications">
+                                    <field name="clerk_api_key" password="True" placeholder="Your Clerk API Key"/>
+                                    <field name="push_notification_key" password="True" placeholder="Your Push Notification Key"/>
+                                </group>
+                                
+                                <div class="alert alert-warning" role="alert">
+                                    <strong>Security Notice:</strong> API keys are sensitive information. Keep them secure and never share them publicly.
+                                </div>
+                            </page>
+                            
+                            <!-- Analytics Settings Tab -->
+                            <page string="📊 Analytics" name="analytics">
+                                <group string="Website Analytics">
+                                    <field name="google_analytics_id" placeholder="G-XXXXXXXXXX or UA-XXXXXXXXX-X"/>
+                                </group>
+                                
+                                <separator string="Social Media Tracking Pixels"/>
+                                <group>
+                                    <group string="Meta &amp; Social Platforms">
+                                        <field name="meta_pixel_id" placeholder="Your Meta (Facebook) Pixel ID"/>
+                                        <field name="linkedin_pixel_id" placeholder="Your LinkedIn Pixel ID"/>
+                                        <field name="x_pixel_id" placeholder="Your X (Twitter) Pixel ID"/>
+                                    </group>
+                                    <group string="Other Platforms">
+                                        <field name="tiktok_pixel_id" placeholder="Your TikTok Pixel ID"/>
+                                        <field name="snapchat_pixel_id" placeholder="Your Snapchat Pixel ID"/>
+                                    </group>
+                                </group>
+                                
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Privacy Notice:</strong> Make sure to comply with local privacy laws (GDPR, CCPA, etc.) when implementing tracking pixels. 
+                                    Consider implementing cookie consent banners and respecting user privacy preferences.
+                                </div>
+                                
+                                <div class="alert alert-success" role="alert">
+                                    <strong>Pro Tip:</strong> Test your tracking pixels implementation using browser developer tools 
+                                    or pixel helper extensions to ensure they're working correctly.
+                                </div>
+                            </page>
+                            
+                            <!-- System Info Tab -->
+                            <page string="⚙️ System Info" name="system">
+                                <group>
+                                    <group string="Record Information">
+                                        <field name="id" readonly="1"/>
+                                        <field name="active"/>
+                                        <field name="create_date" readonly="1"/>
+                                        <field name="write_date" readonly="1"/>
+                                    </group>
+                                    <group string="Quick Actions">
+                                        <!-- Add quick action buttons here if needed -->
+                                    </group>
+                                </group>
+                                
+                                <div class="alert alert-info" role="alert">
+                                    <strong>Singleton Pattern:</strong> Only one active system settings record is allowed. 
+                                    Creating a new record will automatically deactivate the previous one.
+                                </div>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+            </field>
+        </record>
+
+        <!-- System Settings Tree View -->
+        <record id="view_alromaih_system_settings_tree" model="ir.ui.view">
+            <field name="name">alromaih.system.settings.tree</field>
+            <field name="model">alromaih.system.settings</field>
+            <field name="arch" type="xml">
+                <list string="System Settings" default_order="create_date desc">
+                    <field name="display_name"/>
+                    <field name="website_name"/>
+                    <field name="app_name"/>
+                    <field name="company_email"/>
+                    <field name="company_phone"/>
+                    <field name="active" widget="boolean_toggle"/>
+                    <field name="create_date"/>
+                    <field name="write_date"/>
+                </list>
+            </field>
+        </record>
+
+        <!-- System Settings Search View -->
+        <record id="view_alromaih_system_settings_search" model="ir.ui.view">
+            <field name="name">alromaih.system.settings.search</field>
+            <field name="model">alromaih.system.settings</field>
+            <field name="arch" type="xml">
+                <search string="System Settings">
+                    <field name="display_name" string="Settings Name"/>
+                    <field name="website_name" string="Website"/>
+                    <field name="app_name" string="App"/>
+                    <field name="company_email" string="Email"/>
+                    
+                    <filter name="active" string="Active" domain="[('active', '=', True)]"/>
+                    <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+                    
+                    <group expand="0" string="Group By">
+                        <filter name="group_by_active" string="Status" domain="[]" context="{'group_by': 'active'}"/>
+                        <filter name="group_by_create_date" string="Creation Date" domain="[]" context="{'group_by': 'create_date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <!-- System Settings Action -->
+        <record id="action_alromaih_system_settings" model="ir.actions.act_window">
+            <field name="name">System Settings</field>
+            <field name="res_model">alromaih.system.settings</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="view_alromaih_system_settings_tree"/>
+            <field name="search_view_id" ref="view_alromaih_system_settings_search"/>
+            <field name="target">current</field>
+            <field name="context">{'search_default_active': 1}</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    Configure your system settings
+                </p>
+                <p>
+                    Set up website information, mobile app configuration, and analytics tracking.
+                    Only one active settings record is allowed at a time.
+                </p>
+                <p>
+                    <a type="action" data-method="create" class="btn btn-primary">
+                        Create Settings Record
+                    </a>
+                </p>
+            </field>
+        </record>
+
+        <!-- Settings Configuration Action (Singleton) -->
+        <record id="action_alromaih_system_settings_config" model="ir.actions.act_window">
+            <field name="name">Configure System</field>
+            <field name="res_model">alromaih.system.settings</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="view_alromaih_system_settings_form"/>
+            <field name="target">current</field>
+            <field name="context">{'form_view_initial_mode': 'edit'}</field>
+            <field name="domain">[('active', '=', True)]</field>
+            <field name="help" type="html">
+                <p class="o_view_nocontent_smiling_face">
+                    No active system settings found
+                </p>
+                <p>
+                    Create your first system settings configuration to get started.
+                </p>
+            </field>
+        </record>
+    </data>
+</odoo> 

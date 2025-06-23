@@ -1,0 +1,660 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Empty file for clean upgrade -->
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR SAFETY ATTRIBUTES -->
+        <!-- =================================================================== -->
+        
+        <!-- Yes/No values for safety features -->
+        <record id="value_yes" model="product.attribute.value">
+            <field name="name">نعم</field>
+            <field name="name" lang="en_US">Yes</field>
+            <field name="attribute_id" ref="attr_driver_airbag"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_no" model="product.attribute.value">
+            <field name="name">لا</field>
+            <field name="name" lang="en_US">No</field>
+            <field name="attribute_id" ref="attr_driver_airbag"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <!-- Copy Yes/No values for other safety attributes -->
+        <record id="value_passenger_airbag_yes" model="product.attribute.value">
+            <field name="name">نعم</field>
+            <field name="name" lang="en_US">Yes</field>
+            <field name="attribute_id" ref="attr_passenger_airbag"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_passenger_airbag_no" model="product.attribute.value">
+            <field name="name">لا</field>
+            <field name="name" lang="en_US">No</field>
+            <field name="attribute_id" ref="attr_passenger_airbag"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <!-- Side Airbags -->
+        <record id="value_side_airbags_front" model="product.attribute.value">
+            <field name="name">أمامية فقط</field>
+            <field name="name" lang="en_US">Front Only</field>
+            <field name="attribute_id" ref="attr_side_airbags"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_side_airbags_all" model="product.attribute.value">
+            <field name="name">جميع المقاعد</field>
+            <field name="name" lang="en_US">All Seats</field>
+            <field name="attribute_id" ref="attr_side_airbags"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_side_airbags_none" model="product.attribute.value">
+            <field name="name">غير متوفر</field>
+            <field name="name" lang="en_US">Not Available</field>
+            <field name="attribute_id" ref="attr_side_airbags"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR AUDIO SYSTEM -->
+        <!-- =================================================================== -->
+        
+        <!-- Radio System -->
+        <record id="value_radio_am_fm" model="product.attribute.value">
+            <field name="name">AM/FM</field>
+            <field name="name" lang="en_US">AM/FM</field>
+            <field name="attribute_id" ref="attr_radio_system"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_radio_digital" model="product.attribute.value">
+            <field name="name">راديو رقمي</field>
+            <field name="name" lang="en_US">Digital Radio</field>
+            <field name="attribute_id" ref="attr_radio_system"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_radio_internet" model="product.attribute.value">
+            <field name="name">راديو إنترنت</field>
+            <field name="name" lang="en_US">Internet Radio</field>
+            <field name="attribute_id" ref="attr_radio_system"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- USB Ports -->
+        <record id="value_usb_1" model="product.attribute.value">
+            <field name="name">1</field>
+            <field name="name" lang="en_US">1</field>
+            <field name="attribute_id" ref="attr_usb_ports"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_usb_2" model="product.attribute.value">
+            <field name="name">2</field>
+            <field name="name" lang="en_US">2</field>
+            <field name="attribute_id" ref="attr_usb_ports"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_usb_3_plus" model="product.attribute.value">
+            <field name="name">3+</field>
+            <field name="name" lang="en_US">3+</field>
+            <field name="attribute_id" ref="attr_usb_ports"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- Speaker Count -->
+        <record id="value_speakers_4" model="product.attribute.value">
+            <field name="name">4</field>
+            <field name="name" lang="en_US">4</field>
+            <field name="attribute_id" ref="attr_speakers_count"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_speakers_6" model="product.attribute.value">
+            <field name="name">6</field>
+            <field name="name" lang="en_US">6</field>
+            <field name="attribute_id" ref="attr_speakers_count"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_speakers_8" model="product.attribute.value">
+            <field name="name">8</field>
+            <field name="name" lang="en_US">8</field>
+            <field name="attribute_id" ref="attr_speakers_count"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_speakers_premium" model="product.attribute.value">
+            <field name="name">نظام صوتي متميز</field>
+            <field name="name" lang="en_US">Premium Sound System</field>
+            <field name="attribute_id" ref="attr_speakers_count"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Touchscreen -->
+        <record id="value_touchscreen_7" model="product.attribute.value">
+            <field name="name">7 بوصة</field>
+            <field name="name" lang="en_US">7 inch</field>
+            <field name="attribute_id" ref="attr_touchscreen"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_touchscreen_8" model="product.attribute.value">
+            <field name="name">8 بوصة</field>
+            <field name="name" lang="en_US">8 inch</field>
+            <field name="attribute_id" ref="attr_touchscreen"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_touchscreen_10" model="product.attribute.value">
+            <field name="name">10 بوصة</field>
+            <field name="name" lang="en_US">10 inch</field>
+            <field name="attribute_id" ref="attr_touchscreen"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_touchscreen_none" model="product.attribute.value">
+            <field name="name">غير متوفر</field>
+            <field name="name" lang="en_US">Not Available</field>
+            <field name="attribute_id" ref="attr_touchscreen"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR SEATS -->
+        <!-- =================================================================== -->
+        
+        <!-- Seating Capacity -->
+        <record id="value_seats_2" model="product.attribute.value">
+            <field name="name">2</field>
+            <field name="name" lang="en_US">2</field>
+            <field name="attribute_id" ref="attr_seating_capacity"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_seats_4" model="product.attribute.value">
+            <field name="name">4</field>
+            <field name="name" lang="en_US">4</field>
+            <field name="attribute_id" ref="attr_seating_capacity"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_seats_5" model="product.attribute.value">
+            <field name="name">5</field>
+            <field name="name" lang="en_US">5</field>
+            <field name="attribute_id" ref="attr_seating_capacity"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_seats_7" model="product.attribute.value">
+            <field name="name">7</field>
+            <field name="name" lang="en_US">7</field>
+            <field name="attribute_id" ref="attr_seating_capacity"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="value_seats_8" model="product.attribute.value">
+            <field name="name">8</field>
+            <field name="name" lang="en_US">8</field>
+            <field name="attribute_id" ref="attr_seating_capacity"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <!-- Seat Material -->
+        <record id="value_seat_fabric" model="product.attribute.value">
+            <field name="name">قماش</field>
+            <field name="name" lang="en_US">Fabric</field>
+            <field name="attribute_id" ref="attr_seat_material"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_seat_leather" model="product.attribute.value">
+            <field name="name">جلد طبيعي</field>
+            <field name="name" lang="en_US">Genuine Leather</field>
+            <field name="attribute_id" ref="attr_seat_material"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_seat_synthetic" model="product.attribute.value">
+            <field name="name">جلد صناعي</field>
+            <field name="name" lang="en_US">Synthetic Leather</field>
+            <field name="attribute_id" ref="attr_seat_material"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_seat_alcantara" model="product.attribute.value">
+            <field name="name">ألكانتارا</field>
+            <field name="name" lang="en_US">Alcantara</field>
+            <field name="attribute_id" ref="attr_seat_material"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Driver Seat Adjustment -->
+        <record id="value_seat_manual" model="product.attribute.value">
+            <field name="name">يدوي</field>
+            <field name="name" lang="en_US">Manual</field>
+            <field name="attribute_id" ref="attr_driver_seat_adjustment"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_seat_6way" model="product.attribute.value">
+            <field name="name">كهربائي 6 اتجاهات</field>
+            <field name="name" lang="en_US">6-Way Power</field>
+            <field name="attribute_id" ref="attr_driver_seat_adjustment"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_seat_8way" model="product.attribute.value">
+            <field name="name">كهربائي 8 اتجاهات</field>
+            <field name="name" lang="en_US">8-Way Power</field>
+            <field name="attribute_id" ref="attr_driver_seat_adjustment"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_seat_12way" model="product.attribute.value">
+            <field name="name">كهربائي 12 اتجاه</field>
+            <field name="name" lang="en_US">12-Way Power</field>
+            <field name="attribute_id" ref="attr_driver_seat_adjustment"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Heated Seats (Multi-select) -->
+        <record id="value_heated_front" model="product.attribute.value">
+            <field name="name">المقاعد الأمامية</field>
+            <field name="name" lang="en_US">Front Seats</field>
+            <field name="attribute_id" ref="attr_heated_seats"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_heated_rear" model="product.attribute.value">
+            <field name="name">المقاعد الخلفية</field>
+            <field name="name" lang="en_US">Rear Seats</field>
+            <field name="attribute_id" ref="attr_heated_seats"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR COMFORT -->
+        <!-- =================================================================== -->
+        
+        <!-- Air Conditioning -->
+        <record id="value_ac_manual" model="product.attribute.value">
+            <field name="name">تكييف يدوي</field>
+            <field name="name" lang="en_US">Manual AC</field>
+            <field name="attribute_id" ref="attr_air_conditioning"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_ac_automatic" model="product.attribute.value">
+            <field name="name">تكييف أوتوماتيكي</field>
+            <field name="name" lang="en_US">Automatic Climate Control</field>
+            <field name="attribute_id" ref="attr_air_conditioning"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_ac_dual_zone" model="product.attribute.value">
+            <field name="name">مناخ ثنائي المنطقة</field>
+            <field name="name" lang="en_US">Dual Zone Climate</field>
+            <field name="attribute_id" ref="attr_air_conditioning"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- Power Steering -->
+        <record id="value_ps_hydraulic" model="product.attribute.value">
+            <field name="name">هيدروليكي</field>
+            <field name="name" lang="en_US">Hydraulic</field>
+            <field name="attribute_id" ref="attr_power_steering"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_ps_electric" model="product.attribute.value">
+            <field name="name">كهربائي</field>
+            <field name="name" lang="en_US">Electric</field>
+            <field name="attribute_id" ref="attr_power_steering"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_ps_variable" model="product.attribute.value">
+            <field name="name">متغير السرعة</field>
+            <field name="name" lang="en_US">Variable Speed</field>
+            <field name="attribute_id" ref="attr_power_steering"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- Power Windows (Multi-select) -->
+        <record id="value_pw_front" model="product.attribute.value">
+            <field name="name">النوافذ الأمامية</field>
+            <field name="name" lang="en_US">Front Windows</field>
+            <field name="attribute_id" ref="attr_power_windows"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_pw_all" model="product.attribute.value">
+            <field name="name">جميع النوافذ</field>
+            <field name="name" lang="en_US">All Windows</field>
+            <field name="attribute_id" ref="attr_power_windows"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_pw_auto_up_down" model="product.attribute.value">
+            <field name="name">فتح وإغلاق أوتوماتيكي</field>
+            <field name="name" lang="en_US">Auto Up/Down</field>
+            <field name="attribute_id" ref="attr_power_windows"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR EXTERIOR -->
+        <!-- =================================================================== -->
+        
+        <!-- Headlight Type -->
+        <record id="value_headlight_halogen" model="product.attribute.value">
+            <field name="name">هالوجين</field>
+            <field name="name" lang="en_US">Halogen</field>
+            <field name="attribute_id" ref="attr_headlight_type"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_headlight_xenon" model="product.attribute.value">
+            <field name="name">زينون</field>
+            <field name="name" lang="en_US">Xenon</field>
+            <field name="attribute_id" ref="attr_headlight_type"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_headlight_led" model="product.attribute.value">
+            <field name="name">LED</field>
+            <field name="name" lang="en_US">LED</field>
+            <field name="attribute_id" ref="attr_headlight_type"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_headlight_laser" model="product.attribute.value">
+            <field name="name">ليزر</field>
+            <field name="name" lang="en_US">Laser</field>
+            <field name="attribute_id" ref="attr_headlight_type"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Fog Lights (Multi-select) -->
+        <record id="value_fog_front" model="product.attribute.value">
+            <field name="name">أمامية</field>
+            <field name="name" lang="en_US">Front</field>
+            <field name="attribute_id" ref="attr_fog_lights"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_fog_rear" model="product.attribute.value">
+            <field name="name">خلفية</field>
+            <field name="name" lang="en_US">Rear</field>
+            <field name="attribute_id" ref="attr_fog_lights"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <!-- Wheel Size -->
+        <record id="value_wheel_15" model="product.attribute.value">
+            <field name="name">15 بوصة</field>
+            <field name="name" lang="en_US">15 inch</field>
+            <field name="attribute_id" ref="attr_wheel_size"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_wheel_16" model="product.attribute.value">
+            <field name="name">16 بوصة</field>
+            <field name="name" lang="en_US">16 inch</field>
+            <field name="attribute_id" ref="attr_wheel_size"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_wheel_17" model="product.attribute.value">
+            <field name="name">17 بوصة</field>
+            <field name="name" lang="en_US">17 inch</field>
+            <field name="attribute_id" ref="attr_wheel_size"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_wheel_18" model="product.attribute.value">
+            <field name="name">18 بوصة</field>
+            <field name="name" lang="en_US">18 inch</field>
+            <field name="attribute_id" ref="attr_wheel_size"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="value_wheel_19" model="product.attribute.value">
+            <field name="name">19 بوصة</field>
+            <field name="name" lang="en_US">19 inch</field>
+            <field name="attribute_id" ref="attr_wheel_size"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="value_wheel_20" model="product.attribute.value">
+            <field name="name">20 بوصة</field>
+            <field name="name" lang="en_US">20 inch</field>
+            <field name="attribute_id" ref="attr_wheel_size"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR TRANSMISSION -->
+        <!-- =================================================================== -->
+        
+        <!-- Transmission Type -->
+        <record id="value_trans_manual" model="product.attribute.value">
+            <field name="name">يدوي</field>
+            <field name="name" lang="en_US">Manual</field>
+            <field name="attribute_id" ref="attr_transmission_type"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_trans_automatic" model="product.attribute.value">
+            <field name="name">أوتوماتيكي</field>
+            <field name="name" lang="en_US">Automatic</field>
+            <field name="attribute_id" ref="attr_transmission_type"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_trans_cvt" model="product.attribute.value">
+            <field name="name">CVT</field>
+            <field name="name" lang="en_US">CVT</field>
+            <field name="attribute_id" ref="attr_transmission_type"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_trans_dct" model="product.attribute.value">
+            <field name="name">DCT</field>
+            <field name="name" lang="en_US">DCT</field>
+            <field name="attribute_id" ref="attr_transmission_type"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Number of Gears -->
+        <record id="value_gears_4" model="product.attribute.value">
+            <field name="name">4</field>
+            <field name="name" lang="en_US">4</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_gears_5" model="product.attribute.value">
+            <field name="name">5</field>
+            <field name="name" lang="en_US">5</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_gears_6" model="product.attribute.value">
+            <field name="name">6</field>
+            <field name="name" lang="en_US">6</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_gears_7" model="product.attribute.value">
+            <field name="name">7</field>
+            <field name="name" lang="en_US">7</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="value_gears_8" model="product.attribute.value">
+            <field name="name">8</field>
+            <field name="name" lang="en_US">8</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <record id="value_gears_9" model="product.attribute.value">
+            <field name="name">9</field>
+            <field name="name" lang="en_US">9</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">6</field>
+        </record>
+        
+        <record id="value_gears_10" model="product.attribute.value">
+            <field name="name">10</field>
+            <field name="name" lang="en_US">10</field>
+            <field name="attribute_id" ref="attr_number_of_gears"/>
+            <field name="sequence">7</field>
+        </record>
+        
+        <!-- Drive Type -->
+        <record id="value_drive_fwd" model="product.attribute.value">
+            <field name="name">دفع أمامي</field>
+            <field name="name" lang="en_US">Front Wheel Drive</field>
+            <field name="attribute_id" ref="attr_drive_type"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_drive_rwd" model="product.attribute.value">
+            <field name="name">دفع خلفي</field>
+            <field name="name" lang="en_US">Rear Wheel Drive</field>
+            <field name="attribute_id" ref="attr_drive_type"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_drive_awd" model="product.attribute.value">
+            <field name="name">دفع رباعي</field>
+            <field name="name" lang="en_US">All Wheel Drive</field>
+            <field name="attribute_id" ref="attr_drive_type"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_drive_4wd" model="product.attribute.value">
+            <field name="name">دفع رباعي قابل للفصل</field>
+            <field name="name" lang="en_US">4WD</field>
+            <field name="attribute_id" ref="attr_drive_type"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- =================================================================== -->
+        <!-- ATTRIBUTE VALUES FOR ENGINE -->
+        <!-- =================================================================== -->
+        
+        <!-- Engine Cylinders -->
+        <record id="value_cylinders_3" model="product.attribute.value">
+            <field name="name">3</field>
+            <field name="name" lang="en_US">3</field>
+            <field name="attribute_id" ref="attr_engine_cylinders"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_cylinders_4" model="product.attribute.value">
+            <field name="name">4</field>
+            <field name="name" lang="en_US">4</field>
+            <field name="attribute_id" ref="attr_engine_cylinders"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_cylinders_6" model="product.attribute.value">
+            <field name="name">6</field>
+            <field name="name" lang="en_US">6</field>
+            <field name="attribute_id" ref="attr_engine_cylinders"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_cylinders_8" model="product.attribute.value">
+            <field name="name">8</field>
+            <field name="name" lang="en_US">8</field>
+            <field name="attribute_id" ref="attr_engine_cylinders"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="value_cylinders_12" model="product.attribute.value">
+            <field name="name">12</field>
+            <field name="name" lang="en_US">12</field>
+            <field name="attribute_id" ref="attr_engine_cylinders"/>
+            <field name="sequence">5</field>
+        </record>
+        
+        <!-- Engine Configuration -->
+        <record id="value_config_inline" model="product.attribute.value">
+            <field name="name">مستقيم</field>
+            <field name="name" lang="en_US">Inline</field>
+            <field name="attribute_id" ref="attr_engine_configuration"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_config_v" model="product.attribute.value">
+            <field name="name">V</field>
+            <field name="name" lang="en_US">V</field>
+            <field name="attribute_id" ref="attr_engine_configuration"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_config_flat" model="product.attribute.value">
+            <field name="name">مسطح</field>
+            <field name="name" lang="en_US">Flat</field>
+            <field name="attribute_id" ref="attr_engine_configuration"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_config_w" model="product.attribute.value">
+            <field name="name">W</field>
+            <field name="name" lang="en_US">W</field>
+            <field name="attribute_id" ref="attr_engine_configuration"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <!-- Fuel Type -->
+        <record id="value_fuel_gasoline" model="product.attribute.value">
+            <field name="name">بنزين</field>
+            <field name="name" lang="en_US">Gasoline</field>
+            <field name="attribute_id" ref="attr_fuel_type"/>
+            <field name="sequence">1</field>
+        </record>
+        
+        <record id="value_fuel_diesel" model="product.attribute.value">
+            <field name="name">ديزل</field>
+            <field name="name" lang="en_US">Diesel</field>
+            <field name="attribute_id" ref="attr_fuel_type"/>
+            <field name="sequence">2</field>
+        </record>
+        
+        <record id="value_fuel_hybrid" model="product.attribute.value">
+            <field name="name">هجين</field>
+            <field name="name" lang="en_US">Hybrid</field>
+            <field name="attribute_id" ref="attr_fuel_type"/>
+            <field name="sequence">3</field>
+        </record>
+        
+        <record id="value_fuel_electric" model="product.attribute.value">
+            <field name="name">كهربائي</field>
+            <field name="name" lang="en_US">Electric</field>
+            <field name="attribute_id" ref="attr_fuel_type"/>
+            <field name="sequence">4</field>
+        </record>
+        
+        <record id="value_fuel_plugin_hybrid" model="product.attribute.value">
+            <field name="name">هجين قابل للشحن</field>
+            <field name="name" lang="en_US">Plug-in Hybrid</field>
+            <field name="attribute_id" ref="attr_fuel_type"/>
+            <field name="sequence">5</field>
+        </record>
+        
+    </data>
+</odoo> 

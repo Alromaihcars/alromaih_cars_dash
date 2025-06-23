@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- ========== SPECIFICATION TEMPLATE VIEWS ========== -->
+    
+    <!-- Specification Template Form View -->
+    <record id="view_car_specification_template_form" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.template.form</field>
+        <field name="model">alromaih.car.specification.template</field>
+        <field name="arch" type="xml">
+            <form string="Specification Template">
+                <header>
+                    <button name="action_set_as_default" string="Set as Default" type="object" 
+                            class="btn-primary" invisible="is_default"/>
+                    <button name="action_view_specifications" string="View Specifications" type="object" 
+                            class="btn-info"/>
+                    <button name="action_view_categories" string="View Categories" type="object" 
+                            class="btn-secondary"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only"/>
+                        <h1>
+                            <field name="name" placeholder="Template Name"/>
+                        </h1>
+                    </div>
+                    
+                    <!-- Template Status -->
+                    <group>
+                        <group string="Template Settings">
+                            <field name="is_default" widget="boolean_toggle"/>
+                            <field name="display_style"/>
+                            <field name="sequence"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="Statistics">
+                            <field name="category_count" readonly="1"/>
+                            <field name="website_visible"/>
+                        </group>
+                    </group>
+                    
+                    <!-- Description -->
+                    <group string="Description">
+                        <field name="description" placeholder="Template description..." nolabel="1"/>
+                    </group>
+                    
+                    <!-- Scope -->
+                    <group string="Applicable Scope">
+                        <field name="apply_to_brand_ids" widget="many2many_tags" 
+                               placeholder="Leave empty to apply to all brands"/>
+                        <field name="apply_to_model_ids" widget="many2many_tags" 
+                               placeholder="Leave empty to apply to all models"/>
+                    </group>
+                    
+                    <!-- Website Description -->
+                    <group string="Website Content">
+                        <field name="website_description" placeholder="Description for website display..." nolabel="1"/>
+                    </group>
+                    
+                    <!-- Specification Lines -->
+                    <notebook>
+                        <page string="Specification Lines" name="specification_lines">
+                            <field name="specification_line_ids" nolabel="1">
+                                <list editable="bottom">
+                                    <field name="sequence" widget="handle"/>
+                                    <field name="attribute_id" options="{'no_create': True}"/>
+                                    <field name="default_value_id" options="{'no_create': True}"/>
+                                    <field name="is_required"/>
+                                    <field name="is_visible"/>
+                                    <field name="is_filterable" readonly="1"/>
+                                </list>
+                                <form>
+                                    <group>
+                                        <group string="Attribute">
+                                            <field name="attribute_id"/>
+                                            <field name="default_value_id"/>
+                                            <field name="sequence"/>
+                                        </group>
+                                        <group string="Settings">
+                                            <field name="is_required"/>
+                                            <field name="is_visible"/>
+                                            <field name="is_filterable" readonly="1"/>
+                                        </group>
+                                    </group>
+                                    <group string="Help &amp; Display">
+                                        <field name="help_text" placeholder="Help text for users..."/>
+                                        <field name="placeholder" placeholder="Placeholder text..."/>
+                                    </group>
+                                </form>
+                            </field>
+                        </page>
+                        
+                        <page string="Categories" name="categories">
+                            <field name="category_ids" nolabel="1">
+                                <list>
+                                    <field name="name"/>
+                                    <field name="sequence"/>
+                                    <field name="website_display_style"/>
+                                    <field name="active"/>
+                                </list>
+                            </field>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Specification Template List View -->
+    <record id="view_car_specification_template_list" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.template.list</field>
+        <field name="model">alromaih.car.specification.template</field>
+        <field name="arch" type="xml">
+            <list string="Specification Templates" decoration-info="is_default == True" 
+                  decoration-muted="not active">
+                <field name="sequence" widget="handle"/>
+                <field name="name"/>
+                <field name="is_default" widget="boolean"/>
+                <field name="display_style"/>
+                <field name="category_count"/>
+                <field name="website_visible" widget="boolean"/>
+                <field name="active" widget="boolean"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Specification Template Kanban View -->
+    <record id="view_car_specification_template_kanban" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.template.kanban</field>
+        <field name="model">alromaih.car.specification.template</field>
+        <field name="arch" type="xml">
+            <kanban class="o_kanban_dashboard">
+                <field name="id"/>
+                <field name="name"/>
+                <field name="description"/>
+                <field name="is_default"/>
+                <field name="display_style"/>
+                <field name="category_count"/>
+                <field name="active"/>
+                
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="oe_kanban_content">
+                                <div class="row">
+                                    <div class="col-8">
+                                        <strong><field name="name"/></strong>
+                                        <t t-if="record.is_default.raw_value">
+                                            <span class="badge badge-success ml-2">Default</span>
+                                        </t>
+                                        <br/>
+                                        <span class="text-muted">
+                                            <field name="display_style"/> | <field name="category_count"/> categories
+                                        </span>
+                                    </div>
+                                    <div class="col-4 text-right">
+                                        <t t-if="!record.active.raw_value">
+                                            <span class="badge badge-secondary">Inactive</span>
+                                        </t>
+                                    </div>
+                                </div>
+                                <div class="row mt-2">
+                                    <div class="col-12">
+                                        <p class="text-muted" t-if="record.description.value">
+                                            <t t-esc="record.description.value.substring(0, 100)"/>
+                                            <t t-if="record.description.value.length > 100">...</t>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+    
+    <!-- Specification Template Search View -->
+    <record id="view_car_specification_template_search" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.template.search</field>
+        <field name="model">alromaih.car.specification.template</field>
+        <field name="arch" type="xml">
+            <search string="Specification Templates">
+                <field name="name"/>
+                <field name="description"/>
+                <field name="apply_to_brand_ids"/>
+                <field name="apply_to_model_ids"/>
+                
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                <filter string="Default Template" name="default" domain="[('is_default', '=', True)]"/>
+                <filter string="Website Visible" name="website_visible" domain="[('website_visible', '=', True)]"/>
+                
+                <separator/>
+                
+                <filter string="Tabs Style" name="tabs" domain="[('display_style', '=', 'tabs')]"/>
+                <filter string="Accordion Style" name="accordion" domain="[('display_style', '=', 'accordion')]"/>
+                <filter string="List Style" name="list" domain="[('display_style', '=', 'grouped_list')]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Display Style" name="group_display_style" context="{'group_by': 'display_style'}"/>
+                    <filter string="Status" name="group_active" context="{'group_by': 'active'}"/>
+                    <filter string="Website Visible" name="group_website" context="{'group_by': 'website_visible'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- ========== TEMPLATE LINE VIEWS ========== -->
+    
+    <!-- Template Line Form View -->
+    <record id="view_car_specification_template_line_form" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.template.line.form</field>
+        <field name="model">alromaih.car.specification.template.line</field>
+        <field name="arch" type="xml">
+            <form string="Template Line">
+                <sheet>
+                    <group>
+                        <group string="Attribute Information">
+                            <field name="template_id"/>
+                            <field name="attribute_id"/>
+                            <field name="default_value_id"/>
+                        </group>
+                        <group string="Display Settings">
+                            <field name="sequence"/>
+                            <field name="is_required"/>
+                            <field name="is_visible"/>
+                            <field name="is_filterable" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group string="Help &amp; Instructions">
+                        <field name="help_text" placeholder="Help text shown to users when filling this specification..."/>
+                        <field name="placeholder" placeholder="Placeholder text for input fields..."/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Template Line List View -->
+    <record id="view_car_specification_template_line_list" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.template.line.list</field>
+        <field name="model">alromaih.car.specification.template.line</field>
+        <field name="arch" type="xml">
+            <list string="Template Lines" editable="bottom">
+                <field name="sequence" widget="handle"/>
+                <field name="template_id"/>
+                <field name="attribute_id"/>
+                <field name="default_value_id"/>
+                <field name="is_required"/>
+                <field name="is_visible"/>
+                <field name="is_filterable" readonly="1"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- ========== CAR SPECIFICATION VIEWS ========== -->
+    
+    <!-- Car Specification Form View -->
+    <record id="view_car_specification_form" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.form</field>
+        <field name="model">alromaih.car.specification</field>
+        <field name="arch" type="xml">
+            <form string="Car Specification">
+                <sheet>
+                    <group>
+                        <group string="Basic Information">
+                            <field name="car_id"/>
+                            <field name="car_variant_id"/>
+                            <field name="attribute_id"/>
+                        </group>
+                        <group string="Value &amp; Display">
+                            <field name="attribute_value_id"/>
+                            <field name="custom_value"/>
+                            <field name="display_value" readonly="1"/>
+                        </group>
+                    </group>
+                    
+                    <group>
+                        <group string="Settings">
+                            <field name="sequence"/>
+                            <field name="is_highlighted"/>
+                            <field name="is_public"/>
+                            <field name="active"/>
+                        </group>
+                        <group string="SEO">
+                            <field name="seo_value"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+    
+    <!-- Car Specification List View -->
+    <record id="view_car_specification_list" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.list</field>
+        <field name="model">alromaih.car.specification</field>
+        <field name="arch" type="xml">
+            <list string="Car Specifications" editable="bottom" 
+                  decoration-success="is_highlighted == True" decoration-muted="not active">
+                <field name="sequence" widget="handle"/>
+                <field name="car_id"/>
+                <field name="car_variant_id"/>
+                <field name="attribute_id"/>
+                <field name="display_value"/>
+                <field name="is_highlighted"/>
+                <field name="is_public"/>
+                <field name="active"/>
+            </list>
+        </field>
+    </record>
+    
+    <!-- Car Specification Search View -->
+    <record id="view_car_specification_search" model="ir.ui.view">
+        <field name="name">alromaih.car.specification.search</field>
+        <field name="model">alromaih.car.specification</field>
+        <field name="arch" type="xml">
+            <search string="Car Specifications">
+                <field name="car_id"/>
+                <field name="car_variant_id"/>
+                <field name="attribute_id"/>
+                <field name="display_value"/>
+                <field name="custom_value"/>
+                
+                <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Highlighted" name="highlighted" domain="[('is_highlighted', '=', True)]"/>
+                <filter string="Public" name="public" domain="[('is_public', '=', True)]"/>
+                
+                <group expand="0" string="Group By">
+                    <filter string="Car" name="group_car" context="{'group_by': 'car_id'}"/>
+                    <filter string="Car Variant" name="group_variant" context="{'group_by': 'car_variant_id'}"/>
+                    <filter string="Attribute" name="group_attribute" context="{'group_by': 'attribute_id'}"/>
+                    <filter string="Category" name="group_category" context="{'group_by': 'category_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+    
+    <!-- ========== ACTIONS ========== -->
+    
+    <!-- Specification Template Actions -->
+    <record id="action_car_specification_template" model="ir.actions.act_window">
+        <field name="name">Specification Templates</field>
+        <field name="res_model">alromaih.car.specification.template</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first specification template!
+            </p>
+            <p>
+                Templates help you quickly create consistent specifications for your cars.
+                Define a template once and apply it to multiple cars.
+            </p>
+        </field>
+    </record>
+    
+    <!-- Template Lines Action -->
+    <record id="action_car_specification_template_line" model="ir.actions.act_window">
+        <field name="name">Template Lines</field>
+        <field name="res_model">alromaih.car.specification.template.line</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{}</field>
+    </record>
+    
+    <!-- Car Specifications Action -->
+    <record id="action_car_specification" model="ir.actions.act_window">
+        <field name="name">Car Specifications</field>
+        <field name="res_model">alromaih.car.specification</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_active': 1}</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                No specifications found!
+            </p>
+            <p>
+                Car specifications are automatically created from templates or can be added manually.
+            </p>
+        </field>
+    </record>
+    
+    <!-- All Car Specifications (including variants) -->
+    <record id="action_all_car_specifications" model="ir.actions.act_window">
+        <field name="name">All Car Specifications</field>
+        <field name="res_model">alromaih.car.specification</field>
+        <field name="view_mode">list,form</field>
+        <field name="context">{'search_default_public': 1}</field>
+        <field name="domain">[]</field>
+    </record>
+</odoo> 
