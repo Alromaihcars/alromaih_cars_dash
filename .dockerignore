@@ -1,0 +1,59 @@
+# Dependencies
+node_modules
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# Local env files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Next.js
+.next/
+out/
+
+# Production
+build
+
+# Misc
+.DS_Store
+*.tgz
+*.tar.gz
+
+# Debug
+*.log
+
+# Local development files
+.vscode/
+.idea/
+
+# Git
+.git/
+.gitignore
+
+# Documentation
+README.md
+docs/
+
+# Odoo specific files (since this is a hybrid project)
+*.pyc
+__pycache__/
+static/description/
+views/
+models/
+controllers/
+security/
+wizards/
+data/
+i18n/
+*.xml
+*.csv
+__manifest__.py
+__init__.py
+
+# Development scripts
+scripts/ 

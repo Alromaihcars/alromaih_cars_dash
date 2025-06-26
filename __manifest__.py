@@ -1,6 +1,6 @@
 {
     'name': 'Alromaih Cars Dashboard',
-    'version': '18.0.2.1.0',
+    'version': '18.0.3.6.0',
     'summary': 'Alromaih Cars Management Dashboard',
     'description': """
         Alromaih Cars Dashboard Module
@@ -18,6 +18,7 @@
         - Car dashboard with statistics
         - Standard Odoo form views and interfaces
         - Professional automotive inventory management
+        - Simple Bunny CDN integration for brand logos
         
     """,
     'category': 'Automotive',
@@ -37,7 +38,8 @@
         
         # Data
         'data/iframe_dashboard_data.xml',
-        'data/system_settings_data.xml',
+        'data/system_parameters.xml',
+        'data/system_settings_default.xml',
         
         # Views - Actions must be defined before menus that reference them
         'views/car_views.xml',
@@ -66,6 +68,8 @@
     
     'assets': {
     },
+    
+    'post_init_hook': 'post_init_hook',
     
     'application': True,
     'installable': True,

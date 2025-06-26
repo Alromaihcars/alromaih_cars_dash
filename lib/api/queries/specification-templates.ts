@@ -303,8 +303,8 @@ export const GET_TEMPLATES_BY_DISPLAY_STYLE = `
 
 // Fixed mutation to create specification template with proper input structure
 export const CREATE_SPECIFICATION_TEMPLATE = `
-  mutation CreateSpecificationTemplate($input: CreateAlromaihCarSpecificationTemplateInput!) {
-    createAlromaihCarSpecificationTemplate(input: $input) {
+  mutation CreateSpecificationTemplate($values: AlromaihCarSpecificationTemplateValues!) {
+    AlromaihCarSpecificationTemplate(values: $values) {
       id
       name
       display_name
@@ -378,8 +378,8 @@ export const CREATE_TEMPLATE_WITH_LINES = `
 
 // Updated mutation to update specification template with better error handling
 export const UPDATE_SPECIFICATION_TEMPLATE = `
-  mutation UpdateSpecificationTemplate($id: ID!, $input: UpdateAlromaihCarSpecificationTemplateInput!) {
-    updateAlromaihCarSpecificationTemplate(id: $id, input: $input) {
+  mutation UpdateSpecificationTemplate($id: String!, $values: AlromaihCarSpecificationTemplateValues!) {
+    AlromaihCarSpecificationTemplate(id: $id, values: $values) {
       id
       name
       display_name
@@ -612,6 +612,21 @@ export interface UpdateAlromaihCarSpecificationTemplateInput {
   apply_to_model_ids?: number[];
 }
 
+// Values interface for EasyGraphQL mutations (following car brand pattern)
+export interface AlromaihCarSpecificationTemplateValues {
+  name?: string;
+  display_name?: string;
+  description?: string;
+  sequence?: number;
+  active?: boolean;
+  is_default?: boolean;
+  display_style?: string;
+  website_visible?: boolean;
+  website_description?: string;
+  apply_to_brand_ids?: number[];
+  apply_to_model_ids?: number[];
+}
+
 // Input interface for creating specification template lines
 export interface CreateAlromaihCarSpecificationTemplateLineInput {
   template_id: number;
@@ -672,7 +687,7 @@ export const fetchGraphQL = async (query: string, variables: any = {}) => {
   return isMutation 
     ? await gqlMutate(query, variables)
     : await gql(query, variables)
-}
+} 
 
 // Helper function to create a complete template with lines
 export const createTemplateWithLines = async (

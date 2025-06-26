@@ -33,8 +33,6 @@ import {
   CREATE_CAR_OFFER,
   UPDATE_CAR_OFFER,
   DELETE_CAR_OFFER,
-  UPLOAD_CAR_OFFER_BANNER,
-  REMOVE_CAR_OFFER_BANNER,
   type CarOffer,
   type CarOfferValues,
   getDisplayName,

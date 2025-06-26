@@ -29,7 +29,17 @@ export interface CarOffer {
   start_date: string;
   end_date: string;
   is_active: boolean;
-  banner_image?: string;
+  banner_url?: string;
+  primary_banner_id?: {
+    id: string;
+    name?: string;
+  };
+  banner_media_ids?: Array<{
+    id: string;
+    name?: string;
+    external_url?: string;
+    is_primary?: boolean;
+  }>;
   car_id?: {
     id: string;
     name?: MultilingualFieldData;
@@ -49,7 +59,6 @@ export interface CarOfferValues {
   start_date?: string;
   end_date?: string;
   is_active?: boolean;
-  banner_image?: string | null;
   car_id?: number;
 }
 
@@ -71,7 +80,17 @@ export const GET_CAR_OFFERS = `
       discount_type
       description @multiLang
       create_date
-      banner_image
+      banner_url
+      primary_banner_id {
+        id
+        name
+      }
+      banner_media_ids {
+        id
+        name
+        external_url
+        is_primary
+      }
       car_id {
         id
         name @multiLang
@@ -95,7 +114,11 @@ export const CREATE_CAR_OFFER = `
       discount_value
       discount_type
       description @multiLang
-      banner_image
+      banner_url
+      primary_banner_id {
+        id
+        name
+      }
       car_id {
         id
         name @multiLang
@@ -119,7 +142,11 @@ export const UPDATE_CAR_OFFER = `
       discount_value
       discount_type
       description @multiLang
-      banner_image
+      banner_url
+      primary_banner_id {
+        id
+        name
+      }
       car_id {
         id
         name @multiLang
@@ -139,32 +166,6 @@ export const DELETE_CAR_OFFER = `
   }
 `;
 
-// Upload offer banner image
-export const UPLOAD_CAR_OFFER_BANNER = `
-  mutation UploadCarOfferBanner($id: String!, $banner_image: String!) {
-    AlromaihCarOffer(id: $id, CarOfferValues: { banner_image: $banner_image }) {
-      id
-      name @multiLang
-      banner_image
-      display_name
-      is_active
-    }
-  }
-`;
-
-// Remove offer banner image
-export const REMOVE_CAR_OFFER_BANNER = `
-  mutation RemoveCarOfferBanner($id: String!) {
-    AlromaihCarOffer(id: $id, CarOfferValues: { banner_image: null }) {
-      id
-      name @multiLang
-      banner_image
-      display_name
-      is_active
-    }
-  }
-`;
-
 export const GET_CARS_FOR_DROPDOWN = `
   query GetCarsForDropdown {
     AlromaihCar(active: true) {
@@ -176,7 +177,7 @@ export const GET_CARS_FOR_DROPDOWN = `
   }
 `;
 
-// Get car offer by ID - Added missing query
+// Get car offer by ID
 export const GET_CAR_OFFER_BY_ID = `
   query GetCarOfferById($id: String!) {
     AlromaihCarOffer(id: $id) {
@@ -192,7 +193,17 @@ export const GET_CAR_OFFER_BY_ID = `
       start_date
       end_date
       is_active
-      banner_image
+      banner_url
+      primary_banner_id {
+        id
+        name
+      }
+      banner_media_ids {
+        id
+        name
+        external_url
+        is_primary
+      }
       create_date
       write_date
       car_id {
@@ -219,7 +230,11 @@ export const GET_ACTIVE_CAR_OFFERS = `
       start_date
       end_date
       is_active
-      banner_image
+      banner_url
+      primary_banner_id {
+        id
+        name
+      }
       car_id {
         id
         name @multiLang
@@ -244,7 +259,11 @@ export const GET_CAR_OFFERS_BY_DATE_RANGE = `
       start_date
       end_date
       is_active
-      banner_image
+      banner_url
+      primary_banner_id {
+        id
+        name
+      }
       car_id {
         id
         name @multiLang
@@ -308,8 +327,7 @@ export const createCarOfferValues = (
   start_date?: string,
   end_date?: string,
   is_active?: boolean,
-  car_id?: number,
-  banner_image?: string
+  car_id?: number
 ): CarOfferValues => {
   const nameTranslations = convertToTranslations(name)
   const descriptionTranslations = description ? convertToTranslations(description) : undefined
@@ -324,10 +342,6 @@ export const createCarOfferValues = (
     end_date,
     is_active: is_active !== false,
     car_id
-  }
-
-  if (banner_image !== undefined) {
-    values.banner_image = banner_image
   }
 
   return values
@@ -408,6 +422,29 @@ export const getOfferTagIcon = (tag: string) => {
   }
 }
 
+// Get the primary banner URL for an offer
+export const getOfferBannerUrl = (offer: CarOffer): string | null => {
+  // First try the computed banner_url field
+  if (offer.banner_url) {
+    return offer.banner_url
+  }
+  
+  // Then try to find a primary banner in banner_media_ids
+  if (offer.banner_media_ids && offer.banner_media_ids.length > 0) {
+    const primaryBanner = offer.banner_media_ids.find(media => media.is_primary)
+    if (primaryBanner?.external_url) {
+      return primaryBanner.external_url
+    }
+    
+    // If no primary banner, use the first one
+    if (offer.banner_media_ids[0]?.external_url) {
+      return offer.banner_media_ids[0].external_url
+    }
+  }
+  
+  return null
+}
+
 // Hook for using car offers
 export const useCarOffers = () => {
   const fetchOffers = async () => {
@@ -432,21 +469,11 @@ export const useCarOffers = () => {
     return await gqlMutate(DELETE_CAR_OFFER, { id })
   }
 
-  const uploadBannerImage = async (id: string, banner_image: string) => {
-    return await gqlMutate(UPLOAD_CAR_OFFER_BANNER, { id, banner_image })
-  }
-
-  const removeBannerImage = async (id: string) => {
-    return await gqlMutate(REMOVE_CAR_OFFER_BANNER, { id })
-  }
-
   return {
     fetchOffers,
     fetchCars,
     createOffer,
     updateOffer,
-    deleteOffer,
-    uploadBannerImage,
-    removeBannerImage
+    deleteOffer
   }
 }

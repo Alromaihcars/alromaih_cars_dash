@@ -214,7 +214,7 @@ export const CREATE_TEMPLATE_LINE = `
       attribute_id {
         id
         name
-        display_name
+      display_name
         display_type
       }
       sequence
@@ -244,7 +244,7 @@ export const UPDATE_TEMPLATE_LINE = `
       attribute_id {
         id
         name
-        display_name
+      display_name
         display_type
       }
       sequence

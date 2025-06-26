@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!-- Default System Settings Record - Singleton -->
+        <record id="default_system_settings" model="alromaih.system.settings">
+            <field name="website_name">Alromaih Cars</field>
+            <field name="active" eval="True"/>
+            <field name="primary_color">#46194F</field>
+            <field name="secondary_color">#000000</field>
+            <field name="cars_per_page">10</field>
+            <field name="enable_app_notifications" eval="True"/>
+            <field name="enable_in_app_chat" eval="True"/>
+            <field name="enable_car_comparison" eval="True"/>
+            <field name="enable_app_booking" eval="True"/>
+            <field name="enable_app_reviews" eval="True"/>
+            <field name="force_update" eval="False"/>
+        </record>
+    </data>
+</odoo> 

@@ -13,7 +13,6 @@ export const GET_PRODUCT_ATTRIBUTES = `
       display_in_car_info
       display_name
       display_type
-      edit_widget
       filter_priority
       icon
       icon_display_type
@@ -70,7 +69,6 @@ export const GET_PRODUCT_ATTRIBUTE_BY_ID = `
       display_in_car_info
       display_name
       display_type
-      edit_widget
       filter_priority
       icon
       icon_display_type
@@ -312,7 +310,6 @@ export interface ProductAttribute {
   display_in_car_info?: boolean;
   display_name?: string | { [key: string]: string };
   display_type?: string;
-  edit_widget?: string;
   filter_priority?: number;
   icon?: string;
   icon_display_type?: string;
@@ -344,7 +341,6 @@ export interface ProductAttributeInput {
   allow_multi_select?: boolean;
   create_variant?: boolean;
   filter_priority?: number;
-  edit_widget?: string;
   icon?: string;
   car_info_icon?: string;
   category_type?: string;

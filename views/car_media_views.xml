@@ -11,6 +11,8 @@
                             class="btn-primary" invisible="is_primary"/>
                     <button name="copy_to_all_variants" string="Copy to All Variants" type="object" 
                             class="btn-secondary" invisible="not car_variant_id"/>
+                    <button name="refresh_external_url" string="Refresh CDN URL" type="object" 
+                            class="btn-secondary" invisible="not external_url"/>
                 </header>
                 <sheet>
                     <div class="oe_button_box" name="button_box">
@@ -22,7 +24,11 @@
                     
                     <div class="oe_title">
                         <h1>
-                            <field name="name" placeholder="Media Title"/>
+                            <field name="name" placeholder="Auto-generated: Car Name - Color - Media Type"/>
+                            <button name="action_regenerate_title" string="Regenerate Title" 
+                                    type="object" class="btn-sm btn-secondary" 
+                                    help="Auto-generate title based on car and media type"
+                                    icon="fa-refresh"/>
                         </h1>
                         <div class="o_row">
                             <field name="media_type" widget="badge"/>
@@ -33,8 +39,9 @@
                     
                     <group>
                         <group>
-                            <field name="car_id"/>
-                            <field name="car_variant_id" domain="[('car_id', '=', car_id)]"/>
+                            <field name="car_id" invisible="offer_id"/>
+                            <field name="car_variant_id" domain="[('car_id', '=', car_id)]" invisible="offer_id"/>
+                            <field name="offer_id" invisible="car_id"/>
                             <field name="sequence"/>
                             <field name="description"/>
                         </group>
@@ -57,6 +64,17 @@
                                     <field name="file_size" readonly="1"/>
                                     <field name="mime_type" readonly="1"/>
                                     <field name="dimensions"/>
+                                    <field name="external_url" readonly="1" widget="url" string="CDN Media URL"/>
+                                </group>
+                                <group string="Bunny Storage">
+                                    <field name="bunny_image_path" readonly="1" invisible="content_type != 'image'"/>
+                                    <field name="bunny_video_path" readonly="1" invisible="content_type != 'video_file'"/>
+                                    <field name="bunny_document_path" readonly="1" invisible="content_type != 'document'"/>
+                                    <button name="action_delete_from_bunny" string="Delete from Bunny" 
+                                            type="object" class="btn-secondary" 
+                                            help="Delete files from Bunny Storage"
+                                            confirm="Are you sure you want to delete these files from Bunny Storage?"
+                                            invisible="not bunny_image_path and not bunny_video_path and not bunny_document_path"/>
                                 </group>
                             </group>
                             
@@ -81,13 +99,27 @@
                         <page string="SEO &amp; Accessibility" name="seo">
                             <group>
                                 <group string="Accessibility">
-                                    <field name="alt_text"/>
+                                    <field name="alt_text" placeholder="Auto-generated based on car and media type"/>
+                                    <div class="oe_button_box">
+                                        <button name="action_preview_seo_fields" string="Preview SEO" 
+                                                type="object" class="btn-info" 
+                                                help="Preview what auto-generated SEO fields would look like"
+                                                icon="fa-eye"/>
+                                        <button name="action_regenerate_seo_fields" string="Generate SEO" 
+                                                type="object" class="btn-secondary" 
+                                                help="Auto-generate alt text, SEO title, and description"
+                                                icon="fa-refresh"/>
+                                    </div>
                                 </group>
                                 <group string="SEO">
-                                    <field name="seo_title"/>
-                                    <field name="seo_description"/>
+                                    <field name="seo_title" placeholder="Auto-generated SEO-optimized title"/>
+                                    <field name="seo_description" placeholder="Auto-generated meta description"/>
                                 </group>
                             </group>
+                            <div class="alert alert-info" role="alert">
+                                <strong>Auto SEO Generation:</strong> SEO fields are automatically generated based on car brand, model, variant color, media type, and availability status. 
+                                File names are also SEO-optimized for better search engine visibility.
+                            </div>
                         </page>
                     </notebook>
                 </sheet>
@@ -97,8 +129,8 @@
     </record>
 
     <!-- Car Media List View -->
-    <record id="view_alromaih_car_media_list" model="ir.ui.view">
-        <field name="name">alromaih.car.media.list</field>
+    <record id="view_alromaih_car_media_list_v2" model="ir.ui.view">
+        <field name="name">alromaih.car.media.list.v2</field>
         <field name="model">alromaih.car.media</field>
         <field name="arch" type="xml">
             <list string="Car Media" decoration-muted="not active" decoration-info="is_primary" 
@@ -108,12 +140,19 @@
                 <field name="name"/>
                 <field name="car_id"/>
                 <field name="car_variant_id"/>
+                <field name="offer_id" optional="show"/>
                 <field name="media_type" widget="badge"/>
                 <field name="content_type" widget="badge"/>
                 <field name="file_size"/>
                 <field name="is_primary" widget="boolean"/>
                 <field name="is_featured" widget="boolean"/>
                 <field name="is_public" widget="boolean"/>
+                <field name="external_url" widget="url" string="CDN URL"/>
+                <field name="bunny_image_path" string="Bunny Image" invisible="content_type != 'image'"/>
+                <field name="bunny_video_path" string="Bunny Video" invisible="content_type != 'video_file'"/>
+                <field name="bunny_document_path" string="Bunny Document" invisible="content_type != 'document'"/>
+                <field name="alt_text" string="Alt Text" optional="hide"/>
+                <field name="seo_title" string="SEO Title" optional="hide"/>
                 <field name="active" widget="boolean"/>
             </list>
         </field>
@@ -199,6 +238,7 @@
                 <field name="name"/>
                 <field name="car_id"/>
                 <field name="car_variant_id"/>
+                <field name="offer_id"/>
                 <field name="media_type"/>
                 <field name="content_type"/>
                 
@@ -222,6 +262,13 @@
                 <filter string="Interior" name="interior" domain="[('media_type', '=', 'interior')]"/>
                 <filter string="Engine" name="engine" domain="[('media_type', '=', 'engine')]"/>
                 <filter string="Brochures" name="brochures" domain="[('media_type', '=', 'brochure')]"/>
+                
+                <separator/>
+                
+                <filter string="Offer Banners" name="offer_banners" domain="[('media_type', '=', 'offer_banner')]"/>
+                <filter string="Promotional Content" name="promotional" domain="[('media_type', '=', 'promotional')]"/>
+                <filter string="Has Offer Link" name="has_offer" domain="[('offer_id', '!=', False)]"/>
+                <filter string="Car Media Only" name="car_only" domain="[('offer_id', '=', False)]"/>
                 
                 <group expand="0" string="Group By">
                     <filter string="Car" name="group_car" context="{'group_by': 'car_id'}"/>
@@ -275,5 +322,90 @@
         <field name="view_mode">kanban,list,form</field>
         <field name="context">{'search_default_primary': 1, 'search_default_active': 1}</field>
         <field name="domain">[('is_primary', '=', True)]</field>
+    </record>
+
+    <!-- Offer Media Action -->
+    <record id="action_offer_media" model="ir.actions.act_window">
+        <field name="name">Offer Media &amp; Banners</field>
+        <field name="res_model">alromaih.car.media</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="context">{'search_default_offer_banners': 1, 'search_default_active': 1}</field>
+        <field name="domain">[('offer_id', '!=', False)]</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">
+                Create your first offer banner!
+            </p>
+            <p>
+                Design professional offer banners and promotional content with automatic CDN delivery.
+                All media is optimized for web display and SEO.
+            </p>
+        </field>
+    </record>
+
+    <!-- Bunny Storage Server Actions -->
+    <record id="action_bulk_upload_bunny" model="ir.actions.server">
+        <field name="name">Upload Missing Files to Bunny Storage</field>
+        <field name="model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_bulk_upload_to_bunny()</field>
+    </record>
+
+    <record id="action_bulk_delete_bunny" model="ir.actions.server">
+        <field name="name">Bulk Delete from Bunny Storage</field>
+        <field name="model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_bulk_delete_from_bunny()</field>
+    </record>
+
+    <record id="action_sync_bunny_storage" model="ir.actions.server">
+        <field name="name">Sync Bunny Storage</field>
+        <field name="model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_sync_bunny_storage()</field>
+    </record>
+
+    <record id="action_cleanup_orphaned_bunny" model="ir.actions.server">
+        <field name="name">Clean Up Orphaned Bunny Files</field>
+        <field name="model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_cleanup_all_orphaned_files()</field>
+    </record>
+
+    <record id="action_bulk_regenerate_seo" model="ir.actions.server">
+        <field name="name">Regenerate SEO Fields</field>
+        <field name="model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">action = model.action_bulk_regenerate_seo_fields()</field>
+    </record>
+
+    <record id="action_bulk_regenerate_titles" model="ir.actions.server">
+        <field name="name">Regenerate All Titles</field>
+        <field name="model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_model_id" ref="model_alromaih_car_media"/>
+        <field name="binding_view_types">list</field>
+        <field name="state">code</field>
+        <field name="code">
+for record in model.search([]):
+    record._auto_generate_title()
+action = {
+    'type': 'ir.actions.client',
+    'tag': 'display_notification',
+    'params': {
+        'title': 'Bulk Title Regeneration Complete',
+        'message': f'Successfully regenerated titles for all media records.',
+        'type': 'success',
+    }
+}
+        </field>
     </record>
 </odoo> 

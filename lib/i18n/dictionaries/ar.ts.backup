@@ -90,9 +90,8 @@ export const ar = {
     inventoryReports: 'تقارير المخزون',
     performanceReports: 'تقارير الأداء',
     settings: 'الإعدادات',
-    settings: 'الإعدادات', // صفحة إعدادات موحدة (الموقع + التطبيق + التحليلات)
     userManagement: 'إدارة المستخدمين',
-    apiSettings: 'إعدادات API', // صفحة اختبار API منفصلة
+    apiSettings: 'إعدادات API',
     overview: 'نظرة عامة',
     pagesGrid: 'شبكة الصفحات',
     

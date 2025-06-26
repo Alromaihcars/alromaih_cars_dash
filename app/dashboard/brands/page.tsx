@@ -37,8 +37,7 @@ import {
   convertToTranslations,
   convertFromTranslations,
   getDisplayName,
-  fetchGraphQL,
-  useCarBrands
+  fetchGraphQL
 } from "@/lib/api/queries/car-brands"
 
 interface Translation {
@@ -383,7 +382,9 @@ export default function BrandsPage() {
   }
 
   const handleDelete = async (brand: CarBrand) => {
-    if (!confirm(`Are you sure you want to delete "${brand.name?.en_US || brand.name?.ar_001 || 'this brand'}"?`)) {
+    const brandName = getDisplayName(brand, 'en_US') || getDisplayName(brand, 'ar_001') || 'this brand'
+    
+    if (!confirm(`Are you sure you want to delete "${brandName}"?`)) {
       return
     }
 
@@ -506,7 +507,7 @@ export default function BrandsPage() {
                           <Avatar className="h-12 w-12">
                             <AvatarImage 
                               src={logoUrl}
-                              alt={brand.name?.en_US || brand.name?.ar_001 || 'Brand logo'}
+                              alt={getDisplayName(brand as any, 'en_US') || getDisplayName(brand as any, 'ar_001') || 'Brand logo'}
                             />
                             <AvatarFallback>
                               <Image className="h-6 w-6 opacity-50" />

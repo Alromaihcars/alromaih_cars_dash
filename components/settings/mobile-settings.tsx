@@ -5,9 +5,10 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Switch } from "@/components/ui/switch"
-import { Smartphone, Save, Palette, Settings, Bell, Key } from "lucide-react"
+import { Smartphone, Save, Download, Settings, Key, Shield } from "lucide-react"
 import { SystemSettings } from "@/lib/api/queries/system-settings"
-import { ImageUpload } from "@/components/ui/image-upload"
+import { BinaryImageUpload } from "@/components/ui/binary-image-upload"
+import { useState } from "react"
 
 interface MobileSettingsProps {
   settings: SystemSettings;
@@ -16,31 +17,29 @@ interface MobileSettingsProps {
 }
 
 export function MobileSettings({ settings, onUpdate, loading }: MobileSettingsProps) {
+  const [isSaving, setIsSaving] = useState(false)
+  const [formData, setFormData] = useState<Partial<SystemSettings>>(settings)
+
+  const handleInputChange = (field: keyof SystemSettings, value: any) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: value
+    }))
+  }
+
   const handleSave = async () => {
-    console.log('Mobile app settings saved');
-  };
-
-  const handleAppLogoUpload = async (file: File | null) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const base64Data = e.target?.result as string;
-        await onUpdate({ app_logo: base64Data });
-      };
-      reader.readAsDataURL(file);
+    setIsSaving(true)
+    try {
+      const success = await onUpdate(formData)
+      if (success) {
+        console.log('Mobile settings saved successfully')
+      }
+    } catch (error) {
+      console.error('Failed to save mobile settings:', error)
+    } finally {
+      setIsSaving(false)
     }
-  };
-
-  const handleSplashScreenUpload = async (file: File | null) => {
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = async (e) => {
-        const base64Data = e.target?.result as string;
-        await onUpdate({ app_splash_screen: base64Data });
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  }
 
   return (
     <div className="space-y-6">
@@ -51,96 +50,89 @@ export function MobileSettings({ settings, onUpdate, loading }: MobileSettingsPr
             <Smartphone className="h-5 w-5" />
             App Branding
           </CardTitle>
-          <CardDescription>Configure your mobile app's branding and visual identity</CardDescription>
+          <CardDescription>
+            Configure your mobile app's branding and visual elements
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
+          {/* App Name */}
           <div className="space-y-2">
             <Label htmlFor="app_name">App Name</Label>
             <Input
               id="app_name"
-              value={settings.app_name || ''}
-              onChange={(e) => onUpdate({ app_name: e.target.value })}
-              placeholder="Enter app name"
+              value={formData.app_name || ''}
+              onChange={(e) => handleInputChange('app_name', e.target.value)}
+              placeholder="Alromaih Cars"
             />
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="space-y-2">
-              <Label>App Logo</Label>
-              <ImageUpload
-                onChange={handleAppLogoUpload}
-                value={settings.app_logo}
-                accept={['image/png', 'image/jpeg']}
-                maxSize={2 * 1024 * 1024}
-                className="h-32"
-              />
-              <p className="text-sm text-muted-foreground">
-                Recommended: 512x512px, max 2MB (PNG, JPEG)
-              </p>
-            </div>
-            <div className="space-y-2">
-              <Label>Splash Screen</Label>
-              <ImageUpload
-                onChange={handleSplashScreenUpload}
-                value={settings.app_splash_screen}
-                accept={['image/png', 'image/jpeg']}
-                maxSize={3 * 1024 * 1024}
-                className="h-32"
-              />
-              <p className="text-sm text-muted-foreground">
-                Recommended: 1080x1920px, max 3MB (PNG, JPEG)
-              </p>
-            </div>
+            {/* App Logo Upload */}
+            <BinaryImageUpload
+              label="App Logo"
+              value={formData.app_logo || ''}
+              onChange={(value) => handleInputChange('app_logo', value)}
+              placeholder="Upload your app logo"
+              maxWidth={200}
+              maxHeight={200}
+              helpText="Recommended size: 512x512px or 1024x1024px. Square format required for app stores."
+            />
+
+            {/* App Splash Screen Upload */}
+            <BinaryImageUpload
+              label="App Splash Screen"
+              value={formData.app_splash_screen || ''}
+              onChange={(value) => handleInputChange('app_splash_screen', value)}
+              placeholder="Upload your splash screen"
+              maxWidth={200}
+              maxHeight={300}
+              helpText="Recommended size: 1080x1920px (9:16 aspect ratio). Used when app is loading."
+            />
           </div>
+
+          {/* CDN URLs */}
+          {formData.app_logo_cdn_url && (
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 text-xs text-muted-foreground">
+              <p>App Logo CDN: {formData.app_logo_cdn_url}</p>
+              {formData.app_splash_screen_cdn_url && (
+                <p>Splash Screen CDN: {formData.app_splash_screen_cdn_url}</p>
+              )}
+            </div>
+          )}
         </CardContent>
       </Card>
 
-      {/* App Theme */}
+      {/* App Store Links */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Palette className="h-5 w-5" />
-            App Theme
+            <Download className="h-5 w-5" />
+            App Store Links
           </CardTitle>
-          <CardDescription>Customize your mobile app's color scheme</CardDescription>
+          <CardDescription>
+            Configure download links for your mobile app
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="app_primary_color">App Primary Color</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="app_primary_color"
-                  type="color"
-                  value={settings.app_primary_color || '#0056b3'}
-                  onChange={(e) => onUpdate({ app_primary_color: e.target.value })}
-                  className="w-16 h-10 p-1 rounded"
-                />
-                <Input
-                  value={settings.app_primary_color || '#0056b3'}
-                  onChange={(e) => onUpdate({ app_primary_color: e.target.value })}
-                  placeholder="#0056b3"
-                  className="flex-1"
-                />
-              </div>
+              <Label htmlFor="app_store_url">iOS App Store URL</Label>
+              <Input
+                id="app_store_url"
+                value={formData.app_store_url || ''}
+                onChange={(e) => handleInputChange('app_store_url', e.target.value)}
+                placeholder="https://apps.apple.com/app/your-app"
+              />
             </div>
+
             <div className="space-y-2">
-              <Label htmlFor="app_secondary_color">App Secondary Color</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="app_secondary_color"
-                  type="color"
-                  value={settings.app_secondary_color || '#6c757d'}
-                  onChange={(e) => onUpdate({ app_secondary_color: e.target.value })}
-                  className="w-16 h-10 p-1 rounded"
-                />
-                <Input
-                  value={settings.app_secondary_color || '#6c757d'}
-                  onChange={(e) => onUpdate({ app_secondary_color: e.target.value })}
-                  placeholder="#6c757d"
-                  className="flex-1"
-                />
-              </div>
+              <Label htmlFor="play_store_url">Google Play Store URL</Label>
+              <Input
+                id="play_store_url"
+                value={formData.play_store_url || ''}
+                onChange={(e) => handleInputChange('play_store_url', e.target.value)}
+                placeholder="https://play.google.com/store/apps/details?id=your.app"
+              />
             </div>
           </div>
         </CardContent>
@@ -153,59 +145,63 @@ export function MobileSettings({ settings, onUpdate, loading }: MobileSettingsPr
             <Settings className="h-5 w-5" />
             Version Control
           </CardTitle>
-          <CardDescription>Manage app versions and update requirements</CardDescription>
+          <CardDescription>
+            Manage app versions and update requirements
+          </CardDescription>
         </CardHeader>
         <CardContent className="space-y-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
               <Label htmlFor="android_app_version">Android App Version</Label>
               <Input
                 id="android_app_version"
-                value={settings.android_app_version || ''}
-                onChange={(e) => onUpdate({ android_app_version: e.target.value })}
+                value={formData.android_app_version || ''}
+                onChange={(e) => handleInputChange('android_app_version', e.target.value)}
                 placeholder="1.0.0"
               />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="android_min_version">Android Minimum Version</Label>
               <Input
                 id="android_min_version"
-                value={settings.android_min_version || ''}
-                onChange={(e) => onUpdate({ android_min_version: e.target.value })}
+                value={formData.android_min_version || ''}
+                onChange={(e) => handleInputChange('android_min_version', e.target.value)}
                 placeholder="1.0.0"
               />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="ios_app_version">iOS App Version</Label>
               <Input
                 id="ios_app_version"
-                value={settings.ios_app_version || ''}
-                onChange={(e) => onUpdate({ ios_app_version: e.target.value })}
+                value={formData.ios_app_version || ''}
+                onChange={(e) => handleInputChange('ios_app_version', e.target.value)}
                 placeholder="1.0.0"
               />
             </div>
+
             <div className="space-y-2">
               <Label htmlFor="ios_min_version">iOS Minimum Version</Label>
               <Input
                 id="ios_min_version"
-                value={settings.ios_min_version || ''}
-                onChange={(e) => onUpdate({ ios_min_version: e.target.value })}
+                value={formData.ios_min_version || ''}
+                onChange={(e) => handleInputChange('ios_min_version', e.target.value)}
                 placeholder="1.0.0"
               />
             </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>Force Update</Label>
-              <p className="text-sm text-muted-foreground">
-                Force users to update to the latest version
-              </p>
-            </div>
+          <div className="flex items-center space-x-2">
             <Switch
-              checked={settings.force_update || false}
-              onCheckedChange={(checked) => onUpdate({ force_update: checked })}
+              id="force_update"
+              checked={formData.force_update || false}
+              onCheckedChange={(checked) => handleInputChange('force_update', checked)}
             />
+            <Label htmlFor="force_update">Force Update</Label>
+            <span className="text-sm text-muted-foreground">
+              Require users to update to the latest version
+            </span>
           </div>
         </CardContent>
       </Card>
@@ -214,173 +210,225 @@ export function MobileSettings({ settings, onUpdate, loading }: MobileSettingsPr
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
-            <Bell className="h-5 w-5" />
+            <Settings className="h-5 w-5" />
             App Features
           </CardTitle>
-          <CardDescription>Enable or disable specific app features</CardDescription>
+          <CardDescription>
+            Enable or disable specific app features
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-3">
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>App Notifications</Label>
-                <p className="text-sm text-muted-foreground">
-                  Enable push notifications in the mobile app
-                </p>
-              </div>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex items-center space-x-2">
               <Switch
-                checked={settings.enable_app_notifications || false}
-                onCheckedChange={(checked) => onUpdate({ enable_app_notifications: checked })}
+                id="enable_app_notifications"
+                checked={formData.enable_app_notifications ?? true}
+                onCheckedChange={(checked) => handleInputChange('enable_app_notifications', checked)}
               />
+              <Label htmlFor="enable_app_notifications">Push Notifications</Label>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>In-App Chat</Label>
-                <p className="text-sm text-muted-foreground">
-                  Enable chat functionality within the app
-                </p>
-              </div>
+
+            <div className="flex items-center space-x-2">
               <Switch
-                checked={settings.enable_in_app_chat || false}
-                onCheckedChange={(checked) => onUpdate({ enable_in_app_chat: checked })}
+                id="enable_in_app_chat"
+                checked={formData.enable_in_app_chat ?? true}
+                onCheckedChange={(checked) => handleInputChange('enable_in_app_chat', checked)}
               />
+              <Label htmlFor="enable_in_app_chat">In-App Chat</Label>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Car Comparison</Label>
-                <p className="text-sm text-muted-foreground">
-                  Allow users to compare different car models
-                </p>
-              </div>
+
+            <div className="flex items-center space-x-2">
               <Switch
-                checked={settings.enable_car_comparison || false}
-                onCheckedChange={(checked) => onUpdate({ enable_car_comparison: checked })}
+                id="enable_car_comparison"
+                checked={formData.enable_car_comparison ?? true}
+                onCheckedChange={(checked) => handleInputChange('enable_car_comparison', checked)}
               />
+              <Label htmlFor="enable_car_comparison">Car Comparison</Label>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Car Booking</Label>
-                <p className="text-sm text-muted-foreground">
-                  Enable car booking functionality in the app
-                </p>
-              </div>
+
+            <div className="flex items-center space-x-2">
               <Switch
-                checked={settings.enable_app_booking || false}
-                onCheckedChange={(checked) => onUpdate({ enable_app_booking: checked })}
+                id="enable_app_booking"
+                checked={formData.enable_app_booking ?? true}
+                onCheckedChange={(checked) => handleInputChange('enable_app_booking', checked)}
               />
+              <Label htmlFor="enable_app_booking">Car Booking</Label>
             </div>
-            <div className="flex items-center justify-between">
-              <div className="space-y-0.5">
-                <Label>Car Reviews</Label>
-                <p className="text-sm text-muted-foreground">
-                  Allow users to write and read car reviews
-                </p>
-              </div>
+
+            <div className="flex items-center space-x-2">
               <Switch
-                checked={settings.enable_app_reviews || false}
-                onCheckedChange={(checked) => onUpdate({ enable_app_reviews: checked })}
+                id="enable_app_reviews"
+                checked={formData.enable_app_reviews ?? true}
+                onCheckedChange={(checked) => handleInputChange('enable_app_reviews', checked)}
               />
+              <Label htmlFor="enable_app_reviews">Car Reviews</Label>
             </div>
           </div>
-        </CardContent>
-      </Card>
 
-      {/* App Configuration */}
-      <Card>
-        <CardHeader>
-          <CardTitle>App Configuration</CardTitle>
-          <CardDescription>Configure app behavior and content settings</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="cars_per_page">Cars Per Page</Label>
-            <Input
-              id="cars_per_page"
-              type="number"
-              value={settings.cars_per_page || 10}
-              onChange={(e) => onUpdate({ cars_per_page: parseInt(e.target.value) || 10 })}
-              min="5"
-              max="50"
-              placeholder="10"
-            />
-            <p className="text-sm text-muted-foreground">
-              Number of cars to display per page in the app (5-50)
-            </p>
-          </div>
-
-          <div className="flex items-center justify-between">
-            <div className="space-y-0.5">
-              <Label>App Analytics</Label>
-              <p className="text-sm text-muted-foreground">
-                Enable analytics tracking in the mobile app
-              </p>
-            </div>
-            <Switch
-              checked={settings.app_analytics_enabled || false}
-              onCheckedChange={(checked) => onUpdate({ app_analytics_enabled: checked })}
-            />
-          </div>
-
-          {settings.app_analytics_enabled && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-2">
-              <Label htmlFor="firebase_analytics_id">Firebase Analytics ID</Label>
+              <Label htmlFor="cars_per_page">Cars Per Page</Label>
               <Input
-                id="firebase_analytics_id"
-                value={settings.firebase_analytics_id || ''}
-                onChange={(e) => onUpdate({ firebase_analytics_id: e.target.value })}
-                placeholder="G-XXXXXXXXXX"
+                id="cars_per_page"
+                type="number"
+                value={formData.cars_per_page || 10}
+                onChange={(e) => handleInputChange('cars_per_page', parseInt(e.target.value))}
+                min="1"
+                max="50"
               />
             </div>
-          )}
+
+            <div className="space-y-2">
+              <Label htmlFor="featured_cars_limit">Featured Cars Limit</Label>
+              <Input
+                id="featured_cars_limit"
+                type="number"
+                value={formData.featured_cars_limit || 6}
+                onChange={(e) => handleInputChange('featured_cars_limit', parseInt(e.target.value))}
+                min="1"
+                max="20"
+              />
+            </div>
+          </div>
         </CardContent>
       </Card>
 
-      {/* App API Keys */}
+      {/* API Keys */}
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Key className="h-5 w-5" />
-            API Keys & Services
+            API Keys & Integration
           </CardTitle>
-          <CardDescription>Configure third-party service API keys</CardDescription>
+          <CardDescription>
+            Configure API keys for app integrations (handle with care)
+          </CardDescription>
         </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="clerk_api_key">Clerk API Key</Label>
-            <Input
-              id="clerk_api_key"
-              type="password"
-              value={settings.clerk_api_key || ''}
-              onChange={(e) => onUpdate({ clerk_api_key: e.target.value })}
-              placeholder="pk_live_xxxxxxxxxxxxxxxx"
-            />
-            <p className="text-sm text-muted-foreground">
-              API key for Clerk authentication service
-            </p>
+        <CardContent className="space-y-6">
+          <div className="grid grid-cols-1 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="clerk_api_key">Clerk API Key</Label>
+              <Input
+                id="clerk_api_key"
+                type="password"
+                value={formData.clerk_api_key || ''}
+                onChange={(e) => handleInputChange('clerk_api_key', e.target.value)}
+                placeholder="sk_..."
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="push_notification_key">Push Notification Key</Label>
+              <Input
+                id="push_notification_key"
+                type="password"
+                value={formData.push_notification_key || ''}
+                onChange={(e) => handleInputChange('push_notification_key', e.target.value)}
+                placeholder="Enter push notification key"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="bunny_cdn_api_key">Bunny CDN API Key</Label>
+              <Input
+                id="bunny_cdn_api_key"
+                type="password"
+                value={formData.bunny_cdn_api_key || ''}
+                onChange={(e) => handleInputChange('bunny_cdn_api_key', e.target.value)}
+                placeholder="Enter Bunny CDN API key"
+              />
+            </div>
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="push_notification_key">Push Notification Key</Label>
-            <Input
-              id="push_notification_key"
-              type="password"
-              value={settings.push_notification_key || ''}
-              onChange={(e) => onUpdate({ push_notification_key: e.target.value })}
-              placeholder="Firebase Cloud Messaging key"
+        </CardContent>
+      </Card>
+
+      {/* System Settings */}
+      <Card>
+        <CardHeader>
+          <CardTitle className="flex items-center gap-2">
+            <Shield className="h-5 w-5" />
+            System Settings
+          </CardTitle>
+          <CardDescription>
+            Configure app performance and security settings
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-6">
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="maintenance_mode"
+              checked={formData.maintenance_mode || false}
+              onCheckedChange={(checked) => handleInputChange('maintenance_mode', checked)}
             />
-            <p className="text-sm text-muted-foreground">
-              Firebase Cloud Messaging server key for push notifications
-            </p>
+            <Label htmlFor="maintenance_mode">Maintenance Mode</Label>
+            <span className="text-sm text-muted-foreground">
+              Enable to put the app in maintenance mode
+            </span>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <div className="space-y-2">
+              <Label htmlFor="cache_duration">Cache Duration (minutes)</Label>
+              <Input
+                id="cache_duration"
+                type="number"
+                value={formData.cache_duration || 60}
+                onChange={(e) => handleInputChange('cache_duration', parseInt(e.target.value))}
+                min="1"
+                max="1440"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="session_timeout">Session Timeout (minutes)</Label>
+              <Input
+                id="session_timeout"
+                type="number"
+                value={formData.session_timeout || 30}
+                onChange={(e) => handleInputChange('session_timeout', parseInt(e.target.value))}
+                min="5"
+                max="480"
+              />
+            </div>
+
+            <div className="space-y-2">
+              <Label htmlFor="max_login_attempts">Max Login Attempts</Label>
+              <Input
+                id="max_login_attempts"
+                type="number"
+                value={formData.max_login_attempts || 5}
+                onChange={(e) => handleInputChange('max_login_attempts', parseInt(e.target.value))}
+                min="1"
+                max="10"
+              />
+            </div>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Switch
+              id="ip_blocking_enabled"
+              checked={formData.ip_blocking_enabled ?? true}
+              onCheckedChange={(checked) => handleInputChange('ip_blocking_enabled', checked)}
+            />
+            <Label htmlFor="ip_blocking_enabled">IP Blocking</Label>
+            <span className="text-sm text-muted-foreground">
+              Enable automatic IP blocking for failed login attempts
+            </span>
           </div>
         </CardContent>
       </Card>
 
       {/* Save Button */}
       <div className="flex justify-end">
-        <Button onClick={handleSave} disabled={loading}>
-          <Save className="h-4 w-4 mr-2" />
-          {loading ? 'Saving...' : 'Save Mobile Settings'}
+        <Button 
+          onClick={handleSave} 
+          disabled={isSaving || loading}
+          className="min-w-32"
+        >
+          <Save className="mr-2 h-4 w-4" />
+          {isSaving ? 'Saving...' : 'Save Changes'}
         </Button>
       </div>
     </div>
-  );
+  )
 } 

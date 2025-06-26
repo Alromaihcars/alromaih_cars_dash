@@ -1,31 +1,58 @@
-// GraphQL queries as template strings (no external dependencies needed)
+// GraphQL queries for AlromaihSystemSettings with full localization support
 
-// Types for System Settings
+// Types for System Settings - Exact match to alromaih.system.settings schema
 export interface SystemSettings {
   id?: number;
+  
   // Website Basic Info
   website_name?: string;
-  website_logo?: string;
-  website_favicon?: string;
+  website_name_translations?: any; // Translations object
+  logo_arabic?: string; // Binary field - base64 encoded
+  logo_english?: string; // Binary field - base64 encoded  
+  website_favicon?: string; // Binary field - base64 encoded
   
   // Contact Information
   company_phone?: string;
+  company_phone_translations?: any;
   company_email?: string;
+  company_email_translations?: any;
   company_address?: string;
+  company_address_translations?: any;
+  whatsapp_business_number?: string;
+  customer_support_email?: string;
+  
+  // Business Information
+  business_registration_number?: string;
+  vat_number?: string;
+  copyright_text?: string;
+  copyright_text_translations?: any;
+  
+  // Business Hours
+  business_hours_open?: string;
+  business_hours_close?: string;
+  business_days?: string;
+  business_days_translations?: any;
   
   // Social Media
   facebook_url?: string;
-  twitter_url?: string;
   instagram_url?: string;
   youtube_url?: string;
+  snapchat_url?: string;
+  tiktok_url?: string;
+  linkedin_url?: string;
+  x_url?: string;
   
   // SEO Settings
   meta_title?: string;
+  meta_title_translations?: any;
   meta_description?: string;
+  meta_description_translations?: any;
   meta_keywords?: string;
+  meta_keywords_translations?: any;
   
   // Analytics
   google_analytics_id?: string;
+  google_tag_manager_id?: string;
   tiktok_pixel_id?: string;
   meta_pixel_id?: string;
   snapchat_pixel_id?: string;
@@ -36,17 +63,15 @@ export interface SystemSettings {
   primary_color?: string;
   secondary_color?: string;
   
-  // Footer Settings
-  footer_text?: string;
-  
-  // Mobile App Settings - App Branding
+  // Mobile App Settings
   app_name?: string;
-  app_logo?: string;
-  app_splash_screen?: string;
+  app_name_translations?: any;
+  app_logo?: string; // Binary field - base64 encoded
+  app_splash_screen?: string; // Binary field - base64 encoded
   
-  // App Theme
-  app_primary_color?: string;
-  app_secondary_color?: string;
+  // App Store Links
+  app_store_url?: string;
+  play_store_url?: string;
   
   // App Version Control
   android_app_version?: string;
@@ -65,811 +90,714 @@ export interface SystemSettings {
   // App API Keys
   clerk_api_key?: string;
   push_notification_key?: string;
-  
-  // App Analytics
-  app_analytics_enabled?: boolean;
-  firebase_analytics_id?: string;
+  bunny_cdn_api_key?: string;
+  hasura_api_key?: string;
+  hasura_url?: string;
+  hasura_admin_secret?: string;
   
   // App Content Settings
   cars_per_page?: number;
-}
-
-// Query to get system settings - Updated with MCP confirmed fields
-export const GET_SYSTEM_SETTINGS = `
-  query GetSystemSettings {
-    AlromaihSystemSettings(limit: 10) {
-      id
-      active
-      display_name
-      
-      # Website Fields
-      website_name
-      website_logo
-      website_favicon
-      meta_title
-      meta_description
-      meta_keywords
-      primary_color
-      secondary_color
-      footer_text
-      cars_per_page
-      enable_car_comparison
-      
-      # Company Fields
-      company_phone
-      company_email
-      company_address
-      
-      # Social Media Fields
-      facebook_url
-      twitter_url
-      instagram_url
-      youtube_url
-      
-      # Analytics Fields
-      google_analytics_id
-      meta_pixel_id
-      linkedin_pixel_id
-      snapchat_pixel_id
-      tiktok_pixel_id
-      x_pixel_id
-      
-      # Mobile App Fields
-      app_name
-      app_logo
-      app_splash_screen
-      app_primary_color
-      app_secondary_color
-      android_app_version
-      android_min_version
-      ios_app_version
-      ios_min_version
-      force_update
-      enable_app_notifications
-      enable_in_app_chat
-      enable_app_booking
-      enable_app_reviews
-      app_analytics_enabled
-      firebase_analytics_id
-      
-      # Authentication Fields
-      clerk_api_key
-      push_notification_key
-      
-      # System Fields
-      create_date
-      write_date
-    }
-  }
-`;
-
-// Query to get system settings by ID
-export const GET_SYSTEM_SETTINGS_BY_ID = `
-  query GetSystemSettingsById($id: String!) {
-    AlromaihSystemSettings(id: $id, domain: "") {
-      id
-      active
-      android_app_version
-      android_min_version
-      app_analytics_enabled
-      app_logo
-      app_name @multiLang
-      app_secondary_color
-      app_primary_color
-      app_splash_screen
-      cars_per_page
-      clerk_api_key
-      company_address @multiLang
-      company_email
-      create_date
-      company_phone
-      display_name @multiLang
-      enable_app_booking
-      enable_app_notifications
-      enable_app_reviews
-      enable_car_comparison
-      enable_in_app_chat
-      facebook_url
-      firebase_analytics_id
-      footer_text @multiLang
-      force_update
-      google_analytics_id
-      instagram_url
-      ios_min_version
-      ios_app_version
-      linkedin_pixel_id
-      meta_description @multiLang
-      meta_keywords @multiLang
-      meta_pixel_id
-      meta_title @multiLang
-      primary_color
-      push_notification_key
-      secondary_color
-      snapchat_pixel_id
-      tiktok_pixel_id
-      twitter_url
-      website_favicon
-      website_logo
-      website_name @multiLang
-      write_date
-      x_pixel_id
-      youtube_url
-    }
-  }
-`;
-
-// Mutation to create system settings - Odoo EasyGraphQL format
-export const CREATE_SYSTEM_SETTINGS = `
-  mutation CreateSystemSettings($values: AlromaihSystemSettingsValues!) {
-    AlromaihSystemSettings(AlromaihSystemSettingsValues: $values) {
-      id
-      display_name
-      active
-      website_name
-      app_name
-      create_date
-      write_date
-    }
-  }
-`;
-
-// Mutation to update system settings - Odoo EasyGraphQL format
-export const UPDATE_SYSTEM_SETTINGS = `
-  mutation UpdateSystemSettings($id: String!, $values: AlromaihSystemSettingsValues!) {
-    AlromaihSystemSettings(id: $id, AlromaihSystemSettingsValues: $values) {
-      id
-      display_name
-      active
-      website_name
-      app_name
-      write_date
-    }
-  }
-`;
-
-// Mutation to delete system settings
-export const DELETE_SYSTEM_SETTINGS = `
-  mutation DeleteSystemSettings($id: String!) {
-    AlromaihSystemSettings(id: $id, AlromaihSystemSettingsValues: { active: false }) {
-      id
-      display_name @multiLang
-      active
-    }
-  }
-`;
-
-// TypeScript interfaces for system settings - Updated to handle Odoo data structure
-export interface AlromaihSystemSettings {
-  id: string | number;
-  active: boolean | string;
-  display_name: string | false;
+  featured_cars_limit?: number;
   
-  // Website Fields
-  website_name: string | false;
-  website_logo: string | false;
-  website_favicon: string | false;
-  meta_title: string | false;
-  meta_description: string | false;
-  meta_keywords: string | false;
-  primary_color: string | false;
-  secondary_color: string | false;
-  footer_text: string | false;
-  cars_per_page: number | string | false;
-  enable_car_comparison: boolean | string | false;
+  // System Settings
+  maintenance_mode?: boolean;
   
-  // Company Fields
-  company_phone: string | false;
-  company_email: string | false;
-  company_address: string | false;
+  // Performance Settings
+  cache_duration?: number;
   
-  // Social Media Fields
-  facebook_url: string | false;
-  twitter_url: string | false;
-  instagram_url: string | false;
-  youtube_url: string | false;
+  // Security Settings
+  session_timeout?: number;
+  max_login_attempts?: number;
+  ip_blocking_enabled?: boolean;
   
-  // Analytics Fields
-  google_analytics_id: string | false;
-  meta_pixel_id: string | false;
-  linkedin_pixel_id: string | false;
-  snapchat_pixel_id: string | false;
-  tiktok_pixel_id: string | false;
-  x_pixel_id: string | false;
+  // Bunny CDN Paths
+  logo_arabic_bunny_path?: string;
+  logo_english_bunny_path?: string;
+  website_favicon_bunny_path?: string;
+  app_logo_bunny_path?: string;
+  app_splash_screen_bunny_path?: string;
   
-  // Mobile App Fields
-  app_name: string | false;
-  app_logo: string | false;
-  app_splash_screen: string | false;
-  app_primary_color: string | false;
-  app_secondary_color: string | false;
-  android_app_version: string | false;
-  android_min_version: string | false;
-  ios_app_version: string | false;
-  ios_min_version: string | false;
-  force_update: boolean | string | false;
-  enable_app_notifications: boolean | string | false;
-  enable_in_app_chat: boolean | string | false;
-  enable_app_booking: boolean | string | false;
-  enable_app_reviews: boolean | string | false;
-  app_analytics_enabled: boolean | string | false;
-  firebase_analytics_id: string | false;
+  // CDN URL fields (computed/read-only)
+  logo_arabic_cdn_url?: string;
+  logo_english_cdn_url?: string;
+  website_favicon_cdn_url?: string;
+  app_logo_cdn_url?: string;
+  app_splash_screen_cdn_url?: string;
   
-  // Authentication Fields
-  clerk_api_key: string | false;
-  push_notification_key: string | false;
-  
-  // System Fields
-  create_date: string;
-  write_date: string;
-}
-
-// Input interface for mutations - Clean data types for sending to Odoo
-export interface AlromaihSystemSettingsInput {
+  // System fields
   active?: boolean;
   display_name?: string;
-  
-  // Website Fields
+  create_uid?: any;
+  create_date?: string;
+  write_uid?: any;
+  write_date?: string;
+}
+
+// Branding Asset Management Types
+export interface BrandingAssetStatus {
+  exists: boolean;
+  name: string;
+  id?: number;
+  url?: string;
+  file_size?: number;
+  upload_date?: string;
+}
+
+export interface BrandingAssetsSummary {
+  total_required: number;
+  total_uploaded: number;
+  missing_count: number;
+  completion_percentage: number;
+}
+
+export interface BrandingAssetsStatus {
+  website_branding: Record<string, BrandingAssetStatus>;
+  mobile_app: Record<string, BrandingAssetStatus>;
+  summary: BrandingAssetsSummary;
+}
+
+export interface SocialMediaMetaTags {
+  og_image?: string;
+  twitter_image?: string;
+  linkedin_image?: string;
+  whatsapp_image?: string;
+  favicon?: string;
+  apple_touch_icon?: string;
+  android_chrome_icon?: string;
+  google_business_logo?: string;
+}
+
+// Binary file upload interface for handling image uploads
+export interface BinaryFileUpload {
+  field_name: string;
+  file_data: string; // base64 encoded file data
+  filename?: string;
+  content_type?: string;
+}
+
+// Input interface for updates - matching AlromaihSystemSettingsValues
+export interface SystemSettingsInput {
+  // Website Basic Info with translations
   website_name?: string;
-  website_logo?: string;
+  website_name_translations?: any;
+  logo_arabic?: string;
+  logo_english?: string;
   website_favicon?: string;
-  meta_title?: string;
-  meta_description?: string;
-  meta_keywords?: string;
-  primary_color?: string;
-  secondary_color?: string;
-  footer_text?: string;
-  cars_per_page?: number;
-  enable_car_comparison?: boolean;
   
-  // Company Fields
+  // Contact Information with translations
   company_phone?: string;
+  company_phone_translations?: any;
   company_email?: string;
+  company_email_translations?: any;
   company_address?: string;
+  company_address_translations?: any;
+  whatsapp_business_number?: string;
+  customer_support_email?: string;
   
-  // Social Media Fields
+  // Business Information
+  business_registration_number?: string;
+  vat_number?: string;
+  copyright_text?: string;
+  copyright_text_translations?: any;
+  
+  // Business Hours
+  business_hours_open?: string;
+  business_hours_close?: string;
+  business_days?: string;
+  business_days_translations?: any;
+  
+  // Social Media
   facebook_url?: string;
-  twitter_url?: string;
   instagram_url?: string;
   youtube_url?: string;
+  snapchat_url?: string;
+  tiktok_url?: string;
+  linkedin_url?: string;
+  x_url?: string;
   
-  // Analytics Fields
+  // SEO with translations
+  meta_title?: string;
+  meta_title_translations?: any;
+  meta_description?: string;
+  meta_description_translations?: any;
+  meta_keywords?: string;
+  meta_keywords_translations?: any;
+  
+  // Analytics
   google_analytics_id?: string;
-  meta_pixel_id?: string;
-  linkedin_pixel_id?: string;
-  snapchat_pixel_id?: string;
+  google_tag_manager_id?: string;
   tiktok_pixel_id?: string;
+  meta_pixel_id?: string;
+  snapchat_pixel_id?: string;
+  linkedin_pixel_id?: string;
   x_pixel_id?: string;
   
-  // Mobile App Fields
+  // Colors
+  primary_color?: string;
+  secondary_color?: string;
+  
+  // Mobile App with translations
   app_name?: string;
+  app_name_translations?: any;
   app_logo?: string;
   app_splash_screen?: string;
-  app_primary_color?: string;
-  app_secondary_color?: string;
+  
+  // App Store Links
+  app_store_url?: string;
+  play_store_url?: string;
+  
+  // App Version Control
   android_app_version?: string;
   android_min_version?: string;
   ios_app_version?: string;
   ios_min_version?: string;
   force_update?: boolean;
-  enable_app_notifications?: boolean;
-  enable_in_app_chat?: boolean;
-  enable_app_booking?: boolean;
-  enable_app_reviews?: boolean;
-  app_analytics_enabled?: boolean;
-  firebase_analytics_id?: string;
-  
-  // Authentication Fields
-  clerk_api_key?: string;
-  push_notification_key?: string;
-}
-
-// Legacy alias for backward compatibility
-export interface AlromaihSystemSettingsValues extends AlromaihSystemSettingsInput {}
-
-// Helper function to get current language context
-const getCurrentLanguageContext = (): string => {
-  // Check if we're in a browser environment
-  if (typeof window !== 'undefined') {
-    // Check document direction
-    const isRTL = document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar'
-    if (isRTL) return 'ar_001'
-    
-    // Check localStorage or other client-side language indicators
-    const storedLang = localStorage.getItem('language') || localStorage.getItem('locale')
-    if (storedLang === 'ar' || storedLang === 'ar_001') return 'ar_001'
-    if (storedLang === 'en' || storedLang === 'en_US') return 'en_US'
-  }
-  
-  // Default to Arabic as primary language
-  return 'ar_001'
-}
-
-// Helper function to get localized text with Arabic priority
-// Handles Odoo's return of `false` for empty fields
-export const getLocalizedText = (field: any, languageCode?: string): string => {
-  if (!field || field === false) return ""
-  if (typeof field === "string") return field
-  
-  // Use provided language or detect current context
-  const targetLang = languageCode || getCurrentLanguageContext()
-  
-  if (typeof field === "object" && field !== null) {
-    const obj = field as { [key: string]: string }
-    
-    // Arabic-first logic: if Arabic is requested or detected, prioritize Arabic
-    if (targetLang === 'ar_001' && obj.ar_001) {
-      return obj.ar_001
-    }
-    
-    // If English is specifically requested
-    if (targetLang === 'en_US' && obj.en_US) {
-      return obj.en_US
-    }
-    
-    // Fallback priority: Arabic first, then English, then any available
-    return obj.ar_001 || obj.en_US || Object.values(obj)[0] || ""
-  }
-  return String(field)
-}
-
-// Helper function to convert Odoo boolean values
-export const getOdooBoolean = (field: any): boolean => {
-  if (field === false || field === 'false' || field === '' || field === null || field === undefined) {
-    return false
-  }
-  if (field === true || field === 'true') {
-    return true
-  }
-  return Boolean(field)
-}
-
-// Helper function to convert Odoo number values
-export const getOdooNumber = (field: any, defaultValue: number = 0): number => {
-  if (field === false || field === null || field === undefined || field === '') {
-    return defaultValue
-  }
-  const num = Number(field)
-  return isNaN(num) ? defaultValue : num
-}
-
-// Website-specific settings groups
-export const WEBSITE_SETTINGS_GROUPS = {
-  general: {
-    label: 'General Website Settings',
-    icon: '🌐',
-    fields: ['website_name', 'website_logo', 'website_favicon', 'meta_title', 'meta_description', 'meta_keywords']
-  },
-  appearance: {
-    label: 'Website Appearance',
-    icon: '🎨',
-    fields: ['primary_color', 'secondary_color', 'footer_text']
-  },
-  company: {
-    label: 'Company Information',
-    icon: '🏢',
-    fields: ['company_email', 'company_phone', 'company_address']
-  },
-  social: {
-    label: 'Social Media Links',
-    icon: '📱',
-    fields: ['facebook_url', 'instagram_url', 'twitter_url', 'youtube_url']
-  },
-  analytics: {
-    label: 'Analytics & Tracking',
-    icon: '📊',
-    fields: ['google_analytics_id', 'meta_pixel_id', 'linkedin_pixel_id', 'snapchat_pixel_id', 'tiktok_pixel_id', 'x_pixel_id']
-  },
-  features: {
-    label: 'Website Features',
-    icon: '⚙️',
-    fields: ['enable_car_comparison', 'cars_per_page']
-  }
-}
-
-// Mobile app-specific settings groups
-export const MOBILE_SETTINGS_GROUPS = {
-  general: {
-    label: 'General App Settings',
-    icon: '📱',
-    fields: ['app_name', 'app_logo', 'app_splash_screen']
-  },
-  appearance: {
-    label: 'App Appearance',
-    icon: '🎨',
-    fields: ['app_primary_color', 'app_secondary_color']
-  },
-  versions: {
-    label: 'App Versions',
-    icon: '📋',
-    fields: ['android_app_version', 'android_min_version', 'ios_app_version', 'ios_min_version', 'force_update']
-  },
-  features: {
-    label: 'App Features',
-    icon: '⚡',
-    fields: ['enable_app_booking', 'enable_app_notifications', 'enable_app_reviews', 'enable_in_app_chat']
-  },
-  analytics: {
-    label: 'App Analytics',
-    icon: '📈',
-    fields: ['app_analytics_enabled', 'firebase_analytics_id']
-  },
-  notifications: {
-    label: 'Push Notifications',
-    icon: '🔔',
-    fields: ['push_notification_key']
-  },
-  authentication: {
-    label: 'Authentication',
-    icon: '🔐',
-    fields: ['clerk_api_key']
-  }
-}
-
-// Field configurations with validation and display info
-export const FIELD_CONFIGS: Record<string, {
-  label: string;
-  type: 'text' | 'email' | 'url' | 'number' | 'textarea' | 'color' | 'boolean' | 'file';
-  placeholder?: string;
-  description?: string;
-  validation?: {
-    required?: boolean;
-    min?: number;
-    max?: number;
-    pattern?: string;
-  };
-}> = {
-  // Website Fields
-  website_name: {
-    label: 'Website Name',
-    type: 'text',
-    placeholder: 'Enter website name',
-    description: 'The name of your website displayed in browser titles'
-  },
-  website_logo: {
-    label: 'Website Logo',
-    type: 'file',
-    description: 'Upload your website logo (recommended: PNG, 200x50px)'
-  },
-  website_favicon: {
-    label: 'Website Favicon',
-    type: 'file',
-    description: 'Upload your favicon (recommended: ICO or PNG, 32x32px)'
-  },
-  meta_title: {
-    label: 'Meta Title',
-    type: 'text',
-    placeholder: 'Enter meta title for SEO',
-    description: 'Title tag for search engines (50-60 characters)'
-  },
-  meta_description: {
-    label: 'Meta Description',
-    type: 'textarea',
-    placeholder: 'Enter meta description for SEO',
-    description: 'Description for search engines (150-160 characters)'
-  },
-  meta_keywords: {
-    label: 'Meta Keywords',
-    type: 'text',
-    placeholder: 'Enter keywords separated by commas',
-    description: 'Keywords for search engines (comma-separated)'
-  },
-  primary_color: {
-    label: 'Primary Color',
-    type: 'color',
-    description: 'Main brand color for your website'
-  },
-  secondary_color: {
-    label: 'Secondary Color',
-    type: 'color',
-    description: 'Secondary brand color for accents'
-  },
-  footer_text: {
-    label: 'Footer Text',
-    type: 'textarea',
-    placeholder: 'Enter footer text',
-    description: 'Text displayed in the website footer'
-  },
-  
-  // Company Fields
-  company_email: {
-    label: 'Company Email',
-    type: 'email',
-    placeholder: 'contact@example.com',
-    description: 'Main contact email address'
-  },
-  company_phone: {
-    label: 'Company Phone',
-    type: 'text',
-    placeholder: '+1 (555) 123-4567',
-    description: 'Main contact phone number'
-  },
-  company_address: {
-    label: 'Company Address',
-    type: 'textarea',
-    placeholder: 'Enter company address',
-    description: 'Full company address'
-  },
-  
-  // Social Media
-  facebook_url: {
-    label: 'Facebook URL',
-    type: 'url',
-    placeholder: 'https://facebook.com/yourpage',
-    description: 'Link to your Facebook page'
-  },
-  instagram_url: {
-    label: 'Instagram URL',
-    type: 'url',
-    placeholder: 'https://instagram.com/yourpage',
-    description: 'Link to your Instagram page'
-  },
-  twitter_url: {
-    label: 'Twitter URL',
-    type: 'url',
-    placeholder: 'https://twitter.com/yourpage',
-    description: 'Link to your Twitter page'
-  },
-  youtube_url: {
-    label: 'YouTube URL',
-    type: 'url',
-    placeholder: 'https://youtube.com/yourchannel',
-    description: 'Link to your YouTube channel'
-  },
-  
-  // Analytics
-  google_analytics_id: {
-    label: 'Google Analytics ID',
-    type: 'text',
-    placeholder: 'GA-XXXXXXXXX-X',
-    description: 'Google Analytics tracking ID'
-  },
-  meta_pixel_id: {
-    label: 'Meta Pixel ID',
-    type: 'text',
-    placeholder: 'Enter Meta (Facebook) Pixel ID',
-    description: 'Meta Pixel for Facebook advertising'
-  },
-  linkedin_pixel_id: {
-    label: 'LinkedIn Pixel ID',
-    type: 'text',
-    placeholder: 'Enter LinkedIn Pixel ID',
-    description: 'LinkedIn Insight Tag ID'
-  },
-  snapchat_pixel_id: {
-    label: 'Snapchat Pixel ID',
-    type: 'text',
-    placeholder: 'Enter Snapchat Pixel ID',
-    description: 'Snapchat Pixel for advertising'
-  },
-  tiktok_pixel_id: {
-    label: 'TikTok Pixel ID',
-    type: 'text',
-    placeholder: 'Enter TikTok Pixel ID',
-    description: 'TikTok Pixel for advertising'
-  },
-  x_pixel_id: {
-    label: 'X (Twitter) Pixel ID',
-    type: 'text',
-    placeholder: 'Enter X Pixel ID',
-    description: 'X (formerly Twitter) Pixel ID'
-  },
-  
-  // Website Features
-  enable_car_comparison: {
-    label: 'Enable Car Comparison',
-    type: 'boolean',
-    description: 'Allow users to compare cars on the website'
-  },
-  cars_per_page: {
-    label: 'Cars Per Page',
-    type: 'number',
-    placeholder: '12',
-    description: 'Number of cars to display per page',
-    validation: { min: 1, max: 100 }
-  },
-  
-  // Mobile App Fields
-  app_name: {
-    label: 'App Name',
-    type: 'text',
-    placeholder: 'Enter mobile app name',
-    description: 'Name of your mobile application'
-  },
-  app_logo: {
-    label: 'App Logo',
-    type: 'file',
-    description: 'Upload your app logo (recommended: PNG, 1024x1024px)'
-  },
-  app_splash_screen: {
-    label: 'App Splash Screen',
-    type: 'file',
-    description: 'Upload splash screen image (recommended: PNG, 1080x1920px)'
-  },
-  app_primary_color: {
-    label: 'App Primary Color',
-    type: 'color',
-    description: 'Main brand color for your mobile app'
-  },
-  app_secondary_color: {
-    label: 'App Secondary Color',
-    type: 'color',
-    description: 'Secondary brand color for app accents'
-  },
-  
-  // App Versions
-  android_app_version: {
-    label: 'Android App Version',
-    type: 'text',
-    placeholder: '1.0.0',
-    description: 'Current Android app version'
-  },
-  android_min_version: {
-    label: 'Android Minimum Version',
-    type: 'text',
-    placeholder: '1.0.0',
-    description: 'Minimum Android app version required'
-  },
-  ios_app_version: {
-    label: 'iOS App Version',
-    type: 'text',
-    placeholder: '1.0.0',
-    description: 'Current iOS app version'
-  },
-  ios_min_version: {
-    label: 'iOS Minimum Version',
-    type: 'text',
-    placeholder: '1.0.0',
-    description: 'Minimum iOS app version required'
-  },
-  force_update: {
-    label: 'Force Update',
-    type: 'boolean',
-    description: 'Require users to update to the latest version'
-  },
   
   // App Features
-  enable_app_booking: {
-    label: 'Enable App Booking',
-    type: 'boolean',
-    description: 'Allow users to book appointments through the app'
-  },
-  enable_app_notifications: {
-    label: 'Enable App Notifications',
-    type: 'boolean',
-    description: 'Enable push notifications in the app'
-  },
-  enable_app_reviews: {
-    label: 'Enable App Reviews',
-    type: 'boolean',
-    description: 'Allow users to leave reviews in the app'
-  },
-  enable_in_app_chat: {
-    label: 'Enable In-App Chat',
-    type: 'boolean',
-    description: 'Enable chat functionality in the app'
-  },
+  enable_app_notifications?: boolean;
+  enable_in_app_chat?: boolean;
+  enable_car_comparison?: boolean;
+  enable_app_booking?: boolean;
+  enable_app_reviews?: boolean;
   
-  // App Analytics
-  app_analytics_enabled: {
-    label: 'Enable App Analytics',
-    type: 'boolean',
-    description: 'Enable analytics tracking in the mobile app'
-  },
-  firebase_analytics_id: {
-    label: 'Firebase Analytics ID',
-    type: 'text',
-    placeholder: 'Enter Firebase Analytics ID',
-    description: 'Firebase Analytics project ID'
-  },
+  // API Keys
+  clerk_api_key?: string;
+  push_notification_key?: string;
+  bunny_cdn_api_key?: string;
+  hasura_api_key?: string;
+  hasura_url?: string;
+  hasura_admin_secret?: string;
   
-  // Notifications
-  push_notification_key: {
-    label: 'Push Notification Key',
-    type: 'text',
-    placeholder: 'Enter push notification key',
-    description: 'Server key for push notifications'
-  },
+  // Content Settings
+  cars_per_page?: number;
+  featured_cars_limit?: number;
   
-  // Authentication
-  clerk_api_key: {
-    label: 'Clerk API Key',
-    type: 'text',
-    placeholder: 'Enter Clerk API key',
-    description: 'Clerk authentication API key'
-  },
-  
-  // General
-  active: {
-    label: 'Active',
-    type: 'boolean',
-    description: 'Enable or disable these settings'
-  },
-  display_name: {
-    label: 'Display Name',
-    type: 'text',
-    placeholder: 'Enter display name',
-    description: 'Display name for these settings'
-  }
+  // System Settings
+  maintenance_mode?: boolean;
+  cache_duration?: number;
+  session_timeout?: number;
+  max_login_attempts?: number;
+  ip_blocking_enabled?: boolean;
 }
 
-// Validation helper functions
-export const validateField = (fieldName: string, value: any): string | null => {
-  const config = FIELD_CONFIGS[fieldName]
-  if (!config) return null
-  
-  const validation = config.validation
-  if (!validation) return null
-  
-  if (validation.required && (!value || (typeof value === 'string' && value.trim() === ''))) {
-    return `${config.label} is required`
-  }
-  
-  if (config.type === 'email' && value && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
-    return 'Invalid email format'
-  }
-  
-  if (config.type === 'url' && value && !/^https?:\/\/.+/.test(value)) {
-    return 'Invalid URL format (must start with http:// or https://)'
-  }
-  
-  if (config.type === 'number' && value !== undefined && value !== null) {
-    const num = Number(value)
-    if (isNaN(num)) {
-      return 'Must be a valid number'
-    }
-    if (validation.min !== undefined && num < validation.min) {
-      return `Must be at least ${validation.min}`
-    }
-    if (validation.max !== undefined && num > validation.max) {
-      return `Must be at most ${validation.max}`
-    }
-  }
-  
-  if (validation.pattern && value && !new RegExp(validation.pattern).test(value)) {
-    return 'Invalid format'
-  }
-  
-  return null
+// Localization interfaces
+export interface FieldTranslation {
+  [languageCode: string]: string;
 }
 
-// Form validation helper
-export const validateForm = (data: AlromaihSystemSettingsValues, fields: string[]): Record<string, string> => {
-  const errors: Record<string, string> = {}
-  
-  fields.forEach(fieldName => {
-    const error = validateField(fieldName, data[fieldName as keyof AlromaihSystemSettingsValues])
-    if (error) {
-      errors[fieldName] = error
-    }
-  })
-  
-  return errors
+export interface LocalizedField {
+  value: string;
+  translations: FieldTranslation;
 }
 
-// Helper function to get default settings
+// Language support
+export const SUPPORTED_LANGUAGES = [
+  { code: 'en_US', name: 'English', native: 'English', flag: '🇺🇸' },
+  { code: 'ar_SA', name: 'Arabic', native: 'العربية', flag: '🇸🇦' },
+] as const;
+
+export type LanguageCode = typeof SUPPORTED_LANGUAGES[number]['code'];
+
+// ====================================
+// GRAPHQL QUERIES
+// ====================================
+
+// Check if system settings exist (lightweight query)
+export const CHECK_SYSTEM_SETTINGS_EXIST = `
+  query CheckSystemSettingsExist {
+    AlromaihSystemSettings(limit: 1) {
+      id
+      active
+      display_name
+    }
+  }
+`;
+
+// Get all system settings including translations
+export const GET_SYSTEM_SETTINGS_FULL = `
+  query GetSystemSettingsFull($lang: String) {
+    AlromaihSystemSettings(
+      limit: 1
+      context: { lang: $lang }
+    ) {
+      id
+      display_name
+      
+      # Website Basic Info
+      website_name
+      website_name_translations
+      meta_title
+      meta_title_translations
+      meta_description
+      meta_description_translations
+      meta_keywords
+      meta_keywords_translations
+      primary_color
+      secondary_color
+      
+      # Contact Information
+      company_phone
+      company_phone_translations
+      company_email
+      company_email_translations
+      company_address
+      company_address_translations
+      whatsapp_business_number
+      customer_support_email
+      
+      # Business Information
+      business_registration_number
+      vat_number
+      copyright_text
+      copyright_text_translations
+      
+      # Business Hours
+      business_hours_open
+      business_hours_close
+      business_days
+      business_days_translations
+      
+      # Social Media
+      facebook_url
+      instagram_url
+      youtube_url
+      snapchat_url
+      tiktok_url
+      linkedin_url
+      x_url
+      
+      # Analytics
+      google_analytics_id
+      google_tag_manager_id
+      tiktok_pixel_id
+      meta_pixel_id
+      snapchat_pixel_id
+      linkedin_pixel_id
+      x_pixel_id
+      
+      # Mobile App Settings
+      app_name
+      app_name_translations
+      app_store_url
+      play_store_url
+      android_app_version
+      android_min_version
+      ios_app_version
+      ios_min_version
+      force_update
+      
+      # App Features
+      enable_app_notifications
+      enable_in_app_chat
+      enable_car_comparison
+      enable_app_booking
+      enable_app_reviews
+      
+      # API Keys
+      clerk_api_key
+      push_notification_key
+      bunny_cdn_api_key
+      hasura_api_key
+      hasura_url
+      hasura_admin_secret
+      
+      # Content Settings
+      cars_per_page
+      featured_cars_limit
+      
+      # System Settings
+      maintenance_mode
+      cache_duration
+      session_timeout
+      max_login_attempts
+      ip_blocking_enabled
+      
+      # Bunny CDN Paths
+      logo_arabic_bunny_path
+      logo_english_bunny_path
+      website_favicon_bunny_path
+      app_logo_bunny_path
+      app_splash_screen_bunny_path
+      
+      # CDN URLs (computed)
+      logo_arabic_cdn_url
+      logo_english_cdn_url
+      website_favicon_cdn_url
+      app_logo_cdn_url
+      app_splash_screen_cdn_url
+      
+      # System fields
+      active
+      create_uid
+      create_date
+      write_uid
+      write_date
+    }
+  }
+`;
+
+// Get system settings with binary data (separate query for performance)
+export const GET_SYSTEM_SETTINGS_WITH_BINARY = `
+  query GetSystemSettingsWithBinary {
+    AlromaihSystemSettings(limit: 1) {
+      id
+      
+      # Binary fields only
+      logo_arabic
+      logo_english
+      website_favicon
+      app_logo
+      app_splash_screen
+      
+      # Include CDN URLs for fallback
+      logo_arabic_cdn_url
+      logo_english_cdn_url
+      website_favicon_cdn_url
+      app_logo_cdn_url
+      app_splash_screen_cdn_url
+      
+      write_date
+    }
+  }
+`;
+
+// Get basic system settings (no binary, no translations for fast loading)
+export const GET_SYSTEM_SETTINGS_BASIC = `
+  query GetSystemSettingsBasic {
+    AlromaihSystemSettings(limit: 1) {
+      id
+      display_name
+      
+      # Basic Info
+      website_name
+      primary_color
+      secondary_color
+      
+      # Contact
+      company_phone
+      company_email
+      company_address
+      
+      # Business
+      business_registration_number
+      vat_number
+      
+      # System
+      active
+      maintenance_mode
+      
+      write_date
+    }
+  }
+`;
+
+// ====================================
+// UPDATE MUTATION
+// ====================================
+
+// Universal update mutation for all system settings
+export const UPDATE_SYSTEM_SETTINGS = `
+  mutation UpdateSystemSettings($id: Int!, $values: AlromaihSystemSettingsValues!) {
+    updateAlromaihSystemSettings(id: $id, values: $values) {
+      id
+      display_name
+      
+      # Website Basic Info
+      website_name
+      website_name_translations
+      logo_arabic
+      logo_english
+      website_favicon
+      meta_title
+      meta_title_translations
+      meta_description
+      meta_description_translations
+      meta_keywords
+      meta_keywords_translations
+      primary_color
+      secondary_color
+      
+      # Contact Information
+      company_phone
+      company_phone_translations
+      company_email
+      company_email_translations
+      company_address
+      company_address_translations
+      whatsapp_business_number
+      customer_support_email
+      
+      # Business Information
+      business_registration_number
+      vat_number
+      copyright_text
+      copyright_text_translations
+      
+      # Business Hours
+      business_hours_open
+      business_hours_close
+      business_days
+      business_days_translations
+      
+      # Social Media
+      facebook_url
+      instagram_url
+      youtube_url
+      snapchat_url
+      tiktok_url
+      linkedin_url
+      x_url
+      
+      # Analytics
+      google_analytics_id
+      google_tag_manager_id
+      tiktok_pixel_id
+      meta_pixel_id
+      snapchat_pixel_id
+      linkedin_pixel_id
+      x_pixel_id
+      
+      # Mobile App Settings
+      app_name
+      app_name_translations
+      app_logo
+      app_splash_screen
+      app_store_url
+      play_store_url
+      android_app_version
+      android_min_version
+      ios_app_version
+      ios_min_version
+      force_update
+      
+      # App Features
+      enable_app_notifications
+      enable_in_app_chat
+      enable_car_comparison
+      enable_app_booking
+      enable_app_reviews
+      
+      # API Keys
+      clerk_api_key
+      push_notification_key
+      bunny_cdn_api_key
+      hasura_api_key
+      hasura_url
+      hasura_admin_secret
+      
+      # Content Settings
+      cars_per_page
+      featured_cars_limit
+      
+      # System Settings
+      maintenance_mode
+      cache_duration
+      session_timeout
+      max_login_attempts
+      ip_blocking_enabled
+      
+      # Bunny CDN Paths
+      logo_arabic_bunny_path
+      logo_english_bunny_path
+      website_favicon_bunny_path
+      app_logo_bunny_path
+      app_splash_screen_bunny_path
+      
+      # CDN URLs (computed)
+      logo_arabic_cdn_url
+      logo_english_cdn_url
+      website_favicon_cdn_url
+      app_logo_cdn_url
+      app_splash_screen_cdn_url
+      
+      # System fields
+      active
+      write_date
+    }
+  }
+`;
+
+// ====================================
+// UTILITY FUNCTIONS
+// ====================================
+
+// Binary data utilities for handling base64 images
+export const binaryDataUtils = {
+  // Convert base64 to data URL for display
+  toDataURL: (base64: string, mimeType: string = 'image/png'): string => {
+    if (!base64) return '';
+
+    // If it's already a data URL, return as-is
+    if (base64.startsWith('data:')) {
+      return base64;
+    }
+
+    // Add data URL prefix
+    return `data:${mimeType};base64,${base64}`;
+  },
+
+  // Check if base64 data is valid
+  isValidBase64: (base64: string): boolean => {
+    if (!base64) return false;
+    
+    try {
+      // Remove data URL prefix if present
+      const cleanBase64 = base64.replace(/^data:.*,/, '');
+      
+      // Check if valid base64
+      return btoa(atob(cleanBase64)) === cleanBase64;
+    } catch {
+      return false;
+    }
+  },
+
+  // Get preview info for binary data
+  getPreviewInfo: (base64: string, fieldName?: string) => {
+    const hasData = Boolean(base64);
+    const isValid = hasData ? binaryDataUtils.isValidBase64(base64) : false;
+    
+    return {
+      hasData,
+      isValid,
+      dataURL: isValid ? binaryDataUtils.toDataURL(base64) : undefined,
+      size: hasData ? Math.round((base64.length * 0.75) / 1024) : 0, // Approximate KB
+      fieldName
+    };
+  }
+};
+
+// Logo reader utilities for handling logo URLs and display
+export const logoReaderUtils = {
+  // Get logo URL for display from settings data
+  getLogoUrl: (settings: SystemSettings, field: 'logo_arabic' | 'logo_english' | 'website_favicon' | 'app_logo' | 'app_splash_screen'): string | undefined => {
+    if (!settings) return undefined;
+    
+    // Check if there's a CDN URL first
+    const cdnField = `${field}_cdn_url` as keyof SystemSettings;
+    const cdnUrl = settings[cdnField] as string;
+    if (cdnUrl) {
+      return cdnUrl;
+    }
+    
+    // Fallback to base64 data URL
+    const binaryData = settings[field] as string;
+    if (binaryData) {
+      return binaryDataUtils.toDataURL(binaryData);
+    }
+    
+    return undefined;
+  },
+
+  // Get all logo URLs from settings
+  getAllLogoUrls: (settings: SystemSettings) => {
+    const fields: Array<'logo_arabic' | 'logo_english' | 'website_favicon' | 'app_logo' | 'app_splash_screen'> = [
+      'logo_arabic', 'logo_english', 'website_favicon', 'app_logo', 'app_splash_screen'
+    ];
+    
+    const urls: Record<string, string | undefined> = {};
+    fields.forEach(field => {
+      urls[field] = logoReaderUtils.getLogoUrl(settings, field);
+    });
+    
+    return urls;
+  },
+
+  // Check if logo is available
+  hasLogo: (settings: SystemSettings, field: 'logo_arabic' | 'logo_english' | 'website_favicon' | 'app_logo' | 'app_splash_screen'): boolean => {
+    return Boolean(logoReaderUtils.getLogoUrl(settings, field));
+  }
+};
+
+// Localization utilities
+export const localizationUtils = {
+  // Get localized value with fallback
+  getLocalizedValue: (
+    baseValue: string, 
+    translations: any, 
+    language: LanguageCode = 'en_US'
+  ): string => {
+    if (!translations || typeof translations !== 'object') {
+      return baseValue || '';
+    }
+    
+    // Try requested language first
+    if (translations[language]) {
+      return translations[language];
+    }
+    
+    // Fallback to base value
+    return baseValue || '';
+  },
+
+  // Set translation for a field
+  setTranslation: (
+    existingTranslations: any, 
+    language: LanguageCode, 
+    value: string
+  ): any => {
+    const translations = existingTranslations || {};
+    return {
+      ...translations,
+      [language]: value
+    };
+  },
+
+  // Get all available translations for a field
+  getAllTranslations: (baseValue: string, translations: any): FieldTranslation => {
+    const result: FieldTranslation = {};
+    
+    // Add base value as English if not in translations
+    if (baseValue) {
+      result['en_US'] = baseValue;
+    }
+    
+    // Add all existing translations
+    if (translations && typeof translations === 'object') {
+      Object.assign(result, translations);
+    }
+    
+    return result;
+  },
+
+  // Check if translations exist for any language
+  hasTranslations: (translations: any): boolean => {
+    return translations && 
+           typeof translations === 'object' && 
+           Object.keys(translations).length > 0;
+  }
+};
+
+// File upload utilities
+export const fileToBase64 = (file: File): Promise<string> => {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      const result = reader.result as string;
+      // Remove the data URL prefix to get just the base64 data
+      const base64 = result.split(',')[1];
+      resolve(base64);
+    };
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+        });
+      };
+
+// Default settings factory - returns empty object (no static data)
 export const getDefaultSettings = (): SystemSettings => ({
-  website_name: "Alromaih Cars",
-  company_phone: "+966 11 123 4567",
-  company_email: "info@alromaihcars.com",
-  company_address: "Riyadh, Saudi Arabia",
-  meta_title: "Alromaih Cars - Premium Automotive Dealership",
-  meta_description: "Discover premium cars at Alromaih Cars, your trusted automotive partner in Saudi Arabia",
-  primary_color: "#0056b3",
-  secondary_color: "#6c757d",
-  footer_text: "© 2024 Alromaih Cars. All rights reserved.",
-  app_name: "Alromaih Cars",
-  app_primary_color: "#0056b3",
-  app_secondary_color: "#6c757d",
-  android_app_version: "1.0.0",
-  android_min_version: "1.0.0",
-  ios_app_version: "1.0.0",
-  ios_min_version: "1.0.0",
-  force_update: false,
-  enable_app_notifications: true,
-  enable_in_app_chat: true,
-  enable_car_comparison: true,
-  enable_app_booking: true,
-  enable_app_reviews: true,
-  app_analytics_enabled: true,
-  cars_per_page: 10,
-}); 
+  // All data should come from the server
+});
+
+// Error handling helper
+export const handleGraphQLResponse = <T>(response: any, queryName: string): T | null => {
+  if (response.errors) {
+    console.error(`GraphQL Error in ${queryName}:`, response.errors);
+    throw new Error(`${queryName} failed: ${response.errors[0]?.message}`);
+      }
+      
+  if (!response.data) {
+    console.error(`No data returned from ${queryName}`);
+    return null;
+    }
+    
+  return response.data;
+}; 

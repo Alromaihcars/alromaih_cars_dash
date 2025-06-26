@@ -58,34 +58,10 @@
               
     <!-- Settings Submenus -->
     <menuitem id="menu_system_settings" 
-              name="System Configuration" 
+              name="AlRomaih Settings" 
               parent="menu_settings"
-              action="action_alromaih_system_settings_config"
+              action="action_system_settings"
               sequence="10"/>
-              
-    <menuitem id="menu_settings_management" 
-              name="Settings Management" 
-              parent="menu_settings"
-              action="action_alromaih_system_settings"
-              sequence="20"/>
-              
-    <menuitem id="menu_website_settings" 
-              name="Website Settings" 
-              parent="menu_settings"
-              action="action_alromaih_system_settings_config"
-              sequence="30"/>
-              
-    <menuitem id="menu_mobile_settings" 
-              name="Mobile App Settings" 
-              parent="menu_settings"
-              action="action_alromaih_system_settings_config"
-              sequence="40"/>
-              
-    <menuitem id="menu_analytics_settings" 
-              name="Analytics &amp; Tracking" 
-              parent="menu_settings"
-              action="action_alromaih_system_settings_config"
-              sequence="50"/>
     
     <!-- Cars Submenus -->
     <menuitem id="menu_car" 

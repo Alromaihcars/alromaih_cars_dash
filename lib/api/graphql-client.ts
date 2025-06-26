@@ -376,38 +376,98 @@ class UnifiedGraphQLClient {
       ...options.headers
     }
 
-    // Use the secure API route
-    const response = await fetch('/api/graphql', {
-      method: 'POST',
-      headers,
-      signal: options.signal,
-      body: JSON.stringify({
-        query,
-        variables
+    try {
+      console.log(`🌐 Client Request [${requestId}]: Making request to /api/graphql`)
+
+      // Use the secure API route
+      const response = await fetch('/api/graphql', {
+        method: 'POST',
+        headers,
+        signal: options.signal,
+        body: JSON.stringify({
+          query,
+          variables
+        })
       })
-    })
 
-    if (!response.ok) {
-      const errorText = await response.text()
-      throw this.createApiError(
-        `API route error: ${response.status} ${response.statusText} - ${errorText}`,
-        'SERVER_ERROR',
-        response.status
-      )
+      console.log(`📡 Response Status [${requestId}]:`, response.status, response.statusText)
+
+      // Handle different response statuses
+      if (!response.ok) {
+        let errorMessage = `HTTP ${response.status}: ${response.statusText}`
+        
+        try {
+          const errorBody = await response.json()
+          if (errorBody.error) {
+            errorMessage = errorBody.error
+          } else if (errorBody.message) {
+            errorMessage = errorBody.message
+          }
+        } catch (parseError) {
+          console.warn('Could not parse error response body:', parseError)
+        }
+
+        throw this.createApiError(
+          new Error(errorMessage),
+          response.status === 401 ? 'AUTHENTICATION_ERROR' : 
+          response.status === 403 ? 'AUTHENTICATION_ERROR' :
+          response.status === 404 ? 'SERVER_ERROR' :
+          response.status >= 500 ? 'SERVER_ERROR' : 'UNKNOWN_ERROR',
+          response.status
+        )
+      }
+
+      // Parse successful response
+      const result = await response.json()
+      console.log(`✅ Response Parsed [${requestId}]:`, Object.keys(result))
+
+      // Validate response structure
+      if (!result || typeof result !== 'object') {
+        throw this.createApiError(
+          new Error('Invalid response format - expected JSON object'),
+          'SERVER_ERROR'
+        )
+      }
+
+      // Check for GraphQL errors in response
+      if (result.errors && Array.isArray(result.errors) && result.errors.length > 0) {
+        const errorMessages = result.errors.map((err: any) => err.message || 'Unknown GraphQL error').join(', ')
+        throw this.createApiError(
+          new Error(`GraphQL errors: ${errorMessages}`),
+          'GRAPHQL_ERROR'
+        )
+      }
+
+      // Return the data (API route should return { data: ... })
+      return result as T
+
+    } catch (error) {
+      console.error(`❌ Client Request Error [${requestId}]:`, error)
+      
+      // Re-throw ApiError instances as-is
+      if (error && typeof error === 'object' && 'type' in error) {
+        throw error
+      }
+      
+      // Handle fetch-specific errors
+      if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+        throw this.createApiError(
+          new Error('Network error - unable to reach API server. Check your internet connection.'),
+          'NETWORK_ERROR'
+        )
+      }
+      
+      // Handle timeout errors
+      if (error instanceof DOMException && error.name === 'AbortError') {
+        throw this.createApiError(
+          new Error('Request timeout - server took too long to respond'),
+          'TIMEOUT_ERROR'
+        )
+      }
+      
+      // Generic error handling
+      throw this.createApiError(error, 'UNKNOWN_ERROR')
     }
-
-    const result: GraphQLResponse<T> = await response.json()
-
-    if (result.errors && result.errors.length > 0) {
-      throw this.createApiError(
-        `GraphQL Error: ${result.errors[0]?.message || 'Unknown error'}`,
-        'GRAPHQL_ERROR',
-        undefined,
-        { graphqlErrors: result.errors }
-      )
-    }
-
-    return result.data as T
   }
 
   /**
@@ -532,12 +592,12 @@ class UnifiedGraphQLClient {
     if (typeof window !== 'undefined') {
       // Client-side language detection
       try {
-        const savedLocale = localStorage.getItem('locale')
-        if (savedLocale === 'ar') return 'ar_001'
-        if (savedLocale === 'en') return 'en_US'
-        
-        if (document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar') {
-          return 'ar_001'
+      const savedLocale = localStorage.getItem('locale')
+      if (savedLocale === 'ar') return 'ar_001'
+      if (savedLocale === 'en') return 'en_US'
+      
+      if (document.documentElement.dir === 'rtl' || document.documentElement.lang === 'ar') {
+        return 'ar_001'
         }
       } catch (error) {
         console.warn('Error accessing localStorage or document:', error)
@@ -566,9 +626,42 @@ class UnifiedGraphQLClient {
         message = 'Request timeout'
       } else if (error.message.includes('Failed to fetch') || error.message.includes('ERR_NETWORK')) {
         errorType = 'NETWORK_ERROR'
+        message = 'Network error - unable to connect to server'
+      } else if (error.message.includes('API_KEY')) {
+        errorType = 'AUTHENTICATION_ERROR'
+        message = 'API key configuration error'
+      } else if (error.message.includes('GraphQL')) {
+        errorType = 'GRAPHQL_ERROR'
       }
     } else if (typeof error === 'string') {
       message = error
+    } else if (typeof error === 'object' && error !== null) {
+      // Handle cases where error is an object but not an Error instance
+      if ('message' in error && typeof error.message === 'string') {
+        message = error.message
+      } else if ('error' in error && typeof error.error === 'string') {
+        message = error.error
+      } else {
+        message = JSON.stringify(error)
+      }
+    }
+
+    // Provide more helpful error messages based on common issues
+    if (message.includes('404') || message.includes('Not Found')) {
+      errorType = 'SERVER_ERROR'
+      message = 'API endpoint not found - check NEXT_PUBLIC_GRAPHQL_ENDPOINT configuration'
+    } else if (message.includes('401') || message.includes('Unauthorized')) {
+      errorType = 'AUTHENTICATION_ERROR'
+      message = 'Authentication failed - check API_KEY configuration'
+    } else if (message.includes('403') || message.includes('Forbidden')) {
+      errorType = 'AUTHENTICATION_ERROR'
+      message = 'Access denied - API key may not have sufficient permissions'
+    } else if (message.includes('500')) {
+      errorType = 'SERVER_ERROR'
+      message = 'Server error - GraphQL server may be experiencing issues'
+    } else if (message.includes('timeout')) {
+      errorType = 'TIMEOUT_ERROR'
+      message = 'Request timeout - server took too long to respond'
     }
 
     const apiError = new Error(message) as ApiError
@@ -640,8 +733,19 @@ class UnifiedGraphQLClient {
     const startTime = Date.now()
     
     try {
+      console.log('🔍 Testing GraphQL connection...')
+      console.log('📋 Configuration:', {
+        endpoint: this.config.endpoint,
+        isServer: this.isServer,
+        apiKeyConfigured: this.isServer ? (this.config.apiKey !== 'BUILD_TIME_PLACEHOLDER' && this.config.apiKey.length > 0) : 'N/A (client-side)',
+        timeout: this.config.timeout,
+        cacheEnabled: this.config.cacheEnabled
+      })
+      
       const result = await this.request('{ __typename }', {}, { cache: false })
       const latency = Date.now() - startTime
+      
+      console.log('✅ Connection test result:', { success: result.success, latency: `${latency}ms` })
       
       return {
         success: result.success,
@@ -649,11 +753,54 @@ class UnifiedGraphQLClient {
         latency
       }
     } catch (error) {
+      const latency = Date.now() - startTime
+      console.error('❌ Connection test failed:', error)
+      
       return { 
         success: false, 
         error: error instanceof Error ? error.message : 'Connection test failed',
-        latency: Date.now() - startTime
+        latency
       }
+    }
+  }
+
+  /**
+   * Validate configuration and provide helpful debugging info
+   */
+  validateConfiguration(): { valid: boolean; issues: string[]; recommendations: string[] } {
+    const issues: string[] = []
+    const recommendations: string[] = []
+
+    // Check endpoint configuration
+    if (!this.config.endpoint || this.config.endpoint === 'https://portal.alromaihcars.com/graphql') {
+      if (this.config.endpoint === 'https://portal.alromaihcars.com/graphql') {
+        recommendations.push('Using default endpoint. Ensure this is correct for your environment.')
+      } else {
+        issues.push('NEXT_PUBLIC_GRAPHQL_ENDPOINT is not configured')
+        recommendations.push('Set NEXT_PUBLIC_GRAPHQL_ENDPOINT in your environment variables')
+      }
+    }
+
+    // Check API key configuration (server-side only)
+    if (this.isServer) {
+      if (!this.config.apiKey || this.config.apiKey === 'BUILD_TIME_PLACEHOLDER') {
+        issues.push('API_KEY is not configured')
+        recommendations.push('Set API_KEY in your environment variables (server-side only)')
+      } else if (this.config.apiKey.length < 20) {
+        issues.push('API_KEY appears to be too short - it may be invalid')
+        recommendations.push('Verify your API_KEY is correct and properly generated')
+      }
+    }
+
+    // Check timeout settings
+    if (this.config.timeout < 5000) {
+      recommendations.push('Request timeout is quite short. Consider increasing if you experience timeout errors.')
+    }
+
+    return {
+      valid: issues.length === 0,
+      issues,
+      recommendations
     }
   }
 

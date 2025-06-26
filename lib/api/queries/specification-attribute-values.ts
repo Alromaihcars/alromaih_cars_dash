@@ -505,7 +505,7 @@ export const fetchGraphQL = async (query: string, variables: any = {}) => {
   return isMutation 
     ? await gqlMutate(query, variables)
     : await gql(query, variables)
-}
+} 
 
 // === RELATIONAL QUERIES - DO NOT MODIFY EXISTING QUERIES ABOVE ===
 

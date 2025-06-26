@@ -33,13 +33,15 @@ import {
 } from '@/lib/api/queries/specification-template-lines'
 
 import {
-  GET_SPECIFICATION_TEMPLATES,
-  fetchGraphQL
+  GET_SPECIFICATION_TEMPLATES
 } from '@/lib/api/queries/specification-templates'
 
 import {
   GET_PRODUCT_ATTRIBUTES
 } from '@/lib/api/queries/specification-attributes'
+
+// Import the new unified GraphQL client
+import { gql, gqlMutate } from '@/lib/api'
 
 export default function SpecificationTemplateLinesPage() {
   const { t } = useI18n()
@@ -87,9 +89,9 @@ export default function SpecificationTemplateLinesPage() {
     try {
       // Load templates with their lines, available templates, and attributes in parallel
       const [templatesData, availableTemplatesData, attributesData] = await Promise.all([
-        fetchGraphQL(GET_SPECIFICATION_TEMPLATE_LINES),
-        fetchGraphQL(GET_SPECIFICATION_TEMPLATES),
-        fetchGraphQL(GET_PRODUCT_ATTRIBUTES)
+        gql(GET_SPECIFICATION_TEMPLATE_LINES),
+        gql(GET_SPECIFICATION_TEMPLATES),
+        gql(GET_PRODUCT_ATTRIBUTES)
       ])
 
       const templates = templatesData?.AlromaihCarSpecificationTemplate || []
@@ -125,7 +127,7 @@ export default function SpecificationTemplateLinesPage() {
 
     try {
       if (editingLine) {
-        await fetchGraphQL(UPDATE_TEMPLATE_LINE, {
+        await gqlMutate(UPDATE_TEMPLATE_LINE, {
           id: editingLine.id,
           values: formData
         })
@@ -134,7 +136,7 @@ export default function SpecificationTemplateLinesPage() {
           description: "Template line updated successfully"
         })
       } else {
-        await fetchGraphQL(CREATE_TEMPLATE_LINE, {
+        await gqlMutate(CREATE_TEMPLATE_LINE, {
           values: formData
         })
         toast({
@@ -178,7 +180,7 @@ export default function SpecificationTemplateLinesPage() {
     if (!confirm('Are you sure you want to delete this template line?')) return
     
     try {
-      await fetchGraphQL(DELETE_TEMPLATE_LINE, { id: line.id })
+      await gqlMutate(DELETE_TEMPLATE_LINE, { id: line.id })
       toast({
         title: "Success",
         description: "Template line deleted successfully"

@@ -41,7 +41,11 @@ class CarOffers(models.Model):
         ('special', 'Special Offer')
     ], string='Offer Tag', default='special')
     
-    banner_image = fields.Binary(string='Banner Image', attachment=True)
+    # Car Media System Integration for offer banners
+    banner_media_ids = fields.One2many('alromaih.car.media', 'offer_id', string='Banner Media')
+    primary_banner_id = fields.Many2one('alromaih.car.media', string='Primary Banner', 
+                                       domain="[('id', 'in', banner_media_ids)]")
+    banner_url = fields.Char(string='Banner CDN URL', compute='_compute_banner_url', store=True)
     
     @api.depends('car_id', 'car_variant_id')
     def _compute_original_price(self):
@@ -68,6 +72,19 @@ class CarOffers(models.Model):
         today = fields.Date.today()
         for rec in self:
             rec.is_active = (rec.start_date <= today <= rec.end_date) if rec.start_date and rec.end_date else False
+    
+    @api.depends('primary_banner_id', 'banner_media_ids')
+    def _compute_banner_url(self):
+        """Compute banner CDN URL from car media system"""
+        for rec in self:
+            if rec.primary_banner_id and rec.primary_banner_id.external_url:
+                rec.banner_url = rec.primary_banner_id.external_url
+            elif rec.banner_media_ids:
+                # Get first active media as fallback
+                first_banner = rec.banner_media_ids.filtered(lambda m: m.active and m.external_url)[:1]
+                rec.banner_url = first_banner.external_url if first_banner else False
+            else:
+                rec.banner_url = False
     
     @api.onchange('car_id')
     def _onchange_car_id(self):
@@ -112,7 +129,7 @@ class CarOffers(models.Model):
                         'discount_type': offer.discount_type,
                         'discount_value': offer.discount_value,
                         'offer_tag': offer.offer_tag,
-                        'banner_image': offer.banner_image,
+                        # Note: Banner media will be linked separately if needed
                     })
     
     @api.model
@@ -129,6 +146,80 @@ class CarOffers(models.Model):
             for offer in self.filtered(lambda o: o.apply_to_all_variants):
                 offer._create_variant_offers()
         return result
+    
+    # ============================================================================
+    # CAR MEDIA SYSTEM INTEGRATION METHODS
+    # ============================================================================
+    
+    def action_create_banner_media(self):
+        """Create new banner media for this offer"""
+        self.ensure_one()
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'Upload Banner for {self.name}',
+            'res_model': 'alromaih.car.media',
+            'view_mode': 'form',
+            'context': {
+                'default_offer_id': self.id,
+                'default_car_id': self.car_id.id if self.car_id else False,
+                'default_car_variant_id': self.car_variant_id.id if self.car_variant_id else False,
+                'default_media_type': 'offer_banner',
+                'default_content_type': 'image',
+                'default_name': f'{self.name} - Banner',
+                'default_is_public': True,
+                'default_is_primary': True,
+                'default_is_featured': True,
+                'default_website_visible': True,
+                'default_alt_text': f'{self.name} - Special Offer Banner at AlRomaih Cars',
+            },
+            'target': 'new',
+        }
+    
+    def action_manage_banner_media(self):
+        """Open banner media manager for this offer"""
+        self.ensure_one()
+        
+        return {
+            'type': 'ir.actions.act_window',
+            'name': f'Banner Media for {self.name}',
+            'res_model': 'alromaih.car.media',
+            'view_mode': 'kanban,list,form',
+            'domain': [('offer_id', '=', self.id)],
+            'context': {
+                'default_offer_id': self.id,
+                'default_car_id': self.car_id.id if self.car_id else False,
+                'default_media_type': 'offer_banner',
+                'default_content_type': 'image',
+                'default_is_public': True,
+                'default_website_visible': True,
+            },
+            'help': '''<p class="o_view_nocontent_smiling_face">
+                Upload your first offer banner!
+            </p>
+            <p>
+                Create professional offer banners with automatic CDN delivery and SEO optimization.
+                All banners are optimized for web and mobile display.
+            </p>'''
+        }
+    
+    def get_banner_urls(self):
+        """Get all banner URLs for this offer"""
+        self.ensure_one()
+        
+        banners = []
+        for media in self.banner_media_ids.filtered(lambda m: m.active and m.external_url):
+            banners.append({
+                'id': media.id,
+                'name': media.name,
+                'url': media.external_url,
+                'alt_text': media.alt_text,
+                'is_primary': media.is_primary,
+                'dimensions': media.dimensions,
+                'file_size': media.file_size,
+            })
+        
+        return banners
 
     @api.model
     def get_offers_dashboard_data(self):
@@ -155,7 +246,9 @@ class CarOffers(models.Model):
                 'final_price': f"{offer.final_price:,.0f} SAR",
                 'offer_tag': offer.offer_tag,
                 'start_date': offer.start_date.strftime('%Y-%m-%d') if offer.start_date else '',
-                'end_date': offer.end_date.strftime('%Y-%m-%d') if offer.end_date else ''
+                'end_date': offer.end_date.strftime('%Y-%m-%d') if offer.end_date else '',
+                'banner_url': offer.banner_url,
+                'banner_count': len(offer.banner_media_ids),
             })
         
         return {

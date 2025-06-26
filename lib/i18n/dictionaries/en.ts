@@ -89,10 +89,12 @@ export const en = {
     salesReports: 'Sales Reports',
     inventoryReports: 'Inventory Reports',
     performanceReports: 'Performance Reports',
-    websiteSettings: 'Website Settings',
-    mobileAppSettings: 'Mobile App Settings',
+    settings: 'Settings', // Consolidated settings page (Website + Mobile + Analytics)
+    // Deprecated - now part of main settings page:
+    // websiteSettings: 'Website Settings',
+    // mobileAppSettings: 'Mobile App Settings',
     userManagement: 'User Management',
-    apiSettings: 'API Settings',
+    apiSettings: 'API Settings', // Separate API testing page
     overview: 'Overview',
     pagesGrid: 'Pages Grid',
     

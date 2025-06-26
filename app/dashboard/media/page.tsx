@@ -94,13 +94,13 @@ export default function MediaPage() {
     try {
       const [mediaData, carsData] = await Promise.all([
         gql(GET_CAR_MEDIA, {
-          domain: ['active', '=', true],
+          domain: [['active', '=', 'True']],
           limit: 50,
           offset: 0,
           order: 'sequence asc, name asc'
         }),
         gql(GET_CARS, {
-          domain: ['active', '=', true],
+          domain: [['active', '=', 'True']],
           limit: 100,
           offset: 0,
           order: 'name asc'
@@ -189,7 +189,7 @@ export default function MediaPage() {
     setEditingMedia(media)
     setFormData({
       name: getLocalizedText(media.name),
-      car_id: media.car_id.id,
+      car_id: media.car_id?.id || '',
       car_variant_id: media.car_variant_id?.id || '',
       media_type: media.media_type,
       content_type: media.content_type,
@@ -712,15 +712,19 @@ export default function MediaPage() {
               {filteredMedia.map(media => (
                 <Card key={media.id} className="cursor-pointer hover:shadow-md" onClick={() => handleEdit(media)}>
                   <CardContent className="p-4">
-                    <div className="aspect-video bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
-                      {media.image ? (
-                        <img src={media.image} alt={String(media.name)} className="w-full h-full object-cover rounded-lg" />
-                      ) : (
-                        <FileText className="h-8 w-8 text-gray-400" />
-                      )}
-                    </div>
-                    <h3 className="font-medium truncate">{getLocalizedText(media.name)}</h3>
-                    <p className="text-sm text-gray-500">{media.media_type}</p>
+                                      <div className="aspect-video bg-gray-100 rounded-lg mb-2 flex items-center justify-center">
+                    {getMediaThumbnailUrl(media) ? (
+                      <img 
+                        src={getMediaThumbnailUrl(media)} 
+                        alt={getLocalizedText(media.name)} 
+                        className="w-full h-full object-cover rounded-lg" 
+                      />
+                    ) : (
+                      <FileText className="h-8 w-8 text-gray-400" />
+                    )}
+                  </div>
+                    <h3 className="font-medium truncate mb-1">{getLocalizedText(media.name)}</h3>
+                    <p className="text-sm text-gray-500">{MEDIA_TYPES[media.media_type]?.label || media.media_type}</p>
                   </CardContent>
                 </Card>
               ))}

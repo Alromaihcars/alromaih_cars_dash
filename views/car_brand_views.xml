@@ -23,6 +23,12 @@
         <field name="type">form</field>
         <field name="arch" type="xml">
             <form string="Car Brand">
+                <header>
+                    <button name="action_upload_to_bunny" string="Upload to CDN" type="object" 
+                            class="btn-primary" invisible="not logo"/>
+                    <button name="action_delete_from_bunny" string="Delete from CDN" type="object" 
+                            class="btn-secondary" invisible="not logo_bunny_path"/>
+                </header>
                 <sheet>
                     <field name="logo" widget="image" class="oe_avatar" options="{'size': [100, 100], 'size_small': [50, 50]}"/>
                     <div class="oe_title">
@@ -37,6 +43,10 @@
                         <group>
                             <field name="active"/>
                             <field name="description"/>
+                        </group>
+                        <group name="cdn_info" string="CDN Information">
+                            <field name="logo_bunny_path" readonly="1"/>
+                            <field name="logo_cdn_url" widget="url" readonly="1"/>
                         </group>
                     </group>
                 </sheet>

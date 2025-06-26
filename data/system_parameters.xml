@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- CDN Configuration for Car Media -->
+        <record id="cdn_domain_parameter" model="ir.config_parameter">
+            <field name="key">cdn.domain</field>
+            <field name="value">alromaih-cdn.b-cdn.net</field>
+        </record>
+
+        <!-- Bunny Storage Configuration Parameters -->
+        <record id="bunny_storage_zone_name" model="ir.config_parameter">
+            <field name="key">bunny.storage.zone_name</field>
+            <field name="value">alromaih</field>
+        </record>
+
+        <record id="bunny_storage_access_key" model="ir.config_parameter">
+            <field name="key">bunny.storage.access_key</field>
+            <field name="value">e78b1fc2-93d6-4fbe-9b3c3fa6ae1e-7718-434d</field>
+        </record>
+
+        <record id="bunny_storage_region" model="ir.config_parameter">
+            <field name="key">bunny.storage.region</field>
+            <field name="value">ny</field>
+        </record>
+
+        <record id="bunny_cdn_domain" model="ir.config_parameter">
+            <field name="key">bunny.cdn.domain</field>
+            <field name="value">alromaih-cdn.b-cdn.net</field>
+        </record>
+    </data>
+</odoo> 

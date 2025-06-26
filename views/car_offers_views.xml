@@ -16,8 +16,20 @@
                             <label for="is_active" class="ml-2" string="Active"/>
                         </div>
                     </div>
-                    <group name="banner_section" string="Banner Image">
-                        <field name="banner_image" widget="image" class="oe_picture_preview" options="{'size': [600, 200]}"/>
+                    <group name="banner_section" string="Offer Banners">
+                        <div class="alert alert-info" role="alert">
+                            <strong>🎨 Professional Banner Management:</strong> Upload and manage offer banners through our advanced Car Media System.
+                            Features automatic CDN delivery, SEO optimization, and multiple banner support.
+                        </div>
+                        <div class="o_row">
+                            <button name="action_create_banner_media" string="📷 Upload Banner" 
+                                    type="object" class="btn btn-primary"/>
+                            <button name="action_manage_banner_media" string="🎨 Manage Banners" 
+                                    type="object" class="btn btn-secondary ml8"/>
+                        </div>
+                        <field name="banner_url" widget="url" readonly="1" string="Primary Banner URL" 
+                               invisible="not banner_url"/>
+                        <field name="primary_banner_id" readonly="1" invisible="not primary_banner_id"/>
                     </group>
                     <group>
                         <group name="offer_details">
@@ -41,6 +53,30 @@
                             <field name="final_price" readonly="1"/>
                         </group>
                     </group>
+                    
+                    <notebook>
+                        <page string="Banner Media" name="banner_media">
+                            <field name="banner_media_ids">
+                                <list decoration-info="is_primary">
+                                    <field name="image" widget="image" class="oe_avatar"/>
+                                    <field name="name"/>
+                                    <field name="media_type" widget="badge"/>
+                                    <field name="content_type" widget="badge"/>
+                                    <field name="is_primary" widget="boolean"/>
+                                    <field name="file_size" string="Size (MB)"/>
+                                    <field name="external_url" widget="url" string="CDN URL"/>
+                                    <field name="active" widget="boolean"/>
+                                </list>
+                            </field>
+                            <div class="oe_clear"/>
+                            <div class="o_row mt16">
+                                <button name="action_create_banner_media" string="📷 Add New Banner" 
+                                        type="object" class="btn btn-primary"/>
+                                <button name="action_manage_banner_media" string="🎨 Advanced Management" 
+                                        type="object" class="btn btn-secondary ml8"/>
+                            </div>
+                        </page>
+                    </notebook>
                 </sheet>
                 <chatter/>
             </form>
@@ -53,7 +89,6 @@
         <field name="model">alromaih.car.offer</field>
         <field name="arch" type="xml">
             <list decoration-success="is_active" decoration-muted="not is_active">
-                <field name="banner_image" widget="image" class="oe_list_field_image" optional="show"/>
                 <field name="name"/>
                 <field name="car_id"/>
                 <field name="car_variant_id"/>
@@ -66,6 +101,8 @@
                 <field name="end_date"/>
                 <field name="is_active"/>
                 <field name="offer_tag"/>
+                <field name="banner_url" widget="url" string="Primary Banner" optional="show"/>
+                <field name="primary_banner_id" string="Banner Media" optional="hide"/>
             </list>
         </field>
     </record>
@@ -114,6 +151,8 @@
                 <field name="end_date"/>
                 <field name="is_active"/>
                 <field name="offer_tag"/>
+                <field name="banner_url"/>
+                <field name="primary_banner_id"/>
                 <templates>
                     <t t-name="kanban-box">
                         <div t-att-class="['oe_kanban_global_click', record.is_active.raw_value ? 'oe_kanban_card_success' : '']">

@@ -136,6 +136,12 @@ export const DEFAULT_DISPLAY_TYPE_OPTIONS: DisplayTypeOption[] = [
     label: 'Multi-checkbox',
     description: 'Multiple selection with checkboxes',
     icon: '☑️'
+  },
+  {
+    value: 'text',
+    label: 'Text Input',
+    description: 'Free text input field for custom values',
+    icon: '📝'
   }
 ]
 

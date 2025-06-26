@@ -43,6 +43,18 @@ export const SUPPORTED_IMAGE_TYPES: Record<string, ImageMimeType> = {
     extension: 'svg',
     quality: 1.0,
     maxSize: 1 * 1024 * 1024 // 1MB
+  },
+  'image/x-icon': {
+    type: 'image/x-icon',
+    extension: 'ico',
+    quality: 1.0,
+    maxSize: 1 * 1024 * 1024 // 1MB
+  },
+  'image/vnd.microsoft.icon': {
+    type: 'image/vnd.microsoft.icon',
+    extension: 'ico',
+    quality: 1.0,
+    maxSize: 1 * 1024 * 1024 // 1MB
   }
 }
 
@@ -61,19 +73,32 @@ export interface ImageConversionOptions {
   maintainAspectRatio?: boolean
 }
 
-// Validate image file
-export const validateImageFile = (file: File): ImageValidationResult => {
+// Field-specific allowed types
+export const FIELD_ALLOWED_TYPES = {
+  favicon: ['image/x-icon', 'image/vnd.microsoft.icon', 'image/svg+xml'],
+  logo: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'],
+  general: ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif', 'image/svg+xml']
+}
+
+// Validate image file with optional field-specific validation
+export const validateImageFile = (file: File, fieldType?: keyof typeof FIELD_ALLOWED_TYPES): ImageValidationResult => {
   // Check if file exists
   if (!file) {
     return { isValid: false, error: 'No file provided' }
   }
 
+  // Get allowed types for this field
+  const allowedTypes: string[] = fieldType ? FIELD_ALLOWED_TYPES[fieldType] : Object.keys(SUPPORTED_IMAGE_TYPES)
+  
   // Check MIME type
   const mimeType = SUPPORTED_IMAGE_TYPES[file.type]
-  if (!mimeType) {
+  if (!mimeType || !allowedTypes.includes(file.type)) {
+    const formatNames = allowedTypes.map(type => SUPPORTED_IMAGE_TYPES[type]?.extension || type).join(', ').toUpperCase()
     return { 
       isValid: false, 
-      error: `Unsupported image format: ${file.type}. Supported formats: ${Object.keys(SUPPORTED_IMAGE_TYPES).join(', ')}` 
+      error: fieldType === 'favicon' 
+        ? `Please upload a valid favicon file (ICO or SVG format). Current file type: ${file.type}`
+        : `Unsupported image format: ${file.type}. Supported formats: ${formatNames}` 
     }
   }
 
@@ -89,10 +114,16 @@ export const validateImageFile = (file: File): ImageValidationResult => {
 
   // Check if file name has valid extension
   const fileExtension = file.name.split('.').pop()?.toLowerCase()
-  if (fileExtension && !['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg'].includes(fileExtension)) {
+  const validExtensions = fieldType === 'favicon' 
+    ? ['ico', 'svg'] 
+    : ['jpg', 'jpeg', 'png', 'webp', 'gif', 'svg']
+    
+  if (fileExtension && !validExtensions.includes(fileExtension)) {
     return { 
       isValid: false, 
-      error: `Invalid file extension: .${fileExtension}` 
+      error: fieldType === 'favicon'
+        ? `Invalid file extension: .${fileExtension}. Favicon files must use .ico or .svg extension.`
+        : `Invalid file extension: .${fileExtension}` 
     }
   }
 
