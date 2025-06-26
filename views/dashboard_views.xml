@@ -17,34 +17,168 @@
         </field>
     </record>
 
+    <!-- Dashboard Configuration Form View -->
+    <record id="view_iframe_dashboard_config_form" model="ir.ui.view">
+        <field name="name">Dashboard Configuration</field>
+        <field name="model">alromaih.iframe.dashboard</field>
+        <field name="arch" type="xml">
+            <form string="Dashboard Configuration">
+                <header>
+                    <button name="test_connection" string="Test Connection" type="object" 
+                            class="oe_highlight" attrs="{'invisible': [('url', '=', False)]}"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group name="deployment">
+                            <field name="environment" widget="radio"/>
+                            <field name="url" placeholder="https://dashboard.alromaih.com" 
+                                   attrs="{'required': [('environment', '=', 'production')]}"/>
+                            <field name="fallback_url" readonly="1"/>
+                        </group>
+                        <group name="security">
+                            <field name="iframe_allowed_origins" 
+                                   placeholder="https://portal.alromaihcars.com,https://odoo.alromaihcars.com"/>
+                            <field name="api_key" password="True"/>
+                        </group>
+                    </group>
+                    <group>
+                        <field name="description" readonly="1"/>
+                    </group>
+                    
+                    <!-- Deployment Instructions -->
+                    <notebook>
+                        <page string="Deployment Instructions">
+                            <div class="alert alert-info">
+                                <h4>Coolify Deployment Steps:</h4>
+                                <ol>
+                                    <li><strong>Create Application in Coolify:</strong>
+                                        <ul>
+                                            <li>Repository: https://github.com/Alromaihcars/alromaih_cars_dash</li>
+                                            <li>Branch: main</li>
+                                            <li>Build Pack: Docker</li>
+                                        </ul>
+                                    </li>
+                                    <li><strong>Set Environment Variables:</strong>
+                                        <pre style="background: #f5f5f5; padding: 10px; margin: 10px 0;">
+NEXT_PUBLIC_GRAPHQL_ENDPOINT=https://portal.alromaihcars.com/graphql
+API_KEY=your-secure-api-key-here
+NODE_ENV=production
+NEXT_TELEMETRY_DISABLED=1
+NEXT_PUBLIC_IFRAME_ALLOWED_ORIGINS=https://portal.alromaihcars.com
+NEXT_PUBLIC_RESTRICT_TO_IFRAME=true
+NEXT_PUBLIC_ALLOWED_REFERRERS=https://portal.alromaihcars.com</pre>
+                                    </li>
+                                    <li><strong>Deploy and Get URL:</strong> Copy the deployed URL from Coolify</li>
+                                    <li><strong>Update Configuration:</strong> Paste the URL in the "Dashboard URL" field above</li>
+                                    <li><strong>Test Connection:</strong> Click "Test Connection" to verify</li>
+                                </ol>
+                            </div>
+                        </page>
+                        <page string="Security Settings">
+                            <div class="alert alert-warning">
+                                <h4>Security Configuration:</h4>
+                                <ul>
+                                    <li><strong>Iframe Origins:</strong> Only allow embedding from your Odoo domains</li>
+                                    <li><strong>API Key:</strong> Use a secure API key for authentication</li>
+                                    <li><strong>HTTPS Only:</strong> Always use HTTPS in production</li>
+                                    <li><strong>Restrict Access:</strong> Dashboard will only work when embedded in Odoo</li>
+                                </ul>
+                            </div>
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- Dashboard Configuration Action -->
+    <record id="action_iframe_dashboard_config" model="ir.actions.act_window">
+        <field name="name">Dashboard Configuration</field>
+        <field name="res_model">alromaih.iframe.dashboard</field>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="view_iframe_dashboard_config_form"/>
+        <field name="target">current</field>
+        <field name="domain">[('id', '=', 1)]</field>
+        <field name="limit">1</field>
+    </record>
+
     <!-- Next.js Dashboard iFrame Form View -->
     <record id="view_nextjs_dashboard_iframe_form" model="ir.ui.view">
         <field name="name">Next.js Dashboard Form</field>
         <field name="model">alromaih.iframe.dashboard</field>
         <field name="arch" type="xml">
-            <form string="Next.js Dashboard" create="false" edit="false" delete="false">
+            <form string="AlRomaih Cars Dashboard" create="false" edit="false" delete="false">
+                <header>
+                    <!-- Environment indicator -->
+                    <div class="alert alert-info" style="margin: 5px;" 
+                         attrs="{'invisible': [('environment', '!=', 'development')]}">
+                        <strong>Development Mode:</strong> Using local dashboard
+                    </div>
+                    <div class="alert alert-success" style="margin: 5px;" 
+                         attrs="{'invisible': [('environment', '!=', 'production')]}">
+                        <strong>Production Mode:</strong> Using deployed dashboard
+                    </div>
+                </header>
                 <sheet style="padding: 0; margin: 0;">
                     <div class="o_form_sheet" style="padding: 0; margin: 0; background: white;">
-                        <iframe 
-                            src="http://92.112.192.192:3002"
-                            style="width: 100%; height: 90vh; border: none; margin: 0; padding: 0; display: block;"
-                            frameborder="0"
-                            allowfullscreen="true"
-                            allow="fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                            sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-top-navigation allow-downloads">
-                            <p>Your browser does not support iframes. Please visit 
-                               <a href="http://92.112.192.192:3002" target="_blank">Next.js Dashboard</a> directly.
-                            </p>
-                        </iframe>
+                        <!-- Dynamic iframe that gets URL from model -->
+                        <div id="dashboard-iframe-container" style="width: 100%; height: 90vh;">
+                            <!-- Iframe will be inserted here by JavaScript -->
+                        </div>
                     </div>
                 </sheet>
+                
+                <!-- JavaScript to load dynamic iframe -->
+                <script type="text/javascript">
+                    odoo.define('alromaih_cars_dash.iframe_loader', function (require) {
+                        'use strict';
+                        
+                        var AbstractField = require('web.AbstractField');
+                        var core = require('web.core');
+                        var rpc = require('web.rpc');
+                        
+                        // Load iframe configuration
+                        rpc.query({
+                            model: 'alromaih.iframe.dashboard',
+                            method: 'get_iframe_config',
+                            args: []
+                        }).then(function(config) {
+                            var container = document.getElementById('dashboard-iframe-container');
+                            if (container) {
+                                var iframe = document.createElement('iframe');
+                                iframe.src = config.url;
+                                iframe.style.cssText = 'width: 100%; height: 90vh; border: none; margin: 0; padding: 0; display: block;';
+                                iframe.setAttribute('frameborder', '0');
+                                iframe.setAttribute('allowfullscreen', 'true');
+                                iframe.setAttribute('allow', 'fullscreen; accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture');
+                                iframe.setAttribute('sandbox', config.sandbox_attrs);
+                                
+                                // Fallback content
+                                iframe.innerHTML = '<p>Your browser does not support iframes. Please visit <a href="' + config.url + '" target="_blank">Dashboard</a> directly.</p>';
+                                
+                                container.appendChild(iframe);
+                            }
+                        }).catch(function(error) {
+                            console.error('Failed to load dashboard configuration:', error);
+                            var container = document.getElementById('dashboard-iframe-container');
+                            if (container) {
+                                container.innerHTML = '<div class="alert alert-danger" style="margin: 20px;">Failed to load dashboard. Please check configuration.</div>';
+                            }
+                        });
+                    });
+                </script>
             </form>
         </field>
     </record>
 
     <!-- Next.js Dashboard Action -->
     <record id="action_nextjs_dashboard_iframe" model="ir.actions.act_window">
-        <field name="name">Next.js Dashboard</field>
+        <field name="name">Cars Dashboard</field>
         <field name="res_model">alromaih.iframe.dashboard</field>
         <field name="view_mode">form</field>
         <field name="view_id" ref="view_nextjs_dashboard_iframe_form"/>
